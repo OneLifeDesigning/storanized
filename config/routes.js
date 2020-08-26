@@ -12,10 +12,13 @@ router.get('/', (req, res) => {
 router.get('/login', userController.login)
 router.post('/login', userController.doLogin)
 
+router.get('/signup', userController.signup)
+router.post('/signup', userController.doSignup)
+
+router.post('/logout', userController.doLogout)
+
 /* 
 TODO:
-// router.get('/signup', userController.signup)
-// router.post('/signup', userController.doSignup)
 
   router.get('/activate/:token', userController.doValidateToken)
   router.get('/activate/token', userController.getNewToken)
@@ -31,7 +34,6 @@ TODO:
   router.get('/profile/:id', userController.viewProfile)
   router.post('/profile/:id/edit', userController.doEditProfile)
   
-  router.post('/logout', userController.doLogout
 */
 
 

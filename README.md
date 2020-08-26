@@ -94,7 +94,7 @@ npm install:
     —Profile—
     '/profile/:id/' → get
     '/profile/:id/edit/' → post
-    '/profile/:id/delete/' → post
+
 
     —Storage—
     '/storages/' → get [view all user storages]
