@@ -4,6 +4,7 @@ const path = require('path')
 
 
 require('./config/db.config')
+require('./config/hbs.config')
 
 
 const app = express()
