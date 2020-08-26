@@ -92,7 +92,7 @@ npm install:
     '/activate/token' → post [controller send new activate token to user]
 
     —Profile—
-    '/profile/:id/' → get
+    '/profile' → get
     '/profile/:id/edit/' → post
 
 
