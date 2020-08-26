@@ -42,13 +42,15 @@ npm install:
   * multer-storage-cloudinary - Uploads files to cloud (Specific dependence)
   * cloudinary - Uploads files to cloud (provider) 
   * nodemailer - Send transactional emails
+  * qrcode - generate qr
+
 
 * devDependencies
   * nodemon - Wathcher changes and reload dev server
   * faker - Generate massive data
 
 
-`npm i express connect-mongo mongoose dotenv bcrypt cookie-parser express-session passport passport-google-oauth20 passport-slack faker hbs morgan multer multer-storage-cloudinary cloudinary nodemailer & npm i nodemon faker --save-dev`
+`npm i express connect-mongo mongoose dotenv bcrypt cookie-parser express-session passport passport-google-oauth20 passport-slack faker hbs morgan multer multer-storage-cloudinary cloudinary nodemailer qrcode --save & npm i nodemon faker --save-dev`
 
 ### 1.5 - Config scripts commands cli on package.json 
 
