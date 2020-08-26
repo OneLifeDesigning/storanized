@@ -83,13 +83,13 @@ npm install:
     —Singnup—
     '/singnup' → get [view form create new user]
     '/singnup' → post [controller create new user]
-    '/activate/:token → get [controller validate/activate user]
+    '/activate/:id/:token → get [controller validate/activate user]
     
     —Recoveries—
     '/password' →  get [view form change password]
     '/password' →  post [controller save new password]
-    '/activate/token' → get [view generate new activate token]
-    '/activate/token' → post [controller send new activate token to user]
+    '/activate/:id/token' → get [view generate new activate token]
+    '/activate/:id/token' → post [controller send new activate token to user]
 
     —Profile—
     '/profile' → get

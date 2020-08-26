@@ -21,12 +21,19 @@ const productSchema = new mongoose.Schema({
   },
   box: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+    ref: "Box"
   },
   price: {
     type: Number,
     trim: true
+  },
+	isPublic: {
+		type: boolean,
+		default: false
+  },
+  isSold: {
+		type: boolean,
+		default: false
   }
 })
 

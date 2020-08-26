@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
+const mailer = require('../config/mailer.config');
 const User = require('../models/user.model')
 
 module.exports.login = (req, res, next) => {
-  res.render('users/login', { title: 'Login', error: false} )
+  res.render('users/login', { title: 'Login'} )
 }
 
 module.exports.doLogin = (req, res, next) => {
@@ -48,10 +49,50 @@ module.exports.doLogin = (req, res, next) => {
 }
 
 module.exports.signup = (req, res, next) => {
-  res.json('users/signup')
+  res.render('users/signup', { title: 'Signup'} )
 }
 module.exports.doSignup = (req, res, next) => {
-  res.json('users/doSignup')
+  User.findOne({ email: req.body.email })
+  .then(user => {
+    if(!user) {
+      const newUser = new User({
+        ...req.body,
+        avatar: req.file ? req.file.path : './img/default-avatar.png'
+      });
+    
+      user.save()
+        .then(user => {
+          mailer.sendValidationEmail({
+            name: user.name,
+            email: user.email,
+            id: user._id.toString(),
+            activationToken: user.activation.token
+          })
+          
+          res.render('users/login', {
+            message: 'Check your email for activation'
+          })
+        })
+        .catch((error) => {
+          if (error instanceof mongoose.Error.ValidationError) {
+            res.render("users/signup", { error: error.errors, user });
+          } else if (error.code === 11000) { // error when duplicated user
+            res.render("users/login", {
+              user,
+              error: {
+                email: {
+                  message: 'Login'
+                }
+              }
+            });
+          } else {
+            next(error);
+          }
+        })
+        .catch(next)
+    }
+  })
+  .catch(next)
 }
 
 module.exports.doLogout = (req, res, next) => {
