@@ -31,8 +31,9 @@ TODO:
   router.get('/auth/google', userController.doAuthGoogle)
   router.get('/auth/facebook', userController.doAuthFacebook)
   
-  router.post('/password', userController.recoveryPassword)
-  router.post('/password', userController.doRecoveryPassword)
+  router.post('/password/:id/:token', userController.recoveryPassword)
+  router.post('/password', userController.modifyPassword)
+  router.post('/password', userController.doModifyPassword)
  
 */
 

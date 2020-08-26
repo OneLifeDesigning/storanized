@@ -70,21 +70,26 @@ module.exports.doSignup = (req, res, next) => {
           })
           
           res.render('users/login', {
-            message: 'Check your email for activation'
+            message: 'Check your email for activation account'
           })
         })
-        .catch((error) => {
+        .catch(error => {
           if (error instanceof mongoose.Error.ValidationError) {
-            res.render("users/signup", { error: error.errors, user });
-          } else if (error.code === 11000) { // error when duplicated user
-            res.render("users/login", {
+            res.render('users/signup', { 
               user,
-              error: {
-                email: {
-                  message: 'Login'
-                }
-              }
-            });
+              error: error.errors
+            })
+          } else if (error.code === 11000) {
+            mailer.sendDuplicateEmail({
+              name: user.name,
+              email: user.email,
+              id: user._id.toString(),
+              activationToken: user.activation.token
+            })
+
+            res.render('users/login', {
+              message: 'Check your email for activation account'
+            })
           } else {
             next(error);
           }
@@ -98,7 +103,7 @@ module.exports.doSignup = (req, res, next) => {
 module.exports.doLogout = (req, res, next) => {
   res.json('users/doLogout')
 }
-
+ 
 module.exports.viewProfile = (req, res, next) => {
   res.json('users/viewProfile')
 }

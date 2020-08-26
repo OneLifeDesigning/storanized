@@ -25,3 +25,17 @@ module.exports.sendValidationEmail = (name, email, id, activationToken) => {
 		`
 	})
 }
+
+module.exports.sendDuplicateEmail = (name, email, id, activationToken) => {
+	transport.sendMail({
+		to: email,
+		from: `Storanized <${user}>`,
+		subject: 'New singup detected',
+		html: `
+			<h1>Hi ${name}</h1>
+			<p>We have detected a new registration, but you are already a Storanized user, if it was you you can change your password in the following <a href="${host}/password/${id}/${activationToken}" style="padding: 10px 20px; color: white; background-color: red; border-radius: 0px;">link</a>.
+
+			Best regards the Storanize team.</p>
+		`
+	})
+}
