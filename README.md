@@ -58,22 +58,69 @@ npm install:
   * dev: "nodemon -e ejs,js,css app.js",
   * seeds: "node ./bin/seeds"
 
-### 1.5 - Add essentials Global Variables 
+### 1.6 - Add essentials Global Variables 
 
     /.env -> Add .gitignore file please
     /.env.template -> Rename for use
 
-* PORT=
-* CLOUDINARY_NAME=
-* CLOUDINARY_KEY=
-* CLOUDINARY_SECRET=
-* MONGODB_URI=
-* NM_PASS=
-* NM_USER=
-* SLACK_CLIENT_ID=
-* SLACK_CLIENT_SECRET=
-* GOOGLE_CLIENT_ID=
-* GOOGLE_CLIENT_SECRET=
-* SESSION_SECRET=
-* SESSION_SECURE=
-* SESSION_MAX_AGE=
+## 2 - Models
+  
+## 3 - Routes
+
+    User -[ PRIVATE ]-
+    —Login—
+    '/login' → get [view form login]
+    '/login' → post [controller authenticate user]
+
+    —Login RRSS—
+    '/auth/slack' →  get [controller login RRSS]
+    '/auth/google' →  get [controller login RRSS]
+    '/auth/facebook' →  get [controller login RRSS]
+
+    —Logout—
+    '/logout' → post [controller disconect user]
+
+    —Singnup—
+    '/singnup' → get [view form create new user]
+    '/singnup' → post [controller create new user]
+    '/activate/:token → get [controller validate/activate user]
+    
+    —Recoveries—
+    '/password' →  get [view form change password]
+    '/password' →  post [controller save new password]
+    '/activate/token' → get [view generate new activate token]
+    '/activate/token' → post [controller send new activate token to user]
+
+    —Profile—
+    '/profile/:id/' → get
+    '/profile/:id/edit/' → post
+
+
+    —Storage—
+    '/storages/' → get [view all user storages]
+    '/storages/create' → get
+    '/storages/create' → post
+    '/storages/:id/edit' → get
+    '/storages/:id/save' → post
+    '/storages/:id/delete' → post
+
+    —Box—
+    '/boxes/' → get [view all user boxes]
+    '/boxes/create' → get
+    '/boxes/create' → post
+    '/boxes/:id/edit' → get
+    '/boxes/:id/save' → post
+    '/boxes/:id/delete' → post
+    '/boxes/:id/label' → get
+
+    —Product—
+    '/products/' → get [view all user products]
+    '/products/create' → get [view for form to create product]
+    '/products/create' → post [controller to save new product]
+    '/products/:id/show' → get [view single user product]
+    '/products/:id/edit' → get [view form to edit product]
+    '/products/:id/save' → post [controller to update product]
+    '/products/:id/delete' → post [controller to delete product]
+ 
+
+
