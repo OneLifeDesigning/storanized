@@ -70,7 +70,7 @@ module.exports.doSignup = (req, res, next) => {
           })
           
           res.render('users/login', {
-            message: 'Check your email for activation account'
+            message: 'Check your email for activate account'
           })
         })
         .catch(error => {
@@ -88,7 +88,7 @@ module.exports.doSignup = (req, res, next) => {
             })
 
             res.render('users/login', {
-              message: 'Check your email for activation account'
+              message: 'Check your email for activate account'
             })
           } else {
             next(error);
@@ -101,7 +101,9 @@ module.exports.doSignup = (req, res, next) => {
 }
 
 module.exports.doLogout = (req, res, next) => {
-  res.json('users/doLogout')
+    req.session.destroy()
+  
+    res.redirect('/')
 }
  
 module.exports.viewProfile = (req, res, next) => {
