@@ -15,12 +15,13 @@ router.post('/login', userController.doLogin)
 router.get('/signup', userController.signup)
 router.post('/signup', userController.doSignup)
 
+router.get('/activate/:id/:token', userController.doValidateToken)
+
 router.get('/profile', userController.viewProfile)
-router.post('/profile/:id/edit', userController.doEditProfile)
+router.post('/profile', userController.doEditProfile)
 
 router.post('/logout', userController.doLogout)
 
-router.get('/activate/:id/:token', userController.doValidateToken)
 
 router.get('/activate/newtoken', userController.newToken)
 router.post('/activate/newtoken', userController.doNewToken)
@@ -33,9 +34,9 @@ TODO:
   router.get('/auth/google', userController.doAuthGoogle)
   router.get('/auth/facebook', userController.doAuthFacebook)
   
-  router.post('/password/:id/:token', userController.recoveryPassword)
-  router.post('/password', userController.modifyPassword)
+  router.get('/password', userController.modifyPassword)
   router.post('/password', userController.doModifyPassword)
+  router.post('/password/:id/:token', userController.recoveryPassword)
  
 */
 

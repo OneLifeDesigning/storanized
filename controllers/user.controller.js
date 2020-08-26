@@ -179,8 +179,26 @@ module.exports.doNewToken = (req, res, next) => {
 }
 
 module.exports.viewProfile = (req, res, next) => {
-  res.json('users/viewProfile')
+  User.findById(req.currentUser.id)
+  .then(user => {
+    res.render('users/profile', { user })
+  })
+  .catch(next)
 }
 module.exports.doEditProfile = (req, res, next) => {
-  res.json('users/doEditProfile')
+  const body = req.body
+
+  if (req.file) {
+    body.avatar = req.file.path
+  }
+
+  User.findByIdAndUpdate(req.currentUser.id, body, { runValidators: true, new: true })
+    .then(user => {
+      if (!user) {
+        res.redirect('/profile')
+        next()
+      }
+      res.render('users/profile', { user, message: 'Your profile has been updated'})
+    })
+    .catch(next)
 }
