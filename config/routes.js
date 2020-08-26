@@ -15,7 +15,7 @@ router.post('/login', userController.doLogin)
 router.get('/signup', userController.signup)
 router.post('/signup', userController.doSignup)
 
-router.get('/profile/:id', userController.viewProfile)
+router.get('/profile', userController.viewProfile)
 router.post('/profile/:id/edit', userController.doEditProfile)
 
 router.post('/logout', userController.doLogout)
@@ -23,9 +23,9 @@ router.post('/logout', userController.doLogout)
 /* 
 TODO:
 
-  router.get('/activate/:token', userController.doValidateToken)
-  router.get('/activate/token', userController.getNewToken)
-  router.post('/activate/token', userController.sendwNewToken)
+  router.get('/activate/:id/:token', userController.doValidateToken)
+  router.get('/activate/:id/token', userController.getNewToken)
+  router.post('/activate/:id/token', userController.sendwNewToken)
   
   router.get('/auth/slack', userController.doAuthSlack)
   router.get('/auth/google', userController.doAuthGoogle)

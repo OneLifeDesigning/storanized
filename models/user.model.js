@@ -42,8 +42,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Username is required'],
     unique: true,
-    trim: true,
-    lowercase: true
+    trim: true
+  },
+  avatar: {
+    type: String,
+    trim: true
+  },
+	genre: {
+    type: String,
+    enum: ['Female', 'Male', 'Other'],
+		default: 'Other'
   },
 	phoneNumber: String,
   activation: {

@@ -13,10 +13,6 @@ const addressSchema = new mongoose.Schema({
     minlength: [6, 'Address needs at last 6 chars'],
     trim: true
   },
-  addressTwo: {
-    type: String,
-    trim: true
-  },
   city: {
     type: String,
     required: [true, 'City is required'],
