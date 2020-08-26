@@ -40,9 +40,24 @@ const addressSchema = new mongoose.Schema({
   phone: {
     type: Number,
     trim: true
+  },
+  longitude: {
+    type: Number
+  },
+  latitude: {
+    type: Number
+  },
+  defaultAdrress: {
+    type: String,
+    enum: ['on'],
+    trim: true
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   }
 })
-
 
 const Address = mongoose.model('Address', addressSchema);
 
