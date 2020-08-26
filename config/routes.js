@@ -20,12 +20,14 @@ router.post('/profile/:id/edit', userController.doEditProfile)
 
 router.post('/logout', userController.doLogout)
 
+router.get('/activate/:id/:token', userController.doValidateToken)
+
+router.get('/activate/newtoken', userController.newToken)
+router.post('/activate/newtoken', userController.doNewToken)
+
 /* 
 TODO:
 
-  router.get('/activate/:id/:token', userController.doValidateToken)
-  router.get('/activate/:id/token', userController.getNewToken)
-  router.post('/activate/:id/token', userController.sendwNewToken)
   
   router.get('/auth/slack', userController.doAuthSlack)
   router.get('/auth/google', userController.doAuthGoogle)
