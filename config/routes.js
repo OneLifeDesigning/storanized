@@ -15,6 +15,9 @@ router.post('/login', userController.doLogin)
 router.get('/signup', userController.signup)
 router.post('/signup', userController.doSignup)
 
+router.get('/profile/:id', userController.viewProfile)
+router.post('/profile/:id/edit', userController.doEditProfile)
+
 router.post('/logout', userController.doLogout)
 
 /* 
@@ -30,10 +33,7 @@ TODO:
   
   router.post('/password', userController.recoveryPassword)
   router.post('/password', userController.doRecoveryPassword)
-
-  router.get('/profile/:id', userController.viewProfile)
-  router.post('/profile/:id/edit', userController.doEditProfile)
-  
+ 
 */
 
 
