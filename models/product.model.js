@@ -1,3 +1,5 @@
+/* TODO: Main image, attachments gallery */
+
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
