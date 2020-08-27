@@ -202,3 +202,101 @@ module.exports.doEditProfile = (req, res, next) => {
     })
     .catch(next)
 }
+
+module.exports.forgotPassword = (req, res, next) => {
+  res.render('users/password')
+}
+
+module.exports.doForgotPassword = (req, res, next) => {
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      if (!user) {
+        res.render('users/password', {
+          error: {
+            validation: {
+              message: 'Something has gone wrong, please enter your email try again'
+            }
+          }
+        })
+      } 
+
+      mailer.sendrecoverPassword({
+        name: user.name,
+        email: user.email,
+        id: user._id.toString(),
+        activationToken: user.activation.token
+      })
+      
+      res.render('users/password', {
+          message: 'Check your email for reset password'
+      })
+    })
+    .catch(next)
+}
+
+module.exports.recoveryPassword = (req, res, next) => {
+  User.findOne({ _id: req.params.id, "activation.token": req.params.token })
+    .then(user => {
+      if (!user) {
+        res.render('users/password', {
+          error: {
+            validation: {
+              message: 'Something has gone wrong, please enter your email try again'
+            }
+          }
+        })
+      } 
+
+      req.session.userId = user._id
+      res.redirect('/profile/password')
+
+    })
+    .catch(next)
+}
+
+module.exports.editPassword = (req, res, next) => {
+  res.render('users/changepassword', {
+    title: 'Change Password'
+  })
+}
+
+module.exports.doEditPassword = (req, res, next) => {
+  User.findById(req.params.id)
+    .then(user => {
+      if (!user) {
+        res.render('users/changepassword', {
+          title: 'Change Password',
+          errors: {
+            validation: {
+              message: 'Something has gone wrong, please try again'
+            }
+          }
+        })
+      }
+
+      if (req.body.password.length === 0 || req.body.passwordValidate.length === 0 || req.body.password !== req.body.passwordValidate) {
+        res.render('users/recovery', {
+          title: 'Change password',
+          success: false,
+          user,
+          errors: {
+            validation: {
+              message: 'The passwords not match!, try again'
+            }
+          }
+        })
+      }
+      
+      user.password = req.body.password
+      user.save()
+        .then(user => {
+          res.render('users/profile', {
+            title: 'Profile', 
+            success: 'Change password are success'
+          })
+        })
+        .catch(next)
+    })
+    .catch(next)
+}
+

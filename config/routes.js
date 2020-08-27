@@ -19,6 +19,8 @@ router.get('/activate/:id/:token', userController.doValidateToken)
 
 router.get('/profile', userController.viewProfile)
 router.post('/profile', userController.doEditProfile)
+router.get('/profile/password', userController.editPassword)
+router.post('/profile/password', userController.doEditPassword)
 
 router.post('/logout', userController.doLogout)
 
@@ -26,17 +28,17 @@ router.post('/logout', userController.doLogout)
 router.get('/activate/newtoken', userController.newToken)
 router.post('/activate/newtoken', userController.doNewToken)
 
+router.get('/password', userController.forgotPassword)
+router.post('/password', userController.doForgotPassword)
+router.get('/password/:id/:token', userController.recoveryPassword)
+
 /* 
 TODO:
-
   
   router.get('/auth/slack', userController.doAuthSlack)
   router.get('/auth/google', userController.doAuthGoogle)
   router.get('/auth/facebook', userController.doAuthFacebook)
   
-  router.get('/password', userController.modifyPassword)
-  router.post('/password', userController.doModifyPassword)
-  router.post('/password/:id/:token', userController.recoveryPassword)
  
 */
 
