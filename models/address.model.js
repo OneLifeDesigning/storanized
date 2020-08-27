@@ -53,7 +53,13 @@ const addressSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   }
-})
+});
+
+addressSchema.virtual("user", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "address",
+});
 
 const Address = mongoose.model('Address', addressSchema);
 

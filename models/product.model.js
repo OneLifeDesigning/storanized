@@ -1,6 +1,8 @@
 /* TODO: Main image, attachments gallery */
 
 const mongoose = require('mongoose');
+const Box = require('../models/box.model')
+const User = require('../models/user.model')
 
 const productSchema = new mongoose.Schema({
   description: {
@@ -37,6 +39,26 @@ const productSchema = new mongoose.Schema({
 		type: boolean,
 		default: false
   }
+});
+
+productSchema.virtual("user", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "product",
+});
+
+productSchema.virtual("box", {
+  ref: "Box",
+  localField: "_id",
+  foreignField: "product",
+});
+
+productSchema.post('remove', function (next) {
+  Promise.all([
+    //User.deleteMany({ box: this._id }),
+    Box.deleteMany({ product: this._id })
+  ])
+    .then(next)
 })
 
 const Product = mongoose.model('Product', productSchema);
