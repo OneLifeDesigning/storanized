@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 const Box = require('../models/box.model')
-const User = require('../models/user.model')
 
 const productSchema = new mongoose.Schema({
   description: {
@@ -55,7 +54,6 @@ productSchema.virtual("box", {
 
 productSchema.post('remove', function (next) {
   Promise.all([
-    //User.deleteMany({ box: this._id }),
     Box.deleteMany({ product: this._id })
   ])
     .then(next)

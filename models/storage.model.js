@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('../models/user.model');
 const Address = require('../models/address.model');
 
 const storageSchema = new mongoose.Schema({
@@ -35,7 +34,6 @@ storageSchema.virtual("address", {
 
 storageSchema.post('remove', function (next) {
   Promise.all([
-    // User.deleteMany({ storage: this._id }),
     Address.deleteMany({ storage: this._id })
   ])
     .then(next)

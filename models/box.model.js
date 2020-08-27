@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const QRCode = require('qrcode');
 const Storage = require('../models/storage.model')
-const User = require('../models/user.model')
  
 const boxSchema = new mongoose.Schema({
   description: {
@@ -34,15 +33,14 @@ boxSchema.virtual("user", {
   foreignField: "box",
 });
 
-boxSchema.virtual("address", {
-  ref: "Address",
+boxSchema.virtual("storage", {
+  ref: "Storage",
   localField: "_id",
   foreignField: "box",
 });
 
 boxSchema.post('remove', function (next) {
   Promise.all([
-    //User.deleteMany({ box: this._id }),
     Storage.deleteMany({ box: this._id })
   ])
     .then(next)
