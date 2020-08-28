@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const QRCode = require('qrcode')
+const QRCode = require('qrcode');
+const Storage = require('../models/storage.model')
  
 const boxSchema = new mongoose.Schema({
   description: {
@@ -26,18 +27,30 @@ const boxSchema = new mongoose.Schema({
   }
 })
 
+boxSchema.virtual("user", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "box",
+});
+
+boxSchema.virtual("storage", {
+  ref: "Storage",
+  localField: "_id",
+  foreignField: "box",
+});
+
+boxSchema.post('remove', function (next) {
+  Promise.all([
+    Storage.deleteMany({ box: this._id })
+  ])
+    .then(next)
+})
+
 //TODO: Pending iterarion when seeds use save
 // boxSchema.post('save', function (next) {
   // QRCode.toDataURL(this._id,toString, function (err, url) {
   //   console.log(url)
   // })
-  // Promise.all([
-  //   Like.deleteMany({ project: this._id }),
-  //   Comment.deleteMany({ project: this._id })
-  // ])
-  //   .then(next)
-//   next()
-// })
 
 const Box = mongoose.model('Box', boxSchema);
 
