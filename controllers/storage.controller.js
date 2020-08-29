@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const Storage = require("../models/storage.model");
-const User = require("../models/user.model");
+const mongoose = require("mongoose")
+const Storage = require("../models/storage.model")
+const User = require("../models/user.model")
 
 module.exports.list = (req, res, next) => {
   Storage.find()
@@ -10,9 +10,9 @@ module.exports.list = (req, res, next) => {
       res.render("storages/list", {
         storage,
         user: req.currentUser
-      });
+      })
     })
-    .catch(next);
+    .catch(next)
 }
 
 module.exports.newStorage = (req, res, next) => {
@@ -27,20 +27,20 @@ module.exports.create = (req, res, next) => {
   const storage = new Storage({
     ...req.body,
     user: req.currentUser._id,
-  });
+  })
 
   storage
     .save()
     .then((storage) => {
-      res.redirect(`/storages/${storage._id}`);
+      res.redirect(`/storages/${storage._id}`)
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render("storages/new", { error: error.errors, storage });
+        res.render("storages/new", { error: error.errors, storage })
       } else {
-        next(error);
+        next(error)
       }
-    });
+    })
 };
 
 module.exports.view = (req, res, next) => {
@@ -65,7 +65,7 @@ module.exports.update = (req, res, next) => {
   const body = req.body;
   const storage = req.storage;
 
-  storage.set(body);
+  storage.set(body)
   storage.save()
     .then(() => {
       res.redirect(`/storages/${storage._id}`)
