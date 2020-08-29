@@ -1,4 +1,4 @@
-Feaconst mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const Box = require("../models/box.model");
 const User = require("../models/user.model");
 
