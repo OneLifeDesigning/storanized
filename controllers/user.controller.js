@@ -26,35 +26,36 @@ module.exports.doLogin = (req, res, next) => {
           }
         }
       })
-    }
-    user.checkPassword(req.body.password)
-      .then(match => {
-        if (match) {
-          if (user.activation.active) {
-            req.session.userId = user._id
-            res.redirect('/profile')
+    } else {
+      user.checkPassword(req.body.password)
+        .then(match => {
+          if (match) {
+            if (user.activation.active) {
+              req.session.userId = user._id
+              res.redirect('/profile')
+            } else {
+              res.render('users/login', {
+                error: {
+                  validation: {
+                    message: 'Your account is not active, check your email!.'
+                  }
+                }
+              })
+            }
           } else {
             res.render('users/login', {
               error: {
-                validation: {
-                  message: 'Your account is not active, check your email!.'
+                email: {
+                  message: 'The email and password combination does not match, please try again.'
                 }
               }
             })
           }
-        } else {
-          res.render('users/login', {
-            error: {
-              email: {
-                message: 'The email and password combination does not match, please try again.'
-              }
-            }
-          })
-        }
-      })
-      .catch(next)
-  })
-  .catch(next)
+        })
+        .catch(next)
+      }
+    })
+    .catch(next)
 }
 
 module.exports.signup = (req, res, next) => {
@@ -70,7 +71,7 @@ module.exports.doSignup = (req, res, next) => {
         role: 'client',
         avatar: req.file ? req.file.path : './img/default-avatar.png'
       });
-    
+    } else {
       user.save()
         .then(user => {
           mailer.sendValidationEmail({
@@ -128,16 +129,17 @@ module.exports.doValidateToken = (req, res, next) => {
             }
           }
         })
-      } 
-      user.activation.active = true;
-
-      user.save()
-        .then(user => {
-          res.render('users/login', {
-            message: 'Your account has been activated, login below!'
+      } else {
+        user.activation.active = true;
+  
+        user.save()
+          .then(user => {
+            res.render('users/login', {
+              message: 'Your account has been activated, login below!'
+            })
           })
-        })
-        .catch(next)
+          .catch(next)
+      }
     })
     .catch(next)
 }
@@ -157,23 +159,24 @@ module.exports.doNewToken = (req, res, next) => {
             }
           }
         })
+      } else {
+        user.activation.oldToken = user.activation.token;
+        user.activation.token = generateRandomToken()
+        user.save()
+          .then(user => {
+            mailer.sendValidationEmail({
+              name: user.name,
+              email: user.email,
+              id: user._id.toString(),
+              activationToken: user.activation.token
+            })
+            
+            res.render('users/login', {
+              message: 'Check your email for activate account'
+            })
+          })
+          .catch(next)
       }
-      user.activation.oldToken = user.activation.token;
-      user.activation.token = generateRandomToken()
-      user.save()
-        .then(user => {
-          mailer.sendValidationEmail({
-            name: user.name,
-            email: user.email,
-            id: user._id.toString(),
-            activationToken: user.activation.token
-          })
-          
-          res.render('users/login', {
-            message: 'Check your email for activate account'
-          })
-        })
-        .catch(next)
     })
     .catch(next)
 }
@@ -197,8 +200,9 @@ module.exports.doEditProfile = (req, res, next) => {
       if (!user) {
         res.redirect('/profile')
         next()
+      } else {
+        res.render('users/profile', { user, message: 'Your profile has been updated'})
       }
-      res.render('users/profile', { user, message: 'Your profile has been updated'})
     })
     .catch(next)
 }
@@ -218,18 +222,19 @@ module.exports.doForgotPassword = (req, res, next) => {
             }
           }
         })
-      } 
+      } else {
+        mailer.sendrecoverPassword({
+          name: user.name,
+          email: user.email,
+          id: user._id.toString(),
+          activationToken: user.activation.token
+        })
+        
+        res.render('users/password', {
+            message: 'Check your email for reset password'
+        })
+      }
 
-      mailer.sendrecoverPassword({
-        name: user.name,
-        email: user.email,
-        id: user._id.toString(),
-        activationToken: user.activation.token
-      })
-      
-      res.render('users/password', {
-          message: 'Check your email for reset password'
-      })
     })
     .catch(next)
 }
@@ -245,11 +250,10 @@ module.exports.recoveryPassword = (req, res, next) => {
             }
           }
         })
-      } 
-
-      req.session.userId = user._id
-      res.redirect('/profile/password')
-
+      } else {
+        req.session.userId = user._id
+        res.redirect('/profile/password')
+      }
     })
     .catch(next)
 }
@@ -272,30 +276,30 @@ module.exports.doEditPassword = (req, res, next) => {
             }
           }
         })
-      }
-
-      if (req.body.password.length === 0 || req.body.passwordValidate.length === 0 || req.body.password !== req.body.passwordValidate) {
-        res.render('users/recovery', {
-          title: 'Change password',
-          success: false,
-          user,
-          errors: {
-            validation: {
-              message: 'The passwords not match!, try again'
+      } else {
+        if (req.body.password.length === 0 || req.body.passwordValidate.length === 0 || req.body.password !== req.body.passwordValidate) {
+          res.render('users/recovery', {
+            title: 'Change password',
+            success: false,
+            user,
+            errors: {
+              validation: {
+                message: 'The passwords not match!, try again'
+              }
             }
-          }
-        })
-      }
-      
-      user.password = req.body.password
-      user.save()
-        .then(user => {
-          res.render('users/profile', {
-            title: 'Profile', 
-            success: 'Change password are success'
           })
-        })
-        .catch(next)
+        } else {
+          user.password = req.body.password
+          user.save()
+            .then(user => {
+              res.render('users/profile', {
+                title: 'Profile', 
+                success: 'Change password are success'
+              })
+            })
+            .catch(next)
+        }
+      }
     })
     .catch(next)
 }

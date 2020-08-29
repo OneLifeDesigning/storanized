@@ -86,6 +86,7 @@ const userSchema = new mongoose.Schema({
 { timestamps: true, toJSON: { virtuals: true } });
 
 userSchema.pre('save', function(next) {
+
   if (this.isModified('password')) {
     bcrypt.hash(this.password, 10)
       .then((hash) => {
