@@ -1,5 +1,9 @@
-<p>{{ user.username }}</p>
-<p>{{ user.email }}</p>
+<div class="row">
+  <div class="col-12 my-3 mb-2">
+    <p><b>Username:</b> {{ user.username }}</p>
+    <p><b>Email:</b> {{ user.email }}</p>
+  </div>
+</div>
 <form action="/profile" method="POST" enctype="multipart/form-data" class="my-5" > 
   <div class="form-row align-items-center">
     <div class="form-group col-12 col-md-6">
@@ -12,7 +16,7 @@
       {{/if}}
     </div>
     <div class="form-group col-12 col-md-6">
-      <label for="lastname">Lastname</label>
+      <label for="phoneNumber">Lastname</label>
       <input type="text" class="form-control  {{#if error.lastname }}is-invalid{{/if}}" id="lastname" value="{{ user.lastname }}" name="lastname" required>
       {{#if error.lastname}}
         <div class="invalid-feedback">
@@ -21,20 +25,27 @@
       {{/if}}
     </div>
     <div class="form-group col-12 col-md-6">
-      <select class="custom-select" name="genre">
-        <option {{#ifvalue user.genre value="Female"}}selected{{/ifvalue}} value="Female">Female</option>
-        <option {{#ifvalue user.genre value="Male"}}selected{{/ifvalue}} value="Male">Male</option>
-        <option {{#ifvalue user.genre value="Other"}}selected{{/ifvalue}} value="Other">Other</option>
-      </select>
-    </div>
-    <div class="form-group col-12 col-md-6">
-      <label for="text">Email</label>
-      <input type="text" class="form-control  {{#if error.email }}is-invalid{{/if}}" id="email" value="{{ user.email }}" name="email" required>
-      {{#if error.email}}
+      <label for="phoneNumber">Phone Number</label>
+      <input type="text" class="form-control  {{#if error.phoneNumber }}is-invalid{{/if}}" id="phoneNumber" value="{{ user.phoneNumber }}" name="phoneNumber" required>
+      {{#if error.phoneNumber}}
         <div class="invalid-feedback">
-          {{error.email.message}}
+          {{error.phoneNumber.message}}
         </div>
       {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+      <label for="genre">Genre</label>
+      <select class="custom-select" name="genre" id="genre">
+        <option {{#ifEquals user.genre 'Female'}}selected{{/ifEquals}} value="Female">Female</option>
+        <option {{#ifEquals user.genre 'Male'}}selected{{/ifEquals}} value="Male">Male</option>
+        <option {{#ifEquals user.genre 'Other'}}selected{{/ifEquals}} value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-group col-12">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="avatar" name="avatar">
+        <label class="custom-file-label" for="avatar" data-browse="Browse">Chose </label>
+      </div>
     </div>
     <div class="col-12 offset-md-9 col-md-3">
       <button type="submit" class="btn btn-primary btn-block">Save</button>
