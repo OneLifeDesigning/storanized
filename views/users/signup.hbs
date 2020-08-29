@@ -1,0 +1,61 @@
+<form action="/signup" method="POST" class="my-5" > 
+  <div class="form-row align-items-center">
+    <div class="form-group col-12 col-md-6">
+      <label for="name">Name</label>
+      <input type="name" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" required>
+      {{#if error.name}}
+        <div class="invalid-feedback">
+          {{error.name.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+      <label for="lastname">Lastname</label>
+      <input type="lastname" class="form-control  {{#if error.lastname }}is-invalid{{/if}}" id="lastname" required>
+      {{#if error.lastname}}
+        <div class="invalid-feedback">
+          {{error.lastname.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+      <label for="username">Username</label>
+      <input type="username" class="form-control  {{#if error.username }}is-invalid{{/if}}" id="username" required>
+      {{#if error.username}}
+        <div class="invalid-feedback">
+          {{error.username.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+      <label for="email">Email</label>
+      <input type="email" class="form-control  {{#if error.email }}is-invalid{{/if}}" id="email" required>
+      {{#if error.email}}
+        <div class="invalid-feedback">
+          {{error.email.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="form-group  col-12 col-md-6">
+      <label for="password">Password</label>
+      <input type="password" class="form-control  {{#if error.password }}is-invalid{{/if}}" id="password" required>
+      {{#if error.password}}
+        <div class="invalid-feedback">
+          {{error.password.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" name="terms" id="terms">
+        <label class="custom-control-label" for="terms">I'm accept term and conditions.</label>
+      </div>
+    </div>
+    <div class="col-12  col-md-3">
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
+    </div>
+    <div class="col-12 text-center">
+      <p>Have an account? <a href="/login">login</a>.</p>
+    </div>
+  </div>
+</form>
