@@ -70,6 +70,7 @@ module.exports.signup = (req, res, next) => {
     name: process.env.USER_DEFAULT_NAME || 'Hess',
     lastname: process.env.USER_DEFAULT_LASTNAME || 'loll'   
   }
+
   res.render('users/signup', { title: 'Signup', user: user } )
 }
 
@@ -201,7 +202,7 @@ module.exports.doNewToken = (req, res, next) => {
 }
 
 module.exports.viewProfile = (req, res, next) => {
-  User.findById(req.currentUser.id)
+  User.findById(req.session.userId)
   .then(user => {
     res.render('users/profile', { user })
   })
@@ -214,13 +215,12 @@ module.exports.doEditProfile = (req, res, next) => {
     body.avatar = req.file.path
   }
 
-  User.findByIdAndUpdate(req.currentUser.id, body, { runValidators: true, new: true })
+  User.findByIdAndUpdate(req.session.userId, body, { runValidators: true, new: true })
     .then(user => {
       if (!user) {
         res.redirect('/profile')
-        next()
       } else {
-        res.render('users/profile', { user, message: 'Your profile has been updated'})
+        res.redirect('/profile')
       }
     })
     .catch(next)
@@ -248,10 +248,8 @@ module.exports.doForgotPassword = (req, res, next) => {
           id: user._id.toString(),
           activationToken: user.activation.token
         })
-        
-        res.render('users/password', {
-            message: 'Check your email for reset password'
-        })
+
+        res.redirect('/')
       }
 
     })
@@ -284,42 +282,46 @@ module.exports.editPassword = (req, res, next) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  User.findById(req.params.id)
+  User.findById(req.session.userId)
     .then(user => {
       if (!user) {
         res.render('users/changepassword', {
           title: 'Change Password',
-          errors: {
+          error: {
             validation: {
               message: 'Something has gone wrong, please try again'
             }
           }
         })
       } else {
-        if (req.body.password.length === 0 || req.body.passwordValidate.length === 0 || req.body.password !== req.body.passwordValidate) {
-          res.render('users/recovery', {
+        if (req.body.password !== req.body.passwordValidate) {
+          res.render('users/changepassword', {
             title: 'Change password',
-            success: false,
-            user,
-            errors: {
+            error: {
               validation: {
-                message: 'The passwords not match!, try again'
+                message: 'Passwords not match!, try again'
+              }
+            }
+          })
+        } else if (req.body.password.length <= 8) {
+          res.render('users/changepassword', {
+            title: 'Change password',
+            error: {
+              validation: {
+                message: 'Password is too short, min 8 characters'
               }
             }
           })
         } else {
           user.password = req.body.password
           user.save()
-            .then(user => {
-              res.render('users/profile', {
-                title: 'Profile', 
-                success: 'Change password are success'
-              })
+            .then(() => {
+              res.redirect('/profile')
             })
             .catch(next)
+          }
         }
-      }
-    })
+      })
     .catch(next)
 }
 

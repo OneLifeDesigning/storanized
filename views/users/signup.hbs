@@ -2,7 +2,7 @@
   <div class="form-row align-items-center">
     <div class="form-group col-12 col-md-6">
       <label for="name">Name</label>
-      <input type="name" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ user.name }}" name="name" required>
+      <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ user.name }}" name="name" required>
       {{#if error.name}}
         <div class="invalid-feedback">
           {{error.name.message}}
@@ -11,7 +11,7 @@
     </div>
     <div class="form-group col-12 col-md-6">
       <label for="lastname">Lastname</label>
-      <input type="lastname" class="form-control  {{#if error.lastname }}is-invalid{{/if}}" id="lastname" value="{{ user.lastname }}" name="lastname" required>
+      <input type="text" class="form-control  {{#if error.lastname }}is-invalid{{/if}}" id="lastname" value="{{ user.lastname }}" name="lastname" required>
       {{#if error.lastname}}
         <div class="invalid-feedback">
           {{error.lastname.message}}
@@ -20,7 +20,7 @@
     </div>
     <div class="form-group col-12 col-md-6">
       <label for="username">Username</label>
-      <input type="username" class="form-control  {{#if error.username }}is-invalid{{/if}}" id="username" value="{{ user.username }}" name="username" required>
+      <input type="text" class="form-control  {{#if error.username }}is-invalid{{/if}}" id="username" value="{{ user.username }}" name="username" required>
       {{#if error.username}}
         <div class="invalid-feedback">
           {{error.username.message}}
