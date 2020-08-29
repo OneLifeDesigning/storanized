@@ -1,35 +1,34 @@
 const mongoose = require("mongoose");
-const Storage = require("../models/storage.model");
+const Product = require("../models/product.model");
 const User = require("../models/user.model");
 
 module.exports.all = (req, res, next) => {
-  Storage.find()
+  Product.find()
     .populate("user")
-    .populate("address")
-    .then((storage) => {
-      res.render("storages/all", { storage });
+    .populate("box")
+    .then((product) => {
+      res.render("products/all", { product });
     })
     .catch(next);
 };
 
-module.exports.newStorage = (req, res, next) => {
-  res.render("storages/new");
+module.exports.new = (req, res, next) => {
+  res.render("products/new");
 };
 
 module.exports.create = (req, res, next) => {
-  const storage = new Storage({
+  const product = new Product({
     ...req.body,
-    user: req.currentUser._id,
   });
 
-  storage
+  product
     .save()
-    .then((storage) => {
-      res.redirect(`/storages/${storage._id}`);
+    .then((product) => {
+      res.redirect(`/products/${product._id}`);
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render("storages/new", { error: error.errors, storage });
+        res.render("products/new", { error: error.errors, product });
       } else {
         next(error);
       }
@@ -37,37 +36,37 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.view = (req, res, next) => {
-  Storage.findById(req.params.id)
+  Product.findById(req.params.id)
     .populate("user")
-    .populate("address")
-    .then((storage) => {
-      res.render("storages/view", { storage });
+    .populate("box")
+    .then((product) => {
+      res.render("products/view", { product });
     })
     .catch(next);
 };
 
 module.exports.viewEdit = (req, res, next) => {
-  res.render("storages/edit");
+    res.render("products/edit");
 };
 
 module.exports.update = (req, res, next) => {
   const body = req.body;
-  const storage = req.storage;
+  const product = req.product;
 
-  storage.set(body);
-  storage
+  product.set(body);
+  product
     .save()
     .then(() => {
-      res.redirect(`/storages/${storage._id}`);
+      res.redirect(`/products/${product._id}`);
     })
     .catch(next);
 };
 
 module.exports.delete = (req, res, next) => {
-  req.storage
+  req.product
     .remove()
     .then(() => {
-      res.redirect("/storages");
+      res.redirect("/products");
     })
     .catch(next);
 };
