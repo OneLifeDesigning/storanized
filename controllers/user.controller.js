@@ -11,7 +11,7 @@ const generateRandomToken = () => {
   return token;
 }
 
-module.exports.login = (req, res, next) => {
+module.exports.login = (req, res) => {
   res.render('users/login', { title: 'Login'} )
 }
 
@@ -20,10 +20,11 @@ module.exports.doLogin = (req, res, next) => {
   .then(user => {
     if (!user) {
       res.render('users/login', {
+        title: 'Login',
         error: {
-          email: {
+          validation: {
             message: 'The email and password combination does not match, please try again.'
-          }
+          } 
         }
       })
     } else {
@@ -35,6 +36,7 @@ module.exports.doLogin = (req, res, next) => {
               res.redirect('/profile')
             } else {
               res.render('users/login', {
+                title: 'Login',
                 error: {
                   validation: {
                     message: 'Your account is not active, check your email!.'
@@ -44,10 +46,11 @@ module.exports.doLogin = (req, res, next) => {
             }
           } else {
             res.render('users/login', {
+              title: 'Login',
               error: {
-                email: {
+                validation: {
                   message: 'The email and password combination does not match, please try again.'
-                }
+                } 
               }
             })
           }
@@ -59,57 +62,66 @@ module.exports.doLogin = (req, res, next) => {
 }
 
 module.exports.signup = (req, res, next) => {
-  res.render('users/signup', { title: 'Signup'} )
+  // TODO: Errase for producction 
+  const user = {
+    email: process.env.USER_DEFAULT_EMAIL || 'helo@you.com',
+    password: process.env.USER_DEFAULT_PASSWORD || '12345678',
+    username: process.env.USER_DEFAULT_USERNAME || 'hell0',
+    name: process.env.USER_DEFAULT_NAME || 'Hess',
+    lastname: process.env.USER_DEFAULT_LASTNAME || 'loll'   
+  }
+  res.render('users/signup', { title: 'Signup', user: user } )
 }
 
 module.exports.doSignup = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-  .then(user => {
-    if(!user) {
-      const newUser = new User({
-        ...req.body,
-        role: 'client',
-        avatar: req.file ? req.file.path : './img/default-avatar.png'
-      });
-    } else {
-      user.save()
-        .then(user => {
-          mailer.sendValidationEmail({
+    const user = new User({
+      ...req.body,
+      role: 'client',
+      avatar: './img/default-avatar.png'
+    });
+
+    user.save()
+      .then(user => {
+        mailer.sendValidationEmail({
+          name: user.name,
+          email: user.email,
+          id: user._id.toString(),
+          activationToken: user.activation.token
+        })
+        
+        res.render('users/login', {
+          title: 'Login',
+          success: {
+            message: 'Check your email for activate account.'
+          }
+        })
+      })
+      .catch(error => {
+        if (error instanceof mongoose.Error.ValidationError) {
+          res.render('users/signup', { 
+            title: 'Signup',
+            user,
+            error: error.errors
+          })
+        } else if (error.code === 11000) {
+          mailer.sendDuplicateEmail({
             name: user.name,
             email: user.email,
             id: user._id.toString(),
             activationToken: user.activation.token
           })
-          
-          res.render('users/login', {
-            message: 'Check your email for activate account'
-          })
-        })
-        .catch(error => {
-          if (error instanceof mongoose.Error.ValidationError) {
-            res.render('users/signup', { 
-              user,
-              error: error.errors
-            })
-          } else if (error.code === 11000) {
-            mailer.sendDuplicateEmail({
-              name: user.name,
-              email: user.email,
-              id: user._id.toString(),
-              activationToken: user.activation.token
-            })
 
-            res.render('users/login', {
-              message: 'Check your email for activate account'
-            })
-          } else {
-            next(error);
-          }
-        })
-        .catch(next)
-    }
-  })
-  .catch(next)
+          res.render('users/login', {
+            title: 'Signup',            
+            success: {
+              message: 'Check your email for activate account.'
+            }
+          })
+        } else {
+          next(error);
+        }
+      })
+      .catch(next)
 }
 
 module.exports.doLogout = (req, res, next) => {
@@ -123,6 +135,7 @@ module.exports.doValidateToken = (req, res, next) => {
     .then(user => {
       if (!user) {
         res.render('users/login', {
+          title: 'Login',
           error: {
             activation: {
               message: 'Something has gone wrong, click the button to generate a new activation code'
@@ -135,7 +148,10 @@ module.exports.doValidateToken = (req, res, next) => {
         user.save()
           .then(user => {
             res.render('users/login', {
-              message: 'Your account has been activated, login below!'
+              title: 'Login',              
+              success: {
+                message: 'Your account has been activated, login below!'
+              }
             })
           })
           .catch(next)
@@ -153,6 +169,7 @@ module.exports.doNewToken = (req, res, next) => {
     .then(user => {
       if (!user || user.activation.active === true) {
         res.render('users/login', {
+          title: 'Login',          
           error: {
             activation: {
               message: 'Something has gone wrong, click the button to generate a new activation code, or enter your credentials again'
@@ -172,7 +189,9 @@ module.exports.doNewToken = (req, res, next) => {
             })
             
             res.render('users/login', {
-              message: 'Check your email for activate account'
+              success: {
+                message: 'Check your email for activate account'
+              }
             })
           })
           .catch(next)
