@@ -202,7 +202,7 @@ module.exports.doNewToken = (req, res, next) => {
 }
 
 module.exports.viewProfile = (req, res, next) => {
-  User.findById(req.session.userId)
+  User.findById(req.currentUser._id)
   .then(user => {
     res.render('users/profile', { user })
   })
@@ -217,7 +217,7 @@ module.exports.doEditProfile = (req, res, next) => {
   
   body.role = 'client'
 
-  User.findByIdAndUpdate(req.session.userId, body, { runValidators: true, new: true })
+  User.findByIdAndUpdate(req.currentUser._id, body, { runValidators: true, new: true })
     .then(user => {
       if (!user) {
         res.redirect('/profile')
@@ -228,7 +228,7 @@ module.exports.doEditProfile = (req, res, next) => {
     .catch((error, user )=> {
       if (error instanceof mongoose.Error.ValidationError) {
         res.render('users/profile', { 
-          user,
+          user: req.currentUser,
           error: error.errors
         })
       }
@@ -291,7 +291,7 @@ module.exports.editPassword = (req, res, next) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  User.findById(req.session.userId)
+  User.findById(req.currentUser._id)
     .then(user => {
       if (!user) {
         res.render('users/changepassword', {
