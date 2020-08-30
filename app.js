@@ -9,6 +9,7 @@ require('./config/db.config')
 require('./config/hbs.config')
 
 const session = require('./config/session.config');
+const sessionMiddleware = require('./middlewares/session.middleware')
 
 const app = express()
 
@@ -17,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(logger('dev'));
 app.use(cookieParser())
 app.use(session)
+app.use(sessionMiddleware.getCurrentUser)
+
 
 /**
  * View engine setup

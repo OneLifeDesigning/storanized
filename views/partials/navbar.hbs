@@ -2,4 +2,24 @@
   <a class="navbar-brand" href="#">
     <img src="./img/storanized.jpeg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
   </a>
+  <ul class="nav">
+   {{#if currentUser }}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{currentUser.name}} {{ currentUser.lastname }}</a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="/profile">Profile</a>
+          <a class="dropdown-item" href="/storages">Storages</a>
+          <a class="dropdown-item" href="/boxes">Boxes</a>
+          <a class="dropdown-item" href="/products">Products</a>
+          <div class="dropdown-divider"></div>
+          <form action="/logout" method="POST">
+            <button class="dropdown-item" type="submit">Logout</button>
+          </form>
+        </div>
+      </li>
+    {{else}}
+      <li class="nav-item mr-2"><a href="/login" class="btn btn-secondary">Login</a></li>
+      <li class="nav-item"><a href="/signup" class="btn btn-primary">Signup</a></li>
+    {{/if}}
+  </ul>
 </nav>
