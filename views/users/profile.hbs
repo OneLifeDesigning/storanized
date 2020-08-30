@@ -4,7 +4,7 @@
     <p><b>Email:</b> {{ user.email }}</p>
   </div>
 </div>
-<form action="/profile" method="POST" enctype="multipart/form-data" class="my-5" > 
+<form action="/profile" method="POST" class="my-5" > 
   <div class="form-row align-items-center">
     <div class="form-group col-12 col-md-6">
       <label for="name">Name</label>
@@ -26,7 +26,7 @@
     </div>
     <div class="form-group col-12 col-md-6">
       <label for="phoneNumber">Phone Number</label>
-      <input type="text" class="form-control  {{#if error.phoneNumber }}is-invalid{{/if}}" id="phoneNumber" value="{{ user.phoneNumber }}" name="phoneNumber" required>
+      <input type="text" class="form-control  {{#if error.phoneNumber }}is-invalid{{/if}}" id="phoneNumber" value="{{ user.phoneNumber }}" name="phoneNumber">
       {{#if error.phoneNumber}}
         <div class="invalid-feedback">
           {{error.phoneNumber.message}}

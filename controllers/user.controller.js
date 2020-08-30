@@ -210,10 +210,12 @@ module.exports.viewProfile = (req, res, next) => {
 }
 module.exports.doEditProfile = (req, res, next) => {
   const body = req.body
-
+  
   if (req.file) {
     body.avatar = req.file.path
   }
+  
+  body.role = 'client'
 
   User.findByIdAndUpdate(req.session.userId, body, { runValidators: true, new: true })
     .then(user => {
@@ -223,7 +225,14 @@ module.exports.doEditProfile = (req, res, next) => {
         res.redirect('/profile')
       }
     })
-    .catch(next)
+    .catch((error, user )=> {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.render('users/profile', { 
+          user,
+          error: error.errors
+        })
+      }
+    })
 }
 
 module.exports.forgotPassword = (req, res, next) => {
