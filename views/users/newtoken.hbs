@@ -1,12 +1,12 @@
-<form action="/password" method="POST" class="my-5" > 
+<form action="/token" method="POST" class="my-5" > 
   {{#if success}}
     <div class="alert alert-success">
       {{success.message}}
     </div>
   {{/if}}
-  {{#if error.validation}}
+  {{#if error.activation}}
     <div class="alert alert-danger">
-      {{error.validation.message}}
+      {{error.activation.message}}
     </div>
   {{/if}}
   <div class="form-row align-items-center">

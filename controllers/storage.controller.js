@@ -2,26 +2,19 @@ const mongoose = require("mongoose")
 const Storage = require("../models/storage.model")
 const User = require("../models/user.model")
 
-module.exports.list = (req, res, next) => {
+module.exports.all = (req, res, next) => {
   Storage.find()
     .populate("user")
     .populate("address")
     .then((storage) => {
-      res.render("storages/list", {
-        storage,
-        user: req.currentUser
-      })
+      res.render("storages/all", { storage });
     })
-    .catch(next)
-}
+    .catch(next);
+};
 
 module.exports.newStorage = (req, res, next) => {
-  User.find({ user: true })
-    .then(storageUsers => {
-      res.render('storages/new', { storageUsers })
-    })
-    .catch(next)  
-}
+  res.render("storages/new");
+};
 
 module.exports.create = (req, res, next) => {
   const storage = new Storage({
@@ -45,40 +38,36 @@ module.exports.create = (req, res, next) => {
 
 module.exports.view = (req, res, next) => {
   Storage.findById(req.params.id)
-    .populate('user')
-    .populate('address')
-    .then(storage => {
-      res.render('storages/view', { storage })
+    .populate("user")
+    .populate("address")
+    .then((storage) => {
+      res.render("storages/view", { storage });
     })
-    .catch(next)
-}
+    .catch(next);
+};
 
 module.exports.viewEdit = (req, res, next) => {
-  User.find({ storage: true })
-    .then((storageUsers) => {
-      res.render('storages/edit', { storageUsers, storage: req.storage })
-    })
-    .catch(next)
-}
+  res.render("storages/edit");
+};
 
 module.exports.update = (req, res, next) => {
   const body = req.body;
   const storage = req.storage;
 
-  storage.set(body)
-  storage.save()
+  storage.set(body);
+  storage
+    .save()
     .then(() => {
-      res.redirect(`/storages/${storage._id}`)
-  })
-  .catch((next))
+      res.redirect(`/storages/${storage._id}`);
+    })
+    .catch(next);
 };
 
 module.exports.delete = (req, res, next) => {
-    req.storage.remove()
-      .then(() => {
-        res.redirect('/storages')
-      })
-      .catch(next)
-}
-
-
+  req.storage
+    .remove()
+    .then(() => {
+      res.redirect("/storages");
+    })
+    .catch(next);
+};

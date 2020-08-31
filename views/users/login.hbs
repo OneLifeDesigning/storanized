@@ -11,7 +11,8 @@
   {{/if}}
   {{#if error.activation.message}}
     <div class="alert alert-warning">
-      {{error.message}}
+      <p class="mb-0">{{error.activation.message}}</p>
+      <a href="/token" class="btn btn-danger">Generate new token</a>
     </div>
   {{/if}}
   <div class="form-row align-items-center">

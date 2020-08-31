@@ -139,7 +139,7 @@ module.exports.doValidateToken = (req, res, next) => {
           title: 'Login',
           error: {
             activation: {
-              message: 'Something has gone wrong, click the button to generate a new activation code'
+              message: 'Something has gone wrong, click the button to generate a new activation code.'
             }
           }
         })
@@ -169,11 +169,11 @@ module.exports.doNewToken = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
       if (!user || user.activation.active === true) {
-        res.render('users/login', {
-          title: 'Login',          
+        res.render('users/newtoken', {
+          title: 'Get new token',          
           error: {
             activation: {
-              message: 'Something has gone wrong, click the button to generate a new activation code, or enter your credentials again'
+              message: 'Something has gone wrong, enter again your email, please'
             }
           }
         })
@@ -189,7 +189,8 @@ module.exports.doNewToken = (req, res, next) => {
               activationToken: user.activation.token
             })
             
-            res.render('users/login', {
+            res.render('users/newtoken', { 
+              title: 'Get new token',
               success: {
                 message: 'Check your email for activate account'
               }
