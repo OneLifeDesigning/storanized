@@ -27,14 +27,8 @@ const boxSchema = new mongoose.Schema({
   }
 })
 
-boxSchema.virtual("user", {
-  ref: "User",
-  localField: "_id",
-  foreignField: "box",
-});
-
-boxSchema.virtual("storage", {
-  ref: "Storage",
+boxSchema.virtual("product", {
+  ref: "Product",
   localField: "_id",
   foreignField: "box",
 });

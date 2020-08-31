@@ -34,7 +34,7 @@ const addressSchema = new mongoose.Schema({
     trim: true
   },
   phone: {
-    type: Number,
+    type: String,
     trim: true
   },
   longitude: {
@@ -43,20 +43,19 @@ const addressSchema = new mongoose.Schema({
   latitude: {
     type: Number
   },
-  defaultAdrress: {
-    type: String,
-    enum: ['on'],
-    trim: true
+  defaultAddress: {
+    type: Boolean,
+    default: false
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: true
   }
 });
 
-addressSchema.virtual("user", {
-  ref: "User",
+addressSchema.virtual("storage", {
+  ref: "Storage",
   localField: "_id",
   foreignField: "address",
 });
