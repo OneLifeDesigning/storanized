@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(sassMiddleware({
       /* Options */
       src: __dirname + '/src/scss',
-      dest: path.join(__dirname, '/public/stylesheets'),
+      dest: __dirname + '/public',
       debug: true,
       outputStyle: 'compressed'
   }));
