@@ -5,6 +5,7 @@
       data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
       aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
+      {{#if currentUser }}
       <ul class="navbar-nav ml-auto my-2 my-lg-0">
         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
@@ -12,6 +13,10 @@
         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/login">Login</a></li>
       </ul>
+      {{else}}
+      <li class="nav-item mr-2"><a href="/login" class="btn btn-secondary">Login</a></li>
+      <li class="nav-item"><a href="/signup" class="btn btn-primary">Signup</a></li>
+    {{/if}}
     </div>
   </div>
 </nav>

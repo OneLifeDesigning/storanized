@@ -1,0 +1,31 @@
+$font-stack: 'Oxygen',
+"Helvetica Neue",
+Helvetica,
+Arial,
+sans-serif;
+$font-size: 14px;
+
+$red: #f4473a;
+$light-red: #f96b61;
+$white: #FFF;
+$ligth-grey: #eee;
+$middle-grey: #aaa;
+$grey: #606060;
+$dark-grey: #292929;
+$black: #000;
+$zink: #3b3b3b;
+
+$link-primary: $red;
+$link-secondary: $white;
+$link-tertiary: $middle-grey;
+$link-fourth: $black;
+$link-fifty: $grey;
+
+$text-primary: $black;
+$text-secondary: $white;
+$text-tertiary: $middle-grey;
+$text-fourty: $zink;
+$text-fifty: $grey;
+
+$defaul-space: 1.429rem;
+$carousel-overlay: '../../dist/assets/img/overlay.png';
