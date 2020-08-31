@@ -4,7 +4,6 @@ const logger = require('morgan');
 const path = require('path')
 const cookieParser = require('cookie-parser')
 
-
 require('./config/db.config')
 require('./config/hbs.config')
 
@@ -13,19 +12,25 @@ const sessionMiddleware = require('./middlewares/session.middleware')
 
 const app = express()
 
-app.use(express.urlencoded({ extended: false }))
+if (process.env.NODE_ENV !== 'production') {
+  const sassMiddleware = require('node-sass-middleware');
+
+  app.use(sassMiddleware({
+      /* Options */
+      src: __dirname + '/src/scss',
+      dest: path.join(__dirname, '/public/stylesheets'),
+      debug: true,
+      outputStyle: 'compressed'
+  }));
+}
+
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.urlencoded({ extended: false }))
 app.use(logger('dev'));
 app.use(cookieParser())
 app.use(session)
 app.use(sessionMiddleware.getCurrentUser)
 
-require('./lib/production/prepareProduction')();
-
-if (process.env.NODE_ENV === 'production') {
-  const css = require('./config/css.config');
-  app.use('/css', css);
-}
 
 /**
  * View engine setup
