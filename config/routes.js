@@ -24,8 +24,8 @@ router.post('/profile/password', sessionMiddleware.isAuthenticated, userControll
 
 router.post('/logout', sessionMiddleware.isAuthenticated, userController.doLogout)
 
-router.get('/activate/newtoken', sessionMiddleware.isAuthenticated, userController.newToken)
-router.post('/activate/newtoken', sessionMiddleware.isAuthenticated, userController.doNewToken)
+router.get('/token', sessionMiddleware.isNotAuthenticated, userController.newToken)
+router.post('/token', sessionMiddleware.isNotAuthenticated, userController.doNewToken)
 
 router.get('/password', sessionMiddleware.isNotAuthenticated, userController.forgotPassword)
 router.post('/password', sessionMiddleware.isNotAuthenticated, userController.doForgotPassword)
