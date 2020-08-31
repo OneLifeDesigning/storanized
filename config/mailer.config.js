@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 
 const host = process.env.HOST || 'http://localhost:3000';
 const user = process.env.NM_USER;
-
 const transport = nodemailer.createTransport(
 	{
 		service: 'Gmail',
@@ -11,9 +10,9 @@ const transport = nodemailer.createTransport(
 			pass: process.env.NM_PASS
 		}
 	}
-)
-
-module.exports.sendValidationEmail = (name, email, id, activationToken) => {
+	)
+	
+module.exports.sendValidationEmail = ({name, email, id, activationToken}) => {
 	transport.sendMail({
 		to: email,
 		from: `Storanized <${user}>`,
@@ -29,7 +28,7 @@ module.exports.sendValidationEmail = (name, email, id, activationToken) => {
 	})
 }
 
-module.exports.sendDuplicateEmail = (name, email, id, activationToken) => {
+module.exports.sendDuplicateEmail = ({name, email, id, activationToken}) => {
 	transport.sendMail({
 		to: email,
 		from: `Storanized <${user}>`,
@@ -43,7 +42,7 @@ module.exports.sendDuplicateEmail = (name, email, id, activationToken) => {
 		`
 	})
 }
-module.exports.sendrecoverPassword = (name, email, id, activationToken) => {
+module.exports.sendrecoverPassword = ({name, email, id, activationToken}) => {
 	transport.sendMail({
 		to: email,
 		from: `Storanized <${user}>`,

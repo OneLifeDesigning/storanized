@@ -2,6 +2,15 @@ const mongoose = require('mongoose')
 const mailer = require('../config/mailer.config');
 const User = require('../models/user.model')
 
+// TODO: Errase for producction 
+const userDemo = {
+  email: process.env.USER_DEFAULT_EMAIL || 'helo@you.com',
+  password: process.env.USER_DEFAULT_PASSWORD || '12345678',
+  username: process.env.USER_DEFAULT_USERNAME || 'hell0',
+  name: process.env.USER_DEFAULT_NAME || 'Hess',
+lastname: process.env.USER_DEFAULT_LASTNAME || 'loll'   
+}
+
 const generateRandomToken = () => {
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let token = '';
@@ -11,8 +20,8 @@ const generateRandomToken = () => {
   return token;
 }
 
-module.exports.login = (req, res, next) => {
-  res.render('users/login', { title: 'Login'} )
+module.exports.login = (req, res) => {
+  res.render('users/login', { title: 'Login', user: userDemo} )
 }
 
 module.exports.doLogin = (req, res, next) => {
@@ -20,10 +29,11 @@ module.exports.doLogin = (req, res, next) => {
   .then(user => {
     if (!user) {
       res.render('users/login', {
+        title: 'Login',
         error: {
-          email: {
+          validation: {
             message: 'The email and password combination does not match, please try again.'
-          }
+          } 
         }
       })
     } else {
@@ -35,6 +45,7 @@ module.exports.doLogin = (req, res, next) => {
               res.redirect('/profile')
             } else {
               res.render('users/login', {
+                title: 'Login',
                 error: {
                   validation: {
                     message: 'Your account is not active, check your email!.'
@@ -44,10 +55,11 @@ module.exports.doLogin = (req, res, next) => {
             }
           } else {
             res.render('users/login', {
+              title: 'Login',
               error: {
-                email: {
+                validation: {
                   message: 'The email and password combination does not match, please try again.'
-                }
+                } 
               }
             })
           }
@@ -59,57 +71,58 @@ module.exports.doLogin = (req, res, next) => {
 }
 
 module.exports.signup = (req, res, next) => {
-  res.render('users/signup', { title: 'Signup'} )
+  res.render('users/signup', { title: 'Signup', user: userDemo } )
 }
 
 module.exports.doSignup = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-  .then(user => {
-    if(!user) {
-      const newUser = new User({
-        ...req.body,
-        role: 'client',
-        avatar: req.file ? req.file.path : './img/default-avatar.png'
-      });
-    } else {
-      user.save()
-        .then(user => {
-          mailer.sendValidationEmail({
+    const user = new User({
+      ...req.body,
+      role: 'client',
+      avatar: './img/default-avatar.png'
+    });
+
+    user.save()
+      .then(user => {
+        mailer.sendValidationEmail({
+          name: user.name,
+          email: user.email,
+          id: user._id.toString(),
+          activationToken: user.activation.token
+        })
+        
+        res.render('users/login', {
+          title: 'Login',
+          success: {
+            message: 'Check your email for activate account.'
+          }
+        })
+      })
+      .catch(error => {
+        if (error instanceof mongoose.Error.ValidationError) {
+          res.render('users/signup', { 
+            title: 'Signup',
+            user,
+            error: error.errors
+          })
+        } else if (error.code === 11000) {
+          mailer.sendDuplicateEmail({
             name: user.name,
             email: user.email,
             id: user._id.toString(),
             activationToken: user.activation.token
           })
-          
-          res.render('users/login', {
-            message: 'Check your email for activate account'
-          })
-        })
-        .catch(error => {
-          if (error instanceof mongoose.Error.ValidationError) {
-            res.render('users/signup', { 
-              user,
-              error: error.errors
-            })
-          } else if (error.code === 11000) {
-            mailer.sendDuplicateEmail({
-              name: user.name,
-              email: user.email,
-              id: user._id.toString(),
-              activationToken: user.activation.token
-            })
 
-            res.render('users/login', {
-              message: 'Check your email for activate account'
-            })
-          } else {
-            next(error);
-          }
-        })
-        .catch(next)
-    }
-  })
-  .catch(next)
+          res.render('users/login', {
+            title: 'Signup',            
+            success: {
+              message: 'Check your email for activate account.'
+            }
+          })
+        } else {
+          next(error);
+        }
+      })
+      .catch(next)
 }
 
 module.exports.doLogout = (req, res, next) => {
@@ -123,9 +136,10 @@ module.exports.doValidateToken = (req, res, next) => {
     .then(user => {
       if (!user) {
         res.render('users/login', {
+          title: 'Login',
           error: {
             activation: {
-              message: 'Something has gone wrong, click the button to generate a new activation code'
+              message: 'Something has gone wrong, click the button to generate a new activation code.'
             }
           }
         })
@@ -135,7 +149,10 @@ module.exports.doValidateToken = (req, res, next) => {
         user.save()
           .then(user => {
             res.render('users/login', {
-              message: 'Your account has been activated, login below!'
+              title: 'Login',              
+              success: {
+                message: 'Your account has been activated, login below!'
+              }
             })
           })
           .catch(next)
@@ -152,10 +169,11 @@ module.exports.doNewToken = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
       if (!user || user.activation.active === true) {
-        res.render('users/login', {
+        res.render('users/newtoken', {
+          title: 'Get new token',          
           error: {
             activation: {
-              message: 'Something has gone wrong, click the button to generate a new activation code, or enter your credentials again'
+              message: 'Something has gone wrong, enter again your email, please'
             }
           }
         })
@@ -171,8 +189,11 @@ module.exports.doNewToken = (req, res, next) => {
               activationToken: user.activation.token
             })
             
-            res.render('users/login', {
-              message: 'Check your email for activate account'
+            res.render('users/newtoken', { 
+              title: 'Get new token',
+              success: {
+                message: 'Check your email for activate account'
+              }
             })
           })
           .catch(next)
@@ -182,7 +203,7 @@ module.exports.doNewToken = (req, res, next) => {
 }
 
 module.exports.viewProfile = (req, res, next) => {
-  User.findById(req.currentUser.id)
+  User.findById(req.currentUser._id)
   .then(user => {
     res.render('users/profile', { user })
   })
@@ -190,21 +211,29 @@ module.exports.viewProfile = (req, res, next) => {
 }
 module.exports.doEditProfile = (req, res, next) => {
   const body = req.body
-
+  
   if (req.file) {
     body.avatar = req.file.path
   }
+  
+  body.role = 'client'
 
-  User.findByIdAndUpdate(req.currentUser.id, body, { runValidators: true, new: true })
+  User.findByIdAndUpdate(req.currentUser._id, body, { runValidators: true, new: true })
     .then(user => {
       if (!user) {
         res.redirect('/profile')
-        next()
       } else {
-        res.render('users/profile', { user, message: 'Your profile has been updated'})
+        res.redirect('/profile')
       }
     })
-    .catch(next)
+    .catch((error, user )=> {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.render('users/profile', { 
+          user: req.currentUser,
+          error: error.errors
+        })
+      }
+    })
 }
 
 module.exports.forgotPassword = (req, res, next) => {
@@ -229,10 +258,8 @@ module.exports.doForgotPassword = (req, res, next) => {
           id: user._id.toString(),
           activationToken: user.activation.token
         })
-        
-        res.render('users/password', {
-            message: 'Check your email for reset password'
-        })
+
+        res.redirect('/')
       }
 
     })
@@ -265,42 +292,46 @@ module.exports.editPassword = (req, res, next) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  User.findById(req.params.id)
+  User.findById(req.currentUser._id)
     .then(user => {
       if (!user) {
         res.render('users/changepassword', {
           title: 'Change Password',
-          errors: {
+          error: {
             validation: {
               message: 'Something has gone wrong, please try again'
             }
           }
         })
       } else {
-        if (req.body.password.length === 0 || req.body.passwordValidate.length === 0 || req.body.password !== req.body.passwordValidate) {
-          res.render('users/recovery', {
+        if (req.body.password !== req.body.passwordValidate) {
+          res.render('users/changepassword', {
             title: 'Change password',
-            success: false,
-            user,
-            errors: {
+            error: {
               validation: {
-                message: 'The passwords not match!, try again'
+                message: 'Passwords not match!, try again'
+              }
+            }
+          })
+        } else if (req.body.password.length <= 8) {
+          res.render('users/changepassword', {
+            title: 'Change password',
+            error: {
+              validation: {
+                message: 'Password is too short, min 8 characters'
               }
             }
           })
         } else {
           user.password = req.body.password
           user.save()
-            .then(user => {
-              res.render('users/profile', {
-                title: 'Profile', 
-                success: 'Change password are success'
-              })
+            .then(() => {
+              res.redirect('/profile')
             })
             .catch(next)
+          }
         }
-      }
-    })
+      })
     .catch(next)
 }
 
