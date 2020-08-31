@@ -1,0 +1,15 @@
+body {
+    font-family: $font-stack;
+    font-size: $font-size;
+    color: $text-primary;
+    letter-spacing: .5px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.btn {
+    border-radius: 0px;
+}
