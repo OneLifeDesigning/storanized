@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon -e hbs,js,css app.js",
+    "dev": "nodemon -e hbs,js,scss app.js",
     "seeds": "node ./bin/seeds"
   },
   "repository": {
