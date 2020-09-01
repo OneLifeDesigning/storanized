@@ -5,9 +5,12 @@ const Address = require("../models/address.model");
 const Storage = require("../models/storage.model");
 const Box = require("../models/box.model");
 const Product = require("../models/product.model");
-/* 
-TODO: RAND TYPE
-const productType = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'] */
+
+const productType = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'] 
+
+const getRanElem = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)]
+} 
 
 const faker = require("faker");
 
@@ -81,7 +84,7 @@ function createProduct(userId, boxId) {
     name: faker.commerce.productName(),
     description: faker.lorem.paragraph(),
     tags: [faker.lorem.word()],
-    category: 'Otros',
+    category: getRanElem(productType),
     price: '',
     isPublic: false,
     isSold: false,

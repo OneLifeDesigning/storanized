@@ -80,7 +80,6 @@ module.exports.doSignup = (req, res, next) => {
       role: 'client',
       avatar: './img/default-avatar.png'
     });
-
     user.save()
       .then(user => {
         mailer.sendValidationEmail({
@@ -99,6 +98,7 @@ module.exports.doSignup = (req, res, next) => {
       })
       .catch(error => {
         if (error instanceof mongoose.Error.ValidationError) {
+          console.log(error.errors);
           res.render('users/signup', { 
             title: 'Signup',
             user,
