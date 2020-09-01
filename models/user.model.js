@@ -78,7 +78,6 @@ const userSchema = new mongoose.Schema({
   },
   terms: {
     type: Boolean,
-    default: false,
     required: [true, 'Terms are required']
   }
 },

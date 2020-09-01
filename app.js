@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
       /* Options */
       src: __dirname + '/src/scss',
       dest: __dirname + '/public',
-      debug: true,
+      // debug: true,
       outputStyle: 'compressed'
   }));
 }
@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(logger('dev'));
 app.use(cookieParser())
 app.use(session)
+
 app.use(sessionMiddleware.getCurrentUser)
 
 
