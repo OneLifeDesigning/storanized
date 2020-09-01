@@ -25,7 +25,7 @@ const generateRandomToken = () => {
 
 function createUser() {
   const user = new User({
-    name: faker.name.firstName(5),
+    name: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
     username: faker.internet.userName(),
