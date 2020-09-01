@@ -196,7 +196,7 @@ module.exports.doNewToken = (req, res, next) => {
               }
             })
           })
-          .catch(next)
+          .catch(next) 
       }
     })
     .catch(next)
@@ -204,6 +204,10 @@ module.exports.doNewToken = (req, res, next) => {
 
 module.exports.viewProfile = (req, res, next) => {
   User.findById(req.currentUser._id)
+  .populate('addresses')
+  .populate('storages')
+  .populate('boxes')
+  .populate('products')
   .then(user => {
     res.render('users/profile', { user })
   })

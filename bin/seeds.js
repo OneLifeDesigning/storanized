@@ -71,6 +71,7 @@ function createStorage(userId, addressId) {
 }
 function createBox(userId, storageId) {
   const box = new Box({
+    name: faker.commerce.productName(),
     description: faker.lorem.paragraph(),
     location: faker.lorem.words(4),
     qrCode: faker.internet.url(),
