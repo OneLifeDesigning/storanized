@@ -47,7 +47,7 @@ function createUser() {
 function createAddress(userId) {
   const address = new Address({
     name: faker.name.title(),
-    address: faker.address.streetAddress,
+    address: faker.address.streetAddress(),
     city: faker.address.city(),
     state: faker.address.state(),
     country: faker.address.country(),
@@ -64,6 +64,7 @@ function createAddress(userId) {
 function createStorage(userId, addressId) {
   const storage = new Storage({
     name: faker.name.title(),
+    description: faker.lorem.paragraph(),
     user: userId,
     address: addressId
   })

@@ -3,51 +3,74 @@ const Storage = require("../models/storage.model")
 const User = require("../models/user.model")
 
 module.exports.all = (req, res, next) => {
-  Storage.find()
-    .populate("user")
-    .populate("address")
-    .then((storage) => {
-      res.render("storages/all", { storage });
+  Storage.find({user: req.currentUser._id })
+    .then(storages => {
+      res.render("storages/all", { 
+        title: 'View all storages',
+        storages
+      });
     })
-    .catch(next);
+    .catch(next)
 };
 
-module.exports.newStorage = (req, res, next) => {
-  res.render("storages/new");
+module.exports.new = (req, res, next) => {
+  User.findById(req.currentUser._id)
+  .populate('addresses')
+  .then(user => {
+    res.render('storages/new', { 
+      title: 'Add new storage',
+      user
+    })
+  })
+  .catch(next)
 };
 
-module.exports.create = (req, res, next) => {
+module.exports.doNew = (req, res, next) => {
   const storage = new Storage({
     ...req.body,
     user: req.currentUser._id,
   })
-
-  storage
-    .save()
-    .then((storage) => {
-      res.redirect(`/storages/${storage._id}`)
+  storage.save()
+    .then(storage => {
+      res.redirect(`/storages/show/${storage._id}`)
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render("storages/new", { error: error.errors, storage })
+        res.render("storages/new", { 
+          title: 'Add new storage',
+          error: error.errors, 
+          storage 
+        })
       } else {
         next(error)
       }
     })
 };
 
-module.exports.view = (req, res, next) => {
-  Storage.findById(req.params.id)
-    .populate("user")
-    .populate("address")
-    .then((storage) => {
-      res.render("storages/view", { storage });
+module.exports.show = (req, res, next) => {
+  Storage.findOne({user: req.currentUser._id, _id: req.params.id})
+  .populate("user")
+  .populate("address")
+  .then(storage => {
+      res.render("storages/show", { 
+        title: 'View of storage',
+        storage
+      });
     })
     .catch(next);
 };
 
 module.exports.viewEdit = (req, res, next) => {
-  res.render("storages/edit");
+  Storage.findById(req.params.id)
+  .populate('user')
+  .populate('address')
+  .then(storage => {
+    res.render("storages/edit", {
+      title: 'Edit new storage',
+      storage
+    })
+  })
+  .catch(next)
 };
 
 module.exports.update = (req, res, next) => {

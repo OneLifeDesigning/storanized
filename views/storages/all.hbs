@@ -1,0 +1,19 @@
+
+  <h1>{{title}}</h1>
+  {{#if storages}}
+  <div class="row">
+    {{#each storages as |storage|}}
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{storage.name}}</h5>
+          <p class="card-text">{{storage.description}}</p>
+          <p class="card-text">Número de Cajas</p>
+          <p class="card-text">Número de productos</p>
+          <a href="/storages/show/{{storage.id}}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+{{/if}}

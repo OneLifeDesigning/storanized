@@ -28,8 +28,11 @@ module.exports.doLogin = (req, res, next) => {
   User.findOne({ email: req.body.email })
   .then(user => {
     if (!user) {
+      const user = {}
+      user.email = req.body.email
       res.render('users/login', {
         title: 'Login',
+        user,
         error: {
           validation: {
             message: 'The email and password combination does not match, please try again.'
@@ -56,6 +59,7 @@ module.exports.doLogin = (req, res, next) => {
           } else {
             res.render('users/login', {
               title: 'Login',
+              user,
               error: {
                 validation: {
                   message: 'The email and password combination does not match, please try again.'
@@ -213,6 +217,7 @@ module.exports.viewProfile = (req, res, next) => {
   })
   .catch(next)
 }
+
 module.exports.doEditProfile = (req, res, next) => {
   const body = req.body
   
