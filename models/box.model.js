@@ -3,6 +3,10 @@ const QRCode = require('qrcode');
 const Storage = require('../models/storage.model')
  
 const boxSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    trim: true
+  },
   description: {
     type: String,
     trim: true

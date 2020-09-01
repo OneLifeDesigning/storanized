@@ -15,15 +15,15 @@ module.exports.getCurrentUser = (req, res, next) => {
     .catch(() => {
       res.redirect('/login')
     });
-}
-
-module.exports.isAuthenticated = (req, res, next) => {
-  User.findById(req.session.userId)
+  }
+  
+  module.exports.isAuthenticated = (req, res, next) => {
+    User.findById(req.session.userId)
     .then(user => {
       if (user) {
         next()
       } else {
-        res.redirect('/profile')
+        res.redirect('/login')
       }
     })
     .catch(next);

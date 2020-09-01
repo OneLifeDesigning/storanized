@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const Address = require("../models/address.model");
+const Storage = require("../models/storage.model");
+const Box = require("../models/box.model");
+const Product = require("../models/product.model");
 
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\']+(\.[^<>()\[\]\.,;:\s@\']+)*)|(\'.+\'))@(([^<>()[\]\.,;:\s@\']+\.)+[^<>()[\]\.,;:\s@\']{2,})$/i;
 
@@ -100,25 +104,25 @@ userSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
 
-userSchema.virtual("address", {
+userSchema.virtual("addresses", {
   ref: "Address",
   localField: "_id",
   foreignField: "user",
 });
 
-userSchema.virtual("storage", {
+userSchema.virtual("storages", {
   ref: "Storage",
   localField: "_id",
   foreignField: "user",
 });
 
-userSchema.virtual("box", {
+userSchema.virtual("boxes", {
   ref: "Box",
   localField: "_id",
   foreignField: "user",
 });
 
-userSchema.virtual("product", {
+userSchema.virtual("products", {
   ref: "Product",
   localField: "_id",
   foreignField: "user",
