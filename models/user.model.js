@@ -77,10 +77,9 @@ const userSchema = new mongoose.Schema({
     default: 'client'
   },
   terms: {
-    type: String,
-    required: [true, 'Terms are required'],
-    enum: ['on'],
-    trim: true
+    type: Boolean,
+    default: false,
+    required: [true, 'Terms are required']
   }
 },
 { timestamps: true, toJSON: { virtuals: true } });
@@ -101,6 +100,30 @@ userSchema.pre('save', function(next) {
 userSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
+
+userSchema.virtual("address", {
+  ref: "Address",
+  localField: "_id",
+  foreignField: "user",
+});
+
+userSchema.virtual("storage", {
+  ref: "Storage",
+  localField: "_id",
+  foreignField: "user",
+});
+
+userSchema.virtual("box", {
+  ref: "Box",
+  localField: "_id",
+  foreignField: "user",
+});
+
+userSchema.virtual("product", {
+  ref: "Product",
+  localField: "_id",
+  foreignField: "user",
+});
 
 const User = mongoose.model('User', userSchema);
 

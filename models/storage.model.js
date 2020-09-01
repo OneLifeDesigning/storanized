@@ -20,18 +20,6 @@ const storageSchema = new mongoose.Schema({
   }
 });
 
-storageSchema.virtual("user", {
-  ref: "User",
-  localField: "_id",
-  foreignField: "storage",
-});
-
-storageSchema.virtual("address", {
-  ref: "Address",
-  localField: "_id",
-  foreignField: "storage",
-});
-
 storageSchema.post('remove', function (next) {
   Promise.all([
     Address.deleteMany({ storage: this._id })

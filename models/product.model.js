@@ -4,6 +4,12 @@ const mongoose = require('mongoose');
 const Box = require('../models/box.model')
 
 const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    minlength: [3, 'Name needs at last 3 chars'],
+    trim: true
+  },
   description: {
     type: String,
     required: [true, 'Description is required'],
@@ -14,8 +20,7 @@ const productSchema = new mongoose.Schema({
     type: Array
   },
   category: {
-    enum: ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'],
-    default: 'Otros'
+    enum: ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros']
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -31,25 +36,13 @@ const productSchema = new mongoose.Schema({
     trim: true
   },
 	isPublic: {
-		type: boolean,
+		type: Boolean,
 		default: false
   },
   isSold: {
-		type: boolean,
+		type: Boolean,
 		default: false
   }
-});
-
-productSchema.virtual("user", {
-  ref: "User",
-  localField: "_id",
-  foreignField: "product",
-});
-
-productSchema.virtual("box", {
-  ref: "Box",
-  localField: "_id",
-  foreignField: "product",
 });
 
 productSchema.post('remove', function (next) {
