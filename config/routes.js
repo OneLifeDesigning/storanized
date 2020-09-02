@@ -39,12 +39,12 @@ router.post('/password', sessionMiddleware.isNotAuthenticated, userController.do
 // Magiclink to access and change passs
 router.get('/password/:id/:token', sessionMiddleware.isNotAuthenticated, userController.recoveryPassword)
 
-router.get('/storages/all', sessionMiddleware.isAuthenticated, storageController.all)
+router.get('/storages', sessionMiddleware.isAuthenticated, storageController.all)
 router.get('/storages/new', sessionMiddleware.isAuthenticated, storageController.new)
 router.post('/storages/new', sessionMiddleware.isAuthenticated, storageController.doNew)
-router.get('/storages/show/:id', sessionMiddleware.isAuthenticated, storageController.show)
-router.get('/storages/edit/:id', sessionMiddleware.isAuthenticated, storageController.viewEdit)
-router.post('/storages/edit/', sessionMiddleware.isAuthenticated, storageController.update)
+router.get('/storages/:id', sessionMiddleware.isAuthenticated, storageController.show)
+router.get('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.edit)
+router.post('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.doEdit)
 /* 
 TODO:
   

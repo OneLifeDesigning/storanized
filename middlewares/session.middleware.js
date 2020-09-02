@@ -2,6 +2,10 @@ const User = require('../models/user.model')
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.session.userId)
+    .populate('addresses')
+    .populate('storages')
+    .populate('boxes')
+    .populate('products')
     .then(user => {
       if (!user) {
         res.locals.currentUser = false

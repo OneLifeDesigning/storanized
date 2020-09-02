@@ -1,16 +1,25 @@
 
-  <h1>{{title}}</h1>
-  {{#if storages}}
+  <div class="row align-items-center mb-4">
+    <div class="col-12 col-md-9">
+      <h1 class="">{{title}}</h1>
+    </div>
+    <div class="col-12 col-md-3 text-right">
+      <a href="/storages/new" class="btn btn-primary"><i class="fa fa-plus mr-2"></i> Add new</a>
+    </div>
+  </div>
   <div class="row">
+  {{#if storages}}
     {{#each storages as |storage|}}
-    <div class="col-sm-6">
+    <div class="col-sm-6 mb-2">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">{{storage.name}}</h5>
+          <h5 class="card-title"><a href="/storages/{{storage.id}}/delete">{{storage.name}}</a></h5>
           <p class="card-text">{{storage.description}}</p>
-          <p class="card-text">Número de Cajas</p>
-          <p class="card-text">Número de productos</p>
-          <a href="/storages/show/{{storage.id}}" class="btn btn-primary">View</a>
+          <div class="row">
+            <div class="col-6">
+              <a href="/storages/{{storage.id}}" class="btn btn-primary"><i class="fa fa-eye mr-2"></i> View</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

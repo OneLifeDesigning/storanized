@@ -1,56 +1,6 @@
-<h1>{{title}}</h1>
-<form action="/storages/edit" method="POST" class="my-5" > 
-  <div class="form-row align-items-center">
-    <div class="form-group col-12">
-      <label for="name">Name</label>
-      <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ storage.name }}" name="name" required>
-      {{#if error.name}}
-        <div class="invalid-feedback">
-          {{error.name.message}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="form-group col-12">
-      <label for="description">Description</label>
-      <textarea rows="5" type="text" class="form-control {{#if error.description }}is-invalid{{/if}}" name="description" id="description">{{storage.description}}</textarea>
-      {{#if error.description}}
-      <div class="invalid-feedback">
-        {{error.description.message}}
-      </div>
-      {{/if}}
-    </div>
-    <div class="col-12">
-      <h3>Address</h3>
-      <div class="row">
-        {{#if storage.address}}
-          <div class="col-sm-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">{{storage.address.name}}</h5>
-                <p>{{storage.address.address}}<br>{{storage.address.city}}</p>
-                <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" name="address" id="address" value="{{storage.address.id}}" {{#ifEquals storage.address.defaultAddress true }}checked{{/ifEquals}} required>
-                  <label class="custom-control-label" for="address">Select this address.</label>
-                </div>
-                {{#if error.storage.address}}
-                  <div class="invalid-feedback">
-                    {{error.storage.address.message}}
-                  </div>
-                {{/if}}
-              </div>
-            </div>
-          </div>
-           <div class="col-12 col-sm-6">
-          {{else}}
-           <div class="col-12">
-          {{/if}}
-            <p class="lead">Do you want to add a different address?</p>
-            <a href="#" class="btn btn-success">Add address</a>
-          </div>
-      </div>
-    </div>
-    <div class="col-12 offset-md-9 col-md-3 mt-2">
-      <button type="submit" class="btn btn-primary btn-block">Create</button>
+  <div class="row align-items-center mb-4">
+    <div class="col-12 col-md-9">
+      <h1 class="mb-0">{{title}}</h1>
     </div>
   </div>
-</form>
+{{> storages/form }}
