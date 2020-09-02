@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
+const addressController = require('../controllers/address.controller')
 const sessionMiddleware = require('../middlewares/session.middleware')
 
 router.get('/', (req, res) => {
@@ -45,6 +46,15 @@ router.post('/storages/new', sessionMiddleware.isAuthenticated, storageControlle
 router.get('/storages/:id', sessionMiddleware.isAuthenticated, storageController.show)
 router.get('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.edit)
 router.post('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.doEdit)
+
+router.get('/addresses', sessionMiddleware.isAuthenticated, addressController.all)
+router.get('/addresses/new', sessionMiddleware.isAuthenticated, addressController.new)
+router.post('/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNew)
+router.get('/addresses/:id', sessionMiddleware.isAuthenticated, addressController.show)
+router.get('/addresses/:id/edit', sessionMiddleware.isAuthenticated, addressController.edit)
+router.post('/addresses/:id/edit', sessionMiddleware.isAuthenticated, addressController.doEdit)
+router.post('/addresses/:id/delete', sessionMiddleware.isAuthenticated, addressController.delete)
+
 /* 
 TODO:
   

@@ -52,30 +52,3 @@
     </div>
   </div>
 </form>
-{{#if user.addresses}}
-  <p>Address</p>
-  {{#each user.addresses as |address|}}
-    <p>{{address.name}}</p>
-  {{/each}}
-{{/if}}
-{{#if user.storages}}
-  <hr>
-  <p>Storages</p>
-  {{#each user.storages as |storage|}}
-    <p>{{storage.name}}</p>
-  {{/each}}
-{{/if}}
-{{#if user.boxes}}
-  <hr>
-  <p>Boxes</p>
-  {{#each user.boxes as |box|}}
-    <p>{{box.name}}</p>
-  {{/each}}
-{{/if}}
-{{#if user.products}}
-  <hr>
-  <p>Products</p>
-  {{#each user.products as |product|}}
-    <p>{{product.name}}</p>
-  {{/each}}
-{{/if}}

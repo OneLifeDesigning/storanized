@@ -36,9 +36,9 @@
                   <input type="checkbox" class="custom-control-input  {{#if error.address }}is-invalid{{/if}}" name="address" id="address{{userAdress.id}}" value="{{userAdress.id}}" {{#ifEquals userAdress.defaultAddress true }}checked{{/ifEquals}} required>
                   <label class="custom-control-label" for="address{{userAdress.id}}">Select this address.</label>
                 </div>
-                {{#if error.terms}}
+                {{#if error.address}}
                   <div class="invalid-feedback">
-                    {{error.terms.message}}
+                    {{error.address.message}}
                   </div>
                 {{/if}}
               </div>

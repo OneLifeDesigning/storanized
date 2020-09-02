@@ -26,7 +26,7 @@ module.exports.doNew = (req, res, next) => {
   })
   storage.save()
     .then(storage => {
-      res.redirect(`/storages/${storage._id}/show`)
+      res.redirect(`/storages/${storage._id}`)
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {

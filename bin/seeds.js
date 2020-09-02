@@ -52,7 +52,6 @@ function createAddress(userId) {
     state: faker.address.state(),
     country: faker.address.country(),
     postalCode: faker.address.zipCode(),
-    phone: faker.phone.phoneNumber(),
     longitude: faker.address.longitude(),
     latitude: faker.address.latitude(),
     defaultAddress: true,
