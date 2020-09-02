@@ -1,0 +1,66 @@
+{{#if storage}}
+  <form action="/storages/{{storage.id}}/edit" method="POST"> 
+{{else}}
+  <form action="/storages/new" method="POST"> 
+{{/if}}
+  <div class="form-row align-items-center">
+    <div class="form-group col-12">
+      <label for="name">Name</label>
+      <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ storage.name }}" name="name" required>
+      {{#if error.name}}
+        <div class="invalid-feedback">
+          {{error.name.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="form-group col-12">
+      <label for="description">Description</label>
+      <textarea rows="5" type="text" class="form-control {{#if error.description }}is-invalid{{/if}}" name="description" id="description">{{storage.description}}</textarea>
+      {{#if error.description}}
+      <div class="invalid-feedback">
+        {{error.description.message}}
+      </div>
+      {{/if}}
+    </div>
+    <div class="col-12">
+      <h3>Address</h3>
+      <div class="row">
+        {{#if user.addresses}}
+          {{#each user.addresses as |userAdress|}}
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{userAdress.name}}</h5>
+                <p>{{userAdress.address}}<br>{{userAdress.city}}</p>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input  {{#if error.address }}is-invalid{{/if}}" name="address" id="address{{userAdress.id}}" value="{{userAdress.id}}" {{#ifEquals userAdress.defaultAddress true }}checked{{/ifEquals}} required>
+                  <label class="custom-control-label" for="address{{userAdress.id}}">Select this address.</label>
+                </div>
+                {{#if error.address}}
+                  <div class="invalid-feedback">
+                    {{error.address.message}}
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+           <div class="col-12 col-sm-6">
+        {{else}}
+           <div class="col-12">
+        {{/if}}
+            <p class="lead mb-1">Do you want to add a different address?</p>
+            <a href="#" class="btn btn-success">Add address</a>
+          </div>
+      </div>
+    </div>
+    <div class="col-12 offset-md-9 col-md-3 mt-2">
+      {{#if storage}}
+      <button type="submit" class="btn btn-primary btn-block">Save</button>
+      {{else}}
+      <button type="submit" class="btn btn-primary btn-block">Create</button>
+      {{/if}}
+    </div>
+
+  </div>
+</form>

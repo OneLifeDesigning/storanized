@@ -8,6 +8,10 @@ const storageSchema = new mongoose.Schema({
     minlength: [3, 'Name needs at last 3 chars'],
     trim: true
   },
+  description: {
+    type: String,
+    trim: true
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

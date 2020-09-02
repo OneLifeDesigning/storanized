@@ -8,7 +8,7 @@ const userDemo = {
   password: process.env.USER_DEFAULT_PASSWORD || '12345678',
   username: process.env.USER_DEFAULT_USERNAME || 'hell0',
   name: process.env.USER_DEFAULT_NAME || 'Hess',
-lastname: process.env.USER_DEFAULT_LASTNAME || 'loll'   
+  lastname: process.env.USER_DEFAULT_LASTNAME || 'loll'   
 }
 
 const generateRandomToken = () => {
@@ -28,8 +28,11 @@ module.exports.doLogin = (req, res, next) => {
   User.findOne({ email: req.body.email })
   .then(user => {
     if (!user) {
+      const user = {}
+      user.email = req.body.email
       res.render('users/login', {
         title: 'Login',
+        user,
         error: {
           validation: {
             message: 'The email and password combination does not match, please try again.'
@@ -56,6 +59,7 @@ module.exports.doLogin = (req, res, next) => {
           } else {
             res.render('users/login', {
               title: 'Login',
+              user,
               error: {
                 validation: {
                   message: 'The email and password combination does not match, please try again.'
@@ -203,26 +207,21 @@ module.exports.doNewToken = (req, res, next) => {
 }
 
 module.exports.viewProfile = (req, res, next) => {
-  User.findById(req.currentUser._id)
-  .populate('addresses')
-  .populate('storages')
-  .populate('boxes')
-  .populate('products')
-  .then(user => {
-    res.render('users/profile', { user })
-  })
-  .catch(next)
+  res.render('users/profile', { user: req.currentUser })
 }
+
 module.exports.doEditProfile = (req, res, next) => {
   const body = req.body
+  const user = req.currentUser
   
   if (req.file) {
     body.avatar = req.file.path
   }
   
   body.role = 'client'
-
-  User.findByIdAndUpdate(req.currentUser._id, body, { runValidators: true, new: true })
+  
+  user.set(body)
+  user.save()
     .then(user => {
       if (!user) {
         res.redirect('/profile')
@@ -233,7 +232,7 @@ module.exports.doEditProfile = (req, res, next) => {
     .catch((error, user )=> {
       if (error instanceof mongoose.Error.ValidationError) {
         res.render('users/profile', { 
-          user: req.currentUser,
+          user,
           error: error.errors
         })
       }
@@ -296,7 +295,7 @@ module.exports.editPassword = (req, res, next) => {
 }
 
 module.exports.doEditPassword = (req, res, next) => {
-  User.findById(req.currentUser._id)
+  User.findById(req.currentUser._id.toString())
     .then(user => {
       if (!user) {
         res.render('users/changepassword', {

@@ -1,6 +1,6 @@
 # StoraniZed
 
-Project 2 - Pair progaming Nidian Martin & Adrián Díaz for Module 2 of WPTMAD0420",
+Project 2 - Pair progaming Nidian Martin & Adrián Díaz for Module 2 of WPTMAD0420,
 
 ## 1 - Scaffolding
 
