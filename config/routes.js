@@ -48,6 +48,7 @@ router.post('/storages/new', sessionMiddleware.isAuthenticated, storageControlle
 router.get('/storages/:id', sessionMiddleware.isAuthenticated, storageController.show)
 router.get('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.edit)
 router.post('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.doEdit)
+// router.post('/storages/:id/delete', sessionMiddleware.isAuthenticated, storageController.delete)
 
 router.get('/addresses', sessionMiddleware.isAuthenticated, addressController.all)
 router.get('/addresses/new', sessionMiddleware.isAuthenticated, addressController.new)

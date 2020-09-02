@@ -3,20 +3,17 @@ const Address = require("../models/address.model")
 const Storage = require("../models/storage.model")
 
 module.exports.all = (req, res, next) => {
-  Address.find({user: req.currentUser._id.toString() })
-    .then(addresses => {
-      res.render("addresses/all", { 
-        title: 'View all addresses',
-        addresses
-      });
-    })
-    .catch(next)
+    res.render("addresses/all", { 
+      title: 'View all addresses',
+      addresses: req.currentUser.addresses
+    });
 };
 
 module.exports.new = (req, res, next) => {
   res.render('addresses/new', { 
     title: 'Add new Address',
     user: req.currentUser,
+    // TODO: Delete
     address: {
       name: 'Gerald Ford',
       address: 'Justo esta',
@@ -123,7 +120,6 @@ module.exports.delete = (req, res, next) => {
           message: 'This address mark as default address, is not posible deleted'
         }
       });
-      
     } else {
       Address.findOne({user: req.currentUser._id.toString(), defaultAddress: true})
       .then(newAddress => {
