@@ -6,14 +6,15 @@ module.exports.all = (req, res, next) => {
   Box.find()
     .populate("user")
     .populate("storage")
-    .then((box) => {
-      res.render("boxs/all", { box });
+    .then((boxes) => {
+      //res.render("boxes/all", { boxes });
+      res.json(boxes)
     })
     .catch(next);
 };
 
 module.exports.newBox = (req, res, next) => {
-  res.render("boxs/new");
+  res.render("boxes/new");
 };
 
 module.exports.create = (req, res, next) => {
@@ -24,11 +25,11 @@ module.exports.create = (req, res, next) => {
   box
     .save()
     .then((box) => {
-      res.redirect(`/boxs/${box._id}`);
+      res.redirect(`/boxes/${box._id}`);
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render("boxs/new", { error: error.errors, box });
+        res.render("boxes/new", { error: error.errors, box });
       } else {
         next(error);
       }
@@ -40,13 +41,13 @@ module.exports.view = (req, res, next) => {
     .populate("user")
     .populate("storage")
     .then((box) => {
-      res.render("boxs/view", { box });
+      res.render("boxes/view", { box });
     })
     .catch(next);
 };
 
 module.exports.viewEdit = (req, res, next) => {
-    res.render("boxs/edit");
+    res.render("boxes/edit");
 };
 
 module.exports.update = (req, res, next) => {
@@ -57,7 +58,7 @@ module.exports.update = (req, res, next) => {
   box
     .save()
     .then(() => {
-      res.redirect(`/boxs/${box._id}`);
+      res.redirect(`/boxes/${box._id}`);
     })
     .catch(next);
 };
@@ -66,7 +67,7 @@ module.exports.delete = (req, res, next) => {
   req.box
     .remove()
     .then(() => {
-      res.redirect("/boxs");
+      res.redirect("/boxes");
     })
     .catch(next);
 };

@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user.controller')
 const sessionMiddleware = require('../middlewares/session.middleware')
+const Box = require('../models/box.model')
+const boxController = require('../controllers/box.controller')
 
 router.get('/', (req, res) => {
   res.render('index', {
@@ -37,6 +39,9 @@ router.post('/password', sessionMiddleware.isNotAuthenticated, userController.do
 
 // Magiclink to access and change passs
 router.get('/password/:id/:token', sessionMiddleware.isNotAuthenticated, userController.recoveryPassword)
+
+//Get- view all boxes
+router.get('/boxes', sessionMiddleware.isAuthenticated, boxController.all)
 
 /* 
 TODO:
