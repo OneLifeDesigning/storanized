@@ -33,10 +33,6 @@ const addressSchema = new mongoose.Schema({
     minlength: [3, 'Postal Code needs at last 3 chars'],
     trim: true
   },
-  phone: {
-    type: String,
-    trim: true
-  },
   longitude: {
     type: Number
   },
