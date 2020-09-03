@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 const express = require('express')
 const logger = require('morgan');
 const path = require('path')
@@ -8,30 +9,29 @@ require('./config/db.config')
 require('./config/hbs.config')
 
 const session = require('./config/session.config');
-const sessionMiddleware = require('./middlewares/session.middleware')
 
 const app = express()
 
 if (process.env.NODE_ENV !== 'production') {
   const sassMiddleware = require('node-sass-middleware');
-
+  
   app.use(sassMiddleware({
-      /* Options */
-      src: __dirname + '/src/scss',
-      dest: __dirname + '/public',
-      // debug: true,
-      outputStyle: 'compressed'
+    src: __dirname + '/src/scss',
+    dest: __dirname + '/public',
+    // debug: true,
+    outputStyle: 'compressed'
   }));
 }
 
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.urlencoded({ extended: false }))
 app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(session)
 
+const sessionMiddleware = require('./middlewares/session.middleware')
 app.use(sessionMiddleware.getCurrentUser)
-
 
 /**
  * View engine setup
@@ -45,10 +45,9 @@ app.set('view engine', 'hbs')
 const router = require('./config/routes.js')
 app.use('/', router)
 
+
 /* 
   TODO: Error handlers
-
-
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   const err = new Error('Not Found');

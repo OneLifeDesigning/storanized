@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false
   }
-});
+},{ timestamps: true, toJSON: { virtuals: true } });
 
 productSchema.post('remove', function (next) {
   Promise.all([

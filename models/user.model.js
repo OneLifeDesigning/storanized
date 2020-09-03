@@ -84,8 +84,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: [true, 'Terms are required']
   }
-},
-{ timestamps: true, toJSON: { virtuals: true } });
+},{ timestamps: true, toJSON: { virtuals: true } });
 
 userSchema.pre('save', function(next) {
   if (this.isModified('password')) {

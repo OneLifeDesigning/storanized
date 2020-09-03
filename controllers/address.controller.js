@@ -31,37 +31,63 @@ module.exports.doNew = (req, res, next) => {
   req.body.defaultAddress = req.body.defaultAddress ? true : false
   const address = new Address({
     ...req.body,
-    user: req.currentUser._id.toString(),
+    user: req.currentUser._id.toString()
   })
-  address.save()
-  .then(address => {
-    if (address.defaultAddress) {
-      Address.findOne({user: req.currentUser._id.toString(), defaultAddress: true})
+  if (address.defaultAddress) {
+    Address.findOne({user: req.currentUser._id.toString(), defaultAddress: true})
       .then(oldAddress => {
         oldAddress.defaultAddress = false
         oldAddress.save()
-          .then(() => {
-            res.redirect(`/addresses/${address._id}`)
-          })
+          .then()
           .catch(next)
-        })
-      .catch(next)
-    } else {
-      res.redirect(`/addresses/${address._id}`)
-    }
-  })
-  .catch(error => {
-    if (error instanceof mongoose.Error.ValidationError) {
-      res.render("addresses/new", { 
-        title: 'Add new Address',
-        error: error.errors, 
-        address,
-        user: req.currentUser
       })
-    } else {
-      next(error)
-    }
+      .catch(next)
+  }
+  address.save()
+    .then(address => {
+      res.redirect(`/addresses/${address._id}`)
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.render("addresses/new", { 
+          title: 'Add new Address',
+          error: error.errors, 
+          address,
+          user: req.currentUser
+        })
+      } else {
+        next(error)
+      }
+    })
+};
+
+module.exports.doNewApi = (req, res, next) => {
+  req.body.defaultAddress = req.body.defaultAddress ? true : false
+  const address = new Address({
+    ...req.body,
+    user: req.currentUser._id.toString()
   })
+  if (address.defaultAddress) {
+    Address.findOne({user: req.currentUser._id.toString(), defaultAddress: true})
+      .then(oldAddress => {
+        oldAddress.defaultAddress = false
+        oldAddress.save()
+          .then()
+          .catch(next)
+      })
+      .catch(next)
+  }
+  address.save()
+    .then(address => {
+      res.json(address)
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.json(error.errors)
+      } else {
+        res.json(error)
+      }
+    })
 };
 
 module.exports.show = (req, res, next) => {
@@ -77,7 +103,7 @@ module.exports.show = (req, res, next) => {
 };
 
 module.exports.edit = (req, res, next) => {
-  Address.findById(req.params.id)
+  Address.findOne({_id: req.params.id, user: req.currentUser._id.toString()})
   .then(address => {
     res.render("addresses/edit", {
       title: 'Edit new Address',
@@ -91,21 +117,62 @@ module.exports.edit = (req, res, next) => {
 module.exports.doEdit = (req, res, next) => {
   const body = req.body;
   body.defaultAddress = body.defaultAddress ? true : false
-  
-  Address.findById(req.params.id)
+  if (body.defaultAddress) {
+      Address.findOneAndUpdate({_id: { $ne:  req.params.id }, user: req.currentUser._id.toString(), defaultAddress: true}, {defaultAddress: false})
+      .then(() => {
+        console.log('Old default address has been update');
+        Address.findOneAndUpdate({_id: req.params.id, user: req.currentUser._id.toString()}, body, { runValidators: true, new: true })
+        .then(address => {
+          console.log('New default address has been save');
+          res.redirect(`/addresses/${address._id}`)
+        })
+        .catch(error => {
+          if (error instanceof mongoose.Error.ValidationError) {
+            res.render("addresses/edit", { 
+              title: 'Add new Address',
+              error: error.errors, 
+              address,
+              user: req.currentUser
+            })
+          } else {
+            next(error)
+          }
+        })
+      })
+      .catch(next)
+  } else {
+    Address.findById(req.params.id)
     .then(address => {
-      if (address.user.toString() === req.currentUser._id.toString()) {
-        address.set(body);
-        address.save()
-          .then(() => {
-            res.redirect(`/addresses/${address._id}`);
+      if (address.defaultAddress === true) {
+        body.defaultAddress = true
+        Address.findOneAndUpdate({_id: req.params.id, user: req.currentUser._id.toString()}, body, { runValidators: true, new: true })
+        .then(address => {
+          res.render("addresses/edit", { 
+            title: 'Add new Address',
+            error: {
+              message: 'The changes have been saved correctly, except the default address change, you must at least have an assigned, edit another in its place'
+            }, 
+            address,
+            user: req.currentUser
           })
-          .catch(next);
-      } else {
-        res.redirect(`/addresses/${req.params.id}/edit`)
+        })
+        .catch(error => {
+          if (error instanceof mongoose.Error.ValidationError) {
+            res.render("addresses/edit", { 
+              title: 'Add new Address',
+              error: error.errors, 
+              address,
+              user: req.currentUser
+            })
+          } else {
+            next(error)
+          }
+        })
       }
     })
-    .catch(next)
+  }
+
+ 
 }
 
 module.exports.delete = (req, res, next) => {

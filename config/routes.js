@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const sessionMiddleware = require('../middlewares/session.middleware')
 const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
-const sessionMiddleware = require('../middlewares/session.middleware')
-const Box = require('../models/box.model')
 const boxController = require('../controllers/box.controller')
 
 router.get('/', (req, res) => {
@@ -60,6 +59,9 @@ router.post('/addresses/:id/delete', sessionMiddleware.isAuthenticated, addressC
 
 //Get- view all boxes
 router.get('/boxes', sessionMiddleware.isAuthenticated, boxController.all)
+
+// API ENDPOINTS
+router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
 
 /* 
 TODO:

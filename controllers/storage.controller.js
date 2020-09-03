@@ -2,14 +2,10 @@ const mongoose = require("mongoose")
 const Storage = require("../models/storage.model")
 
 module.exports.all = (req, res, next) => {
-  Storage.find({user: req.currentUser._id.toString() })
-    .then(storages => {
-      res.render("storages/all", { 
-        title: 'View all storages',
-        storages
-      });
-    })
-    .catch(next)
+    res.render("storages/all", { 
+      title: 'View all storages',
+      storages:  req.currentUser.storages
+    });
 };
 
 module.exports.new = (req, res, next) => {
@@ -58,8 +54,7 @@ module.exports.show = (req, res, next) => {
 
 module.exports.edit = (req, res, next) => {
   Storage.findById(req.params.id)
-  .populate('user')
-  .populate('address')
+  .populate("address")
   .then(storage => {
     res.render("storages/edit", {
       title: 'Edit new storage',

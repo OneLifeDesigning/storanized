@@ -48,7 +48,7 @@ const addressSchema = new mongoose.Schema({
     ref: "User",
     required: true
   }
-});
+},{ timestamps: true, toJSON: { virtuals: true } });
 
 addressSchema.virtual("storage", {
   ref: "Storage",

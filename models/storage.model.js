@@ -22,7 +22,7 @@ const storageSchema = new mongoose.Schema({
     ref: "Address",
     required: true,
   }
-});
+},{ timestamps: true, toJSON: { virtuals: true } });
 
 storageSchema.post('remove', function (next) {
   Promise.all([

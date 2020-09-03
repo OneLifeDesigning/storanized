@@ -1,5 +1,9 @@
-
   <div class="form-row align-items-center">
+      {{#if error}}
+      <div class="alert alert-danger col-12 mt-2">
+        {{error.message}}
+      </div>
+    {{/if}}
     <div class="form-group col-12">
       <label for="name">Name</label>
       <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ address.name }}" name="name" required>
@@ -56,7 +60,7 @@
     </div>
     <div class="form-group col-12 col-md-6">
       <label for="longitude">Longitude</label>
-      <input type="text" class="form-control  {{#if error.longitude }}is-invalid{{/if}}" id="longitude" value="{{ address.longitude }}" name="longitude" required>
+      <input type="text" class="form-control  {{#if error.longitude }}is-invalid{{/if}}" id="longitude" value="{{ address.longitude }}" name="longitude">
       {{#if error.longitude}}
         <div class="invalid-feedback">
           {{error.longitude.message}}
@@ -65,7 +69,7 @@
     </div>
     <div class="form-group col-12 col-md-6">
       <label for="latitude">Latitude</label>
-      <input type="text" class="form-control  {{#if error.latitude }}is-invalid{{/if}}" id="latitude" value="{{ address.latitude }}" name="latitude" required>
+      <input type="text" class="form-control  {{#if error.latitude }}is-invalid{{/if}}" id="latitude" value="{{ address.latitude }}" name="latitude">
       {{#if error.latitude}}
         <div class="invalid-feedback">
           {{error.latitude.message}}
@@ -73,7 +77,8 @@
       {{/if}}
     </div>
     <div class="custom-control custom-switch">
-      <input type="checkbox" class="custom-control-input  {{#if error.defaultAddress }}is-invalid{{/if}}" name="defaultAddress" id="defaultAddress" value="true" {{#ifEquals address.defaultAddress true }}checked{{/ifEquals}}>
+      <input type="checkbox" class="custom-control-input  {{#if error.defaultAddress }}is-invalid{{/if}}" name="defaultAddress" id="defaultAddress" value="true" {{#if  address.defaultAddress}}  
+      {{#ifEquals address.defaultAddress true }}checked{{/ifEquals}}{{/if}} >
       <label class="custom-control-label" for="defaultAddress">Use this address as default</label>
     </div>
     {{#if error.address}}
@@ -81,11 +86,3 @@
         {{error.address.message}}
       </div>
     {{/if}}
-    <div class="col-12 offset-md-9 col-md-3 mt-2">
-      {{#if address}}
-      <button type="submit" class="btn btn-primary btn-block">Save</button>
-      {{else}}
-      <button type="submit" class="btn btn-primary btn-block">Create</button>
-      {{/if}}
-    </div>
-  </div>
