@@ -1,0 +1,58 @@
+<div class="form-row align-items-center">
+    <div class="form-group col-12">
+        <label for="name">Name</label>
+        <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ box.name }}"
+            name="name" required>
+        {{#if error.name}}
+        <div class="invalid-feedback">
+            {{error.name.message}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="form-group col-12">
+        <label for="description">Description</label>
+        <input type="text" class="form-control  {{#if error.description }}is-invalid{{/if}}" id="description"
+            value="{{ box.description }}" name="description">
+        {{#if error.description}}
+        <div class="invalid-feedback">
+            {{error.description.message}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+        <label for="location">Location</label>
+        <input type="text" class="form-control  {{#if error.location }}is-invalid{{/if}}" id="location"
+            value="{{ box.location }}" name="location">
+        {{#if error.location}}
+        <div class="invalid-feedback">
+            {{error.location.message}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="storage">Storages</label>
+        <select class="form-control {{#if error.storage }}is-invalid{{/if}}" name="storage">
+            {{#each storageUser as |storage|}}
+            <option value="{{storage._id}}">{{storage.name}}</option>
+            {{/each}}
+        </select>
+
+        {{#if error.storage}}
+        <div class="invalid-feedback">
+            {{error.storage.message}}
+        </div>
+        {{/if}}
+    </div>
+    {{#if error.box}}
+    <div class="invalid-feedback">
+        {{error.box.message}}
+    </div>
+    {{/if}}
+    <div class="col-12 offset-md-9 col-md-3 mt-2">
+        {{#if box}}
+        <button type="submit" class="btn btn-primary btn-block">Save</button>
+        {{else}}
+        <button type="submit" class="btn btn-primary btn-block">Create</button>
+        {{/if}}
+    </div>
+</div>

@@ -3,23 +3,28 @@ const Box = require("../models/box.model");
 const User = require("../models/user.model");
 
 module.exports.all = (req, res, next) => {
-  Box.find()
-    .populate("user")
-    .populate("storage")
-    .then((boxes) => {
-      //res.render("boxes/all", { boxes });
-      res.json(boxes)
+  Box.find({user: req.currentUser._id.toString() })
+    .then(boxes => {
+      res.render("boxes/all", { 
+        title: 'View all boxes',
+        boxes
+      });
     })
-    .catch(next);
+    .catch(next)
 };
 
 module.exports.newBox = (req, res, next) => {
-  res.render("boxes/new");
+  User.find({ storages: true })
+    .then(storageUser => {
+      res.render('boxes/new', { storageUser })
+    })
+    .catch(next) 
 };
 
 module.exports.create = (req, res, next) => {
   const box = new Box({
     ...req.body,
+    user: req.currentUser._id.toString(),
   });
 
   box
@@ -37,30 +42,46 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.view = (req, res, next) => {
-  Box.findById(req.params.id)
+  Box.findById({user: req.currentUser._id.toString(), _id: req.params.id})
     .populate("user")
     .populate("storage")
     .then((box) => {
-      res.render("boxes/view", { box });
+      res.render("boxes/show", { box });
     })
     .catch(next);
 };
 
 module.exports.viewEdit = (req, res, next) => {
-    res.render("boxes/edit");
+  Box.findById(req.params.id)
+  .populate('user')
+  .populate('storage')
+  .then(box => {
+    res.render("boxes/edit", {
+      title: 'Edit new box',
+      box,
+      user: req.currentUser
+    })
+  })
+  .catch(next)
 };
 
 module.exports.update = (req, res, next) => {
   const body = req.body;
-  const box = req.box;
-
-  box.set(body);
-  box
-    .save()
-    .then(() => {
-      res.redirect(`/boxes/${box._id}`);
+  
+  Box.findById(req.params.id)
+    .then(box => {
+      if (box.user.toString() === req.currentUser._id.toString()) {
+        box.set(body);
+        box.save()
+          .then(() => {
+            res.redirect(`/boxes/${box._id}`);
+          })
+          .catch(next);
+      } else {
+        res.redirect(`/boxes/${req.params.id}/edit`)
+      }
     })
-    .catch(next);
+    .catch(next)
 };
 
 module.exports.delete = (req, res, next) => {
