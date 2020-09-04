@@ -31,12 +31,8 @@
     </div>
     <div class="form-group">
         <label for="storage">Storages</label>
-        <select class="form-control {{#if error.storage }}is-invalid{{/if}}" name="storage">
-            {{#each storageUser as |storage|}}
-            <option value="{{storage._id}}">{{storage.name}}</option>
-            {{/each}}
-        </select>
-
+        <input type="text" class="form-control  {{#if error.storage }}is-invalid{{/if}}" id="storage"
+            value="{{ box.storage._id }}" name="storage">
         {{#if error.storage}}
         <div class="invalid-feedback">
             {{error.storage.message}}

@@ -14,11 +14,10 @@ module.exports.all = (req, res, next) => {
 };
 
 module.exports.newBox = (req, res, next) => {
-  User.find({ storages: true })
-    .then(storageUser => {
-      res.render('boxes/new', { storageUser })
-    })
-    .catch(next) 
+  res.render('boxes/new', { 
+    title: 'Add new box',
+    user: req.currentUser
+  })
 };
 
 module.exports.create = (req, res, next) => {
@@ -67,7 +66,6 @@ module.exports.viewEdit = (req, res, next) => {
 
 module.exports.update = (req, res, next) => {
   const body = req.body;
-  
   Box.findById(req.params.id)
     .then(box => {
       if (box.user.toString() === req.currentUser._id.toString()) {
