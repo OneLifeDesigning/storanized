@@ -1,12 +1,13 @@
-  <div class="form-row align-items-center">
+  <div id="messageErrors" class="alert alert-danger d-none mt-2"></div>
+  <div class="form-row align-items-center mt-3">
       {{#if error}}
       <div class="alert alert-danger col-12 mt-2">
         {{error.message}}
       </div>
     {{/if}}
     <div class="form-group col-12">
-      <label for="name">Name</label>
-      <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ address.name }}" name="name" required>
+      <label for="addressName">Name Address <small class="text-muted">* Descriptive name of the address</small></label>
+      <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="addressName" value="{{ address.name }}" name="name" required>
       {{#if error.name}}
         <div class="invalid-feedback">
           {{error.name.message}}
@@ -14,8 +15,8 @@
       {{/if}}
     </div>
     <div class="form-group col-12">
-      <label for="address">Address</label>
-      <input type="text" class="form-control  {{#if error.address }}is-invalid{{/if}}" id="address" value="{{ address.address }}" name="address" required>
+      <label for="addressAddress">Address</label>
+      <input type="text" class="form-control  {{#if error.address }}is-invalid{{/if}}" id="addressAddress" value="{{ address.address }}" name="address" required>
       {{#if error.address}}
         <div class="invalid-feedback">
           {{error.address.message}}
@@ -23,26 +24,8 @@
       {{/if}}
     </div>
     <div class="form-group col-12 col-md-6">
-      <label for="city">City</label>
-      <input type="text" class="form-control  {{#if error.city }}is-invalid{{/if}}" id="city" value="{{ address.city }}" name="city" required>
-      {{#if error.city}}
-        <div class="invalid-feedback">
-          {{error.city.message}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="form-group col-12 col-md-6">
-      <label for="state">State</label>
-      <input type="text" class="form-control  {{#if error.state }}is-invalid{{/if}}" id="state" value="{{ address.state }}" name="state" required>
-      {{#if error.state}}
-        <div class="invalid-feedback">
-          {{error.state.message}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="form-group col-12 col-md-6">
-      <label for="country">Country</label>
-      <input type="text" class="form-control  {{#if error.country }}is-invalid{{/if}}" id="country" value="{{ address.country }}" name="country" required>
+      <label for="addressCountry">Country</label>
+      <input type="text" class="form-control  {{#if error.country }}is-invalid{{/if}}" id="addressCountry" value="{{ address.country }}" name="country" required>
       {{#if error.country}}
         <div class="invalid-feedback">
           {{error.country.message}}
@@ -50,8 +33,8 @@
       {{/if}}
     </div>
     <div class="form-group col-12 col-md-6">
-      <label for="postalCode">Zip Code</label>
-      <input type="text" class="form-control  {{#if error.postalCode }}is-invalid{{/if}}" id="postalCode" value="{{ address.postalCode }}" name="postalCode" required>
+      <label for="addressPostalCode">Zip Code</label>
+      <input type="text" class="form-control  {{#if error.postalCode }}is-invalid{{/if}}" id="addressPostalCode" value="{{ address.postalCode }}" name="postalCode" required>
       {{#if error.postalCode}}
         <div class="invalid-feedback">
           {{error.postalCode.message}}
@@ -59,8 +42,26 @@
       {{/if}}
     </div>
     <div class="form-group col-12 col-md-6">
-      <label for="longitude">Longitude</label>
-      <input type="text" class="form-control  {{#if error.longitude }}is-invalid{{/if}}" id="longitude" value="{{ address.longitude }}" name="longitude">
+      <label for="addressCity">City</label>
+      <input type="text" class="form-control  {{#if error.city }}is-invalid{{/if}}" id="addressCity" value="{{ address.city }}" name="city" required>
+      {{#if error.city}}
+        <div class="invalid-feedback">
+          {{error.city.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+      <label for="addressState">State</label>
+      <input type="text" class="form-control  {{#if error.state }}is-invalid{{/if}}" id="addressState" value="{{ address.state }}" name="state" required>
+      {{#if error.state}}
+        <div class="invalid-feedback">
+          {{error.state.message}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+      <label for="addressLongitude">Longitude</label>
+      <input type="text" class="form-control  {{#if error.longitude }}is-invalid{{/if}}" id="addressLongitude" value="{{ address.longitude }}" name="longitude">
       {{#if error.longitude}}
         <div class="invalid-feedback">
           {{error.longitude.message}}
@@ -68,8 +69,8 @@
       {{/if}}
     </div>
     <div class="form-group col-12 col-md-6">
-      <label for="latitude">Latitude</label>
-      <input type="text" class="form-control  {{#if error.latitude }}is-invalid{{/if}}" id="latitude" value="{{ address.latitude }}" name="latitude">
+      <label for="addressLatitude">Latitude</label>
+      <input type="text" class="form-control  {{#if error.latitude }}is-invalid{{/if}}" id="addressLatitude" value="{{ address.latitude }}" name="latitude">
       {{#if error.latitude}}
         <div class="invalid-feedback">
           {{error.latitude.message}}

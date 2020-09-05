@@ -23,12 +23,12 @@ router.post('/logout', sessionMiddleware.isAuthenticated, userController.doLogou
 // Magiclink to validate token
 router.get('/activate/:id/:token', sessionMiddleware.isNotAuthenticated, userController.doValidateToken)
 
-router.get('/profile', sessionMiddleware.isAuthenticated, userController.viewProfile)
-router.post('/profile', sessionMiddleware.isAuthenticated, userController.doEditProfile)
+router.get('/dashboard', sessionMiddleware.isAuthenticated, userController.viewDashboard)
+router.post('/dashboard', sessionMiddleware.isAuthenticated, userController.doEditDashboard)
 
 // Get - Form to change pass
-router.get('/profile/password', sessionMiddleware.isAuthenticated, userController.editPassword)
-router.post('/profile/password', sessionMiddleware.isAuthenticated, userController.doEditPassword)
+router.get('/dashboard/password', sessionMiddleware.isAuthenticated, userController.editPassword)
+router.post('/dashboard/password', sessionMiddleware.isAuthenticated, userController.doEditPassword)
 
 // Get - Form to send new token 
 router.get('/token', sessionMiddleware.isNotAuthenticated, userController.newToken)

@@ -17,8 +17,13 @@
     </div>
     {{/if}}
   </div>
-  <div class="col-12">
-    <h3 class="mb-2">Address</h3>
+  <div class="col-12 col-md-9">
+    <h3>Address</h3>
+  </div>
+  <div class="col-12 col-md-3 text-right">
+      <a href="#0" class="btn btn-success btn-collapser" data-toggle="collapse" data-target="#collapseNewAddress" aria-expanded="false" aria-controls="collapseNewAddress"><i class="fa fa-plus"></i> Add address</a>
+  </div>
+  <div class="col-12 mt-3">
     <div id="list-addresses" class="row">
       {{#if user.addresses}}
       {{#each user.addresses as |userAdress|}}
@@ -28,7 +33,7 @@
             <h5 class="card-title">{{userAdress.name}}</h5>
             <p>{{userAdress.address}}<br>{{userAdress.city}}</p>
             <div class="custom-control custom-switch">
-              <input type="radio" class="custom-control-input {{#if error.address }}is-invalid{{/if}}" data-select-address="" name="address" id="address{{userAdress.id}}" value="{{userAdress.id}}" 
+              <input type="radio" class="custom-control-input {{#if error.address }}is-invalid{{/if}}" name="address" id="address{{userAdress.id}}" value="{{userAdress.id}}" 
                 {{#ifEquals ../storage.address._id userAdress._id }}
                   checked="checked"
                 {{else}} 
@@ -48,14 +53,6 @@
         </div>
       </div>
       {{/each}}
-      <div class="col-12 col-sm-6">
-      {{else}}
-      <div class="col-12 mb-4">
       {{/if}}
-        <div class="card card-body">
-          <p class="lead mb-2">Do you want to add a different address?</p>
-          <a href="#" class="btn btn-success" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Add address</a>
-        </div> 
-      </div>
     </div>
   </div>

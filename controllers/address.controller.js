@@ -13,17 +13,6 @@ module.exports.new = (req, res, next) => {
   res.render('addresses/new', { 
     title: 'Add new Address',
     user: req.currentUser,
-    // TODO: Delete
-    address: {
-      name: 'Gerald Ford',
-      address: 'Justo esta',
-      city: "asddsa",
-      state: "sad",
-      country: "saddsa",
-      postalCode: "dsa",
-      longitude: -3.690572,
-      latitude: 40.459452,
-    }
   })
 };
 
@@ -62,30 +51,20 @@ module.exports.doNew = (req, res, next) => {
 };
 
 module.exports.doNewApi = (req, res, next) => {
-  req.body.defaultAddress = req.body.defaultAddress ? true : false
   const address = new Address({
     ...req.body,
     user: req.currentUser._id.toString()
   })
-  if (address.defaultAddress) {
-    Address.findOne({user: req.currentUser._id.toString(), defaultAddress: true})
-      .then(oldAddress => {
-        oldAddress.defaultAddress = false
-        oldAddress.save()
-          .then()
-          .catch(next)
-      })
-      .catch(next)
-  }
+  address.defaultAddress = false
   address.save()
     .then(address => {
-      res.json(address)
+      res.status(200).json(address)
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.json(error.errors)
+        res.status(201).json(error.errors)
       } else {
-        res.json(error)
+        res.status(201).json(error);
       }
     })
 };

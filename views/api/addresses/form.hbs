@@ -1,42 +1,43 @@
-<div class="collapse" id="collapseExample" class="mt-3">
+<div class="collapse" id="collapseNewAddress" class="mt-3">
   <div class="card card-body">
       <h3 class="mb-0">Add new address</h3>
-      <form id="apiAddress" method="POST"> 
+      <form id="addAddress" method="POST"> 
+        <div id="messageErrors" class="alert alert-danger d-none  mt-2"></div>
         <div class="form-row align-items-center">
           <div class="form-group col-12">
-            <label for="name">Name</label>
+            <label for="addressName">Name</label>
             <input type="text" class="form-control" id="addressName" value="" name="name">
           </div>
           <div class="form-group col-12">
-            <label for="address">Address</label>
+            <label for="addressAddress">Address</label>
             <input type="text" class="form-control" id="addressAddress" value="" name="address">
           </div>
           <div class="form-group col-12 col-md-6">
-            <label for="city">City</label>
-            <input type="text" class="form-control  {{#if error.city }}is-invalid{{/if}}" id="addressCity" value="{{ address.city }}" name="city">
+            <label for="addressCountry">Country</label>
+            <input type="text" class="form-control" id="addressCountry" value="" name="country">
           </div>
           <div class="form-group col-12 col-md-6">
-            <label for="state">State</label>
-            <input type="text" class="form-control  {{#if error.state }}is-invalid{{/if}}" id="addressState" value="{{ address.state }}" name="state">
+            <label for="addressPostalCode">Zip Code</label>
+            <input type="text" class="form-control" id="addressPostalCode" value="" name="postalCode">
           </div>
           <div class="form-group col-12 col-md-6">
-            <label for="country">Country</label>
-            <input type="text" class="form-control  {{#if error.country }}is-invalid{{/if}}" id="addressCountry" value="{{ address.country }}" name="country">
+            <label for="addressCity">City</label>
+            <input type="text" class="form-control" id="addressCity" value="" name="city">
           </div>
           <div class="form-group col-12 col-md-6">
-            <label for="postalCode">Zip Code</label>
-            <input type="text" class="form-control  {{#if error.postalCode }}is-invalid{{/if}}" id="addressPostalCode" value="{{ address.postalCode }}" name="postalCode">
+            <label for="addressState">State</label>
+            <input type="text" class="form-control" id="addressState" value="" name="state">
           </div>
           <div class="form-group col-12 col-md-6">
-            <label for="longitude">Longitude</label>
-            <input type="text" class="form-control  {{#if error.longitude }}is-invalid{{/if}}" id="addressLongitude" value="{{ address.longitude }}" name="longitude">
+            <label for="addressLongitude">Longitude</label>
+            <input type="text" class="form-control" id="addressLongitude" value="" name="longitude">
           </div>
           <div class="form-group col-12 col-md-6">
-            <label for="latitude">Latitude</label>
-            <input type="text" class="form-control  {{#if error.latitude }}is-invalid{{/if}}" id="addressLatitude" value="{{ address.latitude }}" name="latitude">
+            <label for="addressLatitude">Latitude</label>
+            <input type="text" class="form-control" id="addressLatitude" value="" name="latitude">
           </div>
           <div class="col-12 offset-md-9 col-md-3 mt-2">
-            <a class="btn btn-warning btn-block btn-send">New address</a>
+            <a class="btn btn-warning btn-block btn-send" >New address</a>
           </div>
         </div>
       </form>

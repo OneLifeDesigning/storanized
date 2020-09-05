@@ -20,6 +20,7 @@ const addressSchema = new mongoose.Schema({
   },
   state: {
     type: String,
+    required: [true, 'State is required'],
     trim: true
   },
   country: {

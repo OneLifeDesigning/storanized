@@ -19,6 +19,14 @@
             <div class="col-6">
               <a href="/storages/{{storage.id}}" class="btn btn-primary"><i class="fa fa-eye mr-2"></i> View</a>
             </div>
+            <div class="col-6 text-right">
+              <div class="btn-group">
+                <a href="/storages/{{storage.id}}/edit" class="btn btn-warning"><i class="fa fa-pencil-alt"></i> </a>
+                <form action="/storages/{{storage.id}}/delete" method="POST">
+                  <button class="btn btn-danger"><i class="fa fa-trash"></i> </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
