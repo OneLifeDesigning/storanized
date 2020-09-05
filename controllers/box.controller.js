@@ -53,8 +53,6 @@ module.exports.view = (req, res, next) => {
 
 module.exports.viewEdit = (req, res, next) => {
   Box.findById(req.params.id)
-  .populate('user')
-  .populate('storage')
   .then(box => {
     res.render("boxes/edit", {
       title: 'Edit new box',
@@ -71,6 +69,7 @@ module.exports.update = (req, res, next) => {
     .then(box => {
       if (box.user.toString() === req.currentUser._id.toString()) {
         box.set(body);
+        console.log(body)
         box.save()
           .then(() => {
             res.redirect(`/boxes/${box._id}`);
