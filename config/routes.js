@@ -67,9 +67,8 @@ router.get('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.v
 router.post('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.update)
 router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxController.delete)
 
-//Get- view all boxes
+//Get- view all products
 router.get('/products', sessionMiddleware.isAuthenticated, productsController.all)
-router.get('/products/page/:page', sessionMiddleware.isAuthenticated, productsController.all)
 router.get('/products/new', sessionMiddleware.isAuthenticated, productsController.new)
 router.post('/products/new', sessionMiddleware.isAuthenticated, productsController.create)
 router.get('/products/:id', sessionMiddleware.isAuthenticated, productsController.view)
@@ -79,7 +78,7 @@ router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productsC
 
 // API ENDPOINTS
 router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
-
+//router.get('/products/data', sessionMiddleware.isAuthenticated, productsController.data)
 /* 
 TODO:
   

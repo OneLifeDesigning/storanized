@@ -19,9 +19,7 @@ const productSchema = new mongoose.Schema({
   tags: {
     type: Array
   },
-  category: {
-    enum: ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros']
-  },
+  category: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
