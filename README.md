@@ -91,9 +91,9 @@ npm install:
     '/activate/:id/token' → get [view generate new activate token]
     '/activate/:id/token' → post [controller send new activate token to user]
 
-    —Profile—
-    '/profile' → get
-    '/profile/:id/edit/' → post
+    —Dashboard—
+    '/dashboard' → get
+    '/dashboard/:id/edit/' → post
 
 
     —Storage—

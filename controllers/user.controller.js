@@ -45,7 +45,7 @@ module.exports.doLogin = (req, res, next) => {
           if (match) {
             if (user.activation.active) {
               req.session.userId = user._id
-              res.redirect('/profile')
+              res.redirect('/dashboard')
             } else {
               res.render('users/login', {
                 title: 'Login',
@@ -206,11 +206,11 @@ module.exports.doNewToken = (req, res, next) => {
     .catch(next)
 }
 
-module.exports.viewProfile = (req, res, next) => {
-  res.render('users/profile', { user: req.currentUser })
+module.exports.viewDashboard = (req, res, next) => {
+  res.render('users/dashboard', { user: req.currentUser })
 }
 
-module.exports.doEditProfile = (req, res, next) => {
+module.exports.doEditDashboard = (req, res, next) => {
   const body = req.body
   const user = req.currentUser
   
@@ -224,14 +224,14 @@ module.exports.doEditProfile = (req, res, next) => {
   user.save()
     .then(user => {
       if (!user) {
-        res.redirect('/profile')
+        res.redirect('/dashboard')
       } else {
-        res.redirect('/profile')
+        res.redirect('/dashboard')
       }
     })
     .catch((error, user )=> {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render('users/profile', { 
+        res.render('users/dashboard', { 
           user,
           error: error.errors
         })
@@ -282,7 +282,7 @@ module.exports.recoveryPassword = (req, res, next) => {
         })
       } else {
         req.session.userId = user._id
-        res.redirect('/profile/password')
+        res.redirect('/dashboard/password')
       }
     })
     .catch(next)
@@ -329,7 +329,7 @@ module.exports.doEditPassword = (req, res, next) => {
           user.password = req.body.password
           user.save()
             .then(() => {
-              res.redirect('/profile')
+              res.redirect('/dashboard')
             })
             .catch(next)
           }

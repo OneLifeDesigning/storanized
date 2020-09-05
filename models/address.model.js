@@ -20,6 +20,7 @@ const addressSchema = new mongoose.Schema({
   },
   state: {
     type: String,
+    required: [true, 'State is required'],
     trim: true
   },
   country: {
@@ -48,7 +49,7 @@ const addressSchema = new mongoose.Schema({
     ref: "User",
     required: true
   }
-});
+},{ timestamps: true, toJSON: { virtuals: true } });
 
 addressSchema.virtual("storage", {
   ref: "Storage",
