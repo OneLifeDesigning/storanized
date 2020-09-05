@@ -1,0 +1,29 @@
+ <div class="row align-items-center mb-4">
+    <div class="col-12 col-md-9">
+      <h1 class="">{{title}}</h1>
+    </div>
+    <div class="col-12 col-md-3 text-right">
+      <a href="/boxes/new" class="btn btn-primary"><i class="fa fa-plus mr-2"></i> Add box</a>
+    </div>
+  </div>
+<table class="table">
+  <thead class="thead-primary">
+    <tr>
+      <th scope="col">Box</th>
+      <th scope="col">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each boxes as |box|}}
+    <tr>
+      <td>{{box.name}}</td>
+      <td>
+        <a href="/boxes/{{box.id}}"><i class="fa fa-eye mr-2"></i></a>
+        | <a href="/boxes/{{box.id}}/edit"><i class="far fa-edit"></i></a> 
+        | <a href="/boxes/{{box.id}}/qr"><i class="fas fa-qrcode"></i></a>
+        | <a href="/boxes/{{box.id}}/delete"><i class="far fa-trash-alt"></i></a>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

@@ -59,6 +59,12 @@ router.post('/addresses/:id/delete', sessionMiddleware.isAuthenticated, addressC
 
 //Get- view all boxes
 router.get('/boxes', sessionMiddleware.isAuthenticated, boxController.all)
+router.get('/boxes/new', sessionMiddleware.isAuthenticated, boxController.newBox)
+router.post('/boxes/new', sessionMiddleware.isAuthenticated, boxController.create)
+router.get('/boxes/:id', sessionMiddleware.isAuthenticated, boxController.view)
+router.get('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.viewEdit)
+router.post('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.update)
+router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxController.delete)
 
 // API ENDPOINTS
 router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
