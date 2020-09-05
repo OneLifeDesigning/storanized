@@ -6,6 +6,8 @@ const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
 const boxController = require('../controllers/box.controller')
 const productsController = require('../controllers/product.controller')
+const uploads = require('../config/multer.config')
+
 
 router.get('/', (req, res) => {
   res.render('index', {
@@ -25,7 +27,7 @@ router.post('/logout', sessionMiddleware.isAuthenticated, userController.doLogou
 router.get('/activate/:id/:token', sessionMiddleware.isNotAuthenticated, userController.doValidateToken)
 
 router.get('/dashboard', sessionMiddleware.isAuthenticated, userController.viewDashboard)
-router.post('/dashboard', sessionMiddleware.isAuthenticated, userController.doEditDashboard)
+router.post('/dashboard', sessionMiddleware.isAuthenticated, uploads.any(), userController.doEditDashboard)
 
 // Get - Form to change pass
 router.get('/dashboard/password', sessionMiddleware.isAuthenticated, userController.editPassword)

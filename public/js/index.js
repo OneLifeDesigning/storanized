@@ -30,7 +30,6 @@ const formClear = async (form) => {
 }
 
 const closeCollaspse = () => {
-  
   setTimeout(() => {
     document.querySelector('.collapse').classList.remove('show').classList.add('collapsing')
       setTimeout(() => {

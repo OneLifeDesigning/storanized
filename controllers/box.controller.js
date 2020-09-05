@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Box = require("../models/box.model");
-const User = require("../models/user.model");
+const QRCode = require('qrcode');
+const cloudinary = require('cloudinary').v2
 
 module.exports.all = (req, res, next) => {
   res.render("boxes/all", { 
@@ -10,6 +11,7 @@ module.exports.all = (req, res, next) => {
 };
 
 module.exports.newBox = (req, res, next) => {
+  console.log(cloudinary.uploader.upload);
   res.render('boxes/new', { 
     title: 'Add new box',
     user: req.currentUser
@@ -22,12 +24,35 @@ module.exports.create = (req, res, next) => {
     user: req.currentUser._id.toString(),
   });
 
-  box
-    .save()
-    .then((box) => {
-      res.redirect(`/boxes/${box._id}`);
+  box.save()
+    .then(box => {
+      QRCode.toDataURL(process.env.MAIN_HOST || 'http://localhost:3000/' + 'boxes/' + box._id.toString(), function (err, qrcode) {
+        if (err) {
+          next(err)
+        }
+        cloudinary.uploader.upload(qrcode, { 
+          overwrite: true, invalidate: true, folder: 'storanized/qrCode'
+        }, function (err, result) {
+            if (err) {
+              next(err)
+            }
+            box.qrCode = result.url
+            box.save()
+            .then(box => {
+              res.redirect(`/boxes/${box._id}`);
+            })
+            .catch(error => {
+              if (error instanceof mongoose.Error.ValidationError) {
+                res.render("boxes/new", { error: error.errors, box });
+              } else {
+                next(error);
+              }
+            });
+        })
+
+      })
     })
-    .catch((error) => {
+    .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
         res.render("boxes/new", { error: error.errors, box });
       } else {

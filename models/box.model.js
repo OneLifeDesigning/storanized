@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const QRCode = require('qrcode');
 const Storage = require('../models/storage.model')
  
 const boxSchema = new mongoose.Schema({
@@ -44,11 +43,6 @@ boxSchema.post('remove', function (next) {
     .then(next)
 })
 
-//TODO: Pending iterarion when seeds use save
-// boxSchema.post('save', function (next) {
-  // QRCode.toDataURL(this._id,toString, function (err, url) {
-  //   console.log(url)
-  // })
 
 const Box = mongoose.model('Box', boxSchema);
 
