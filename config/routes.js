@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const sessionMiddleware = require('../middlewares/session.middleware')
 const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
-const sessionMiddleware = require('../middlewares/session.middleware')
-const Box = require('../models/box.model')
 const boxController = require('../controllers/box.controller')
 
 router.get('/', (req, res) => {
@@ -24,12 +23,12 @@ router.post('/logout', sessionMiddleware.isAuthenticated, userController.doLogou
 // Magiclink to validate token
 router.get('/activate/:id/:token', sessionMiddleware.isNotAuthenticated, userController.doValidateToken)
 
-router.get('/profile', sessionMiddleware.isAuthenticated, userController.viewProfile)
-router.post('/profile', sessionMiddleware.isAuthenticated, userController.doEditProfile)
+router.get('/dashboard', sessionMiddleware.isAuthenticated, userController.viewDashboard)
+router.post('/dashboard', sessionMiddleware.isAuthenticated, userController.doEditDashboard)
 
 // Get - Form to change pass
-router.get('/profile/password', sessionMiddleware.isAuthenticated, userController.editPassword)
-router.post('/profile/password', sessionMiddleware.isAuthenticated, userController.doEditPassword)
+router.get('/dashboard/password', sessionMiddleware.isAuthenticated, userController.editPassword)
+router.post('/dashboard/password', sessionMiddleware.isAuthenticated, userController.doEditPassword)
 
 // Get - Form to send new token 
 router.get('/token', sessionMiddleware.isNotAuthenticated, userController.newToken)
@@ -66,6 +65,10 @@ router.get('/boxes/:id', sessionMiddleware.isAuthenticated, boxController.view)
 router.get('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.viewEdit)
 router.post('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.update)
 router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxController.delete)
+
+// API ENDPOINTS
+router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
+
 /* 
 TODO:
   

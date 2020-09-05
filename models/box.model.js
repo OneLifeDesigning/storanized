@@ -29,7 +29,7 @@ const boxSchema = new mongoose.Schema({
     ref: "Storage",
     required: true,
   }
-})
+},{ timestamps: true, toJSON: { virtuals: true } });
 
 boxSchema.virtual("product", {
   ref: "Product",

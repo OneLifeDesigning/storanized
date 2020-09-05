@@ -37,7 +37,7 @@ module.exports.isNotAuthenticated = (req, res, next) => {
   User.findById(req.session.userId)
     .then(user => {
       if (user) {
-        res.redirect("/profile");
+        res.redirect("/dashboard");
       } else {
         next();
       }
