@@ -5,6 +5,7 @@ const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
 const boxController = require('../controllers/box.controller')
+const productsController = require('../controllers/product.controller')
 
 router.get('/', (req, res) => {
   res.render('index', {
@@ -66,9 +67,18 @@ router.get('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.v
 router.post('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.update)
 router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxController.delete)
 
+//Get- view all products
+router.get('/products', sessionMiddleware.isAuthenticated, productsController.all)
+router.get('/products/new', sessionMiddleware.isAuthenticated, productsController.new)
+router.post('/products/new', sessionMiddleware.isAuthenticated, productsController.create)
+router.get('/products/:id', sessionMiddleware.isAuthenticated, productsController.view)
+router.get('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.viewEdit)
+router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.update)
+router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productsController.delete)
+
 // API ENDPOINTS
 router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
-
+//router.get('/products/data', sessionMiddleware.isAuthenticated, productsController.data)
 /* 
 TODO:
   

@@ -1,0 +1,94 @@
+<div class="form-row align-items-center">
+    <div class="form-group col-12">
+        <label for="name">Name</label>
+        <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name"
+            value="{{ product.name }}" name="name" required>
+        {{#if error.name}}
+        <div class="invalid-feedback">
+            {{error.name.message}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="form-group col-12">
+        <label for="description">Description</label>
+        <input type="text" class="form-control  {{#if error.description }}is-invalid{{/if}}" id="description"
+            value="{{ product.description }}" name="description">
+        {{#if error.description}}
+        <div class="invalid-feedback">
+            {{error.description.message}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="form-group col-12 col-md-6">
+        <label for="tags">Tag</label>
+        <select multiple data-role="tagsinput" name="tags" id="tags">
+            {{#if product.tags}}
+            {{#each product.tags as |tag|}}
+            <option value="{{tag}}">{{tag}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+        {{#if error.tags}}
+        <div class="invalid-feedback">
+            {{error.tags.message}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="category">Category</label>
+            </div>
+            <select class="custom-select" id="category" name="category">
+                {{#each category as |category|}}
+                <option value="{{category}}" {{#ifEquals category ../product.category}} selected {{/ifEquals}}>
+                    {{category}}</option>
+                {{/each}}
+            </select>
+            {{#if error.category}}
+            <div class="invalid-feedback">
+                {{error.category.message}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="boxes">Select Box</label>
+            </div>
+            <select class="custom-select" id="boxes" name="box">
+                {{#each user.boxes as |box|}}
+                <option {{#ifEquals box.id ../product.box}} selected {{/ifEquals}} value="{{box.id}}">{{box.name}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-12">
+        <label for="price">Price</label>
+        <input type="number" class="form-control  {{#if error.price }}is-invalid{{/if}}" id="price"
+            value="{{ product.price }}" name="price">
+        {{#if error.price}}
+        <div class="invalid-feedback">
+            {{error.price.message}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" name="isPublic" id="isPublic" value="true" {{#ifEquals product.isPublic true }}checked{{/ifEquals}}>
+        <label class="custom-control-label" for="isPublic">Is public?</label>
+    </div>
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" name="isSold" id="isSold" value="true" {{#ifEquals product.isSold true }}checked{{/ifEquals}}>
+        <label class="custom-control-label" for="isSold">Is sold?</label>
+    </div>
+
+    <div class="col-12 offset-md-9 col-md-3 mt-2">
+        {{#if product}}
+        <button type="submit" class="btn btn-primary btn-block">Save</button>
+        {{else}}
+        <button type="submit" class="btn btn-primary btn-block">Create</button>
+        {{/if}}
+    </div>
+</div>

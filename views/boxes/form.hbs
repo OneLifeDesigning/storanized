@@ -36,9 +36,6 @@
             </div>
             <select class="custom-select" id="storages" name="storage">
                 {{#each user.storages as |storage|}}
-                <p>storage: {{storage.id}}</p>
-                <br>
-                <p>box:{{box.storage}}</p>
                 <option {{#ifEquals storage.id ../box.storage}} selected {{/ifEquals}} value="{{storage.id}}">
                     {{storage.name}}</option>
                 {{/each}}

@@ -3,14 +3,10 @@ const Box = require("../models/box.model");
 const User = require("../models/user.model");
 
 module.exports.all = (req, res, next) => {
-  Box.find({user: req.currentUser._id.toString() })
-    .then(boxes => {
-      res.render("boxes/all", { 
-        title: 'View all boxes',
-        boxes
-      });
-    })
-    .catch(next)
+  res.render("boxes/all", { 
+  title: 'View all boxes',
+  boxes:  req.currentUser.boxes
+});
 };
 
 module.exports.newBox = (req, res, next) => {
