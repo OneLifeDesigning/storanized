@@ -44,6 +44,7 @@ module.exports.view = (req, res, next) => {
   Box.findById({user: req.currentUser._id.toString(), _id: req.params.id})
     .populate("user")
     .populate("storage")
+    .populate("product")
     .then((box) => {
       res.render("boxes/show", { box });
     })
