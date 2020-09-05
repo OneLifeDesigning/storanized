@@ -3,11 +3,15 @@ const Product = require("../models/product.model");
 const User = require("../models/user.model");
 
 module.exports.all = (req, res, next) => {
+  const page = req.params.page ? req.params.page : 1;
+  const limit = 10;
+  const skip = limit * page;
+  const count = Product.countDocuments();
   Product.find()
-    .populate("user")
-    .populate("box")
-    .then((product) => {
-      res.render("products/all", { product });
+    .then((products) => {
+      res.render("products/all", {
+        products,
+      });
     })
     .catch(next);
 };
@@ -46,7 +50,7 @@ module.exports.view = (req, res, next) => {
 };
 
 module.exports.viewEdit = (req, res, next) => {
-    res.render("products/edit");
+  res.render("products/edit");
 };
 
 module.exports.update = (req, res, next) => {
