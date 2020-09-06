@@ -13,3 +13,10 @@ ul {
 .btn {
     border-radius: 0px;
 }
+.form-row>.col, .form-row>[class*=col-] {
+    margin-bottom: 1.5rem;
+}
+.form-row>.col, .form-row>[class*=col-] {
+    padding-left: .75rem;
+    padding-right: .75rem;
+}

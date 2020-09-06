@@ -1,7 +1,5 @@
 /* TODO: Main image, attachments gallery */
-
 const mongoose = require('mongoose');
-const Box = require('../models/box.model')
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -20,6 +18,10 @@ const productSchema = new mongoose.Schema({
     type: Array
   },
   category: String,
+  image: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Attachment",
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -43,12 +45,11 @@ const productSchema = new mongoose.Schema({
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
 
-productSchema.post('remove', function (next) {
-  Promise.all([
-    Box.deleteMany({ product: this._id })
-  ])
-    .then(next)
-})
+productSchema.virtual("attachments", {
+  ref: "Attachment",
+  localField: "_id",
+  foreignField: "box",
+});
 
 const Product = mongoose.model('Product', productSchema);
 

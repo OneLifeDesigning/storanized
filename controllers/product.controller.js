@@ -13,7 +13,8 @@ module.exports.all = (req, res, next) => {
 
 module.exports.new = (req, res, next) => {
   res.render("products/new", {
-    category: category
+    category: category,
+    user: req.currentUser
   });
 };
 
@@ -40,7 +41,7 @@ module.exports.create = (req, res, next) => {
 
 module.exports.view = (req, res, next) => {
   Product.findById(req.params.id)
-    .then((product) => {
+    .then(product => {
       res.render("products/show", { product });
     })
     .catch(next);

@@ -1,0 +1,19 @@
+.custom-multi-tags {
+  display: flex;
+  flex-wrap: nowrap;
+  border-radius: .25rem;
+  
+  .bootstrap-tagsinput {
+    margin: 0;
+    flex-grow: 4;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    input {
+      height: calc(1em + .75rem + 5px);
+      width: 100%;
+      background-color: #ededed;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+     }
+  }
+}

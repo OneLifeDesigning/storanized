@@ -3,15 +3,14 @@ const Box = require("../models/box.model");
 const QRCode = require('qrcode');
 const cloudinary = require('cloudinary').v2
 
-module.exports.all = (req, res, next) => {
+module.exports.all = (req, res) => {
   res.render("boxes/all", { 
-  title: 'View all boxes',
-  boxes:  req.currentUser.boxes
-});
+    title: 'View all boxes',
+    boxes:  req.currentUser.boxes
+  });
 };
 
-module.exports.newBox = (req, res, next) => {
-  console.log(cloudinary.uploader.upload);
+module.exports.newBox = (req, res) => {
   res.render('boxes/new', { 
     title: 'Add new box',
     user: req.currentUser
@@ -26,15 +25,15 @@ module.exports.create = (req, res, next) => {
 
   box.save()
     .then(box => {
-      QRCode.toDataURL(process.env.MAIN_HOST || 'http://localhost:3000/' + 'boxes/' + box._id.toString(), function (err, qrcode) {
-        if (err) {
-          next(err)
+      QRCode.toDataURL(process.env.MAIN_HOST || 'http://localhost:3000/' + 'boxes/' + box._id.toString(), function (error, qrcode) {
+        if (error) {
+          next(error)
         }
         cloudinary.uploader.upload(qrcode, { 
           overwrite: true, invalidate: true, folder: 'storanized/qrCode'
-        }, function (err, result) {
-            if (err) {
-              next(err)
+        }, function (error, result) {
+            if (error) {
+              next(error)
             }
             box.qrCode = result.url
             box.save()
@@ -65,7 +64,7 @@ module.exports.view = (req, res, next) => {
   Box.findById({user: req.currentUser._id.toString(), _id: req.params.id})
     .populate("user")
     .populate("storage")
-    .populate("product")
+    .populate("products")
     .then((box) => {
       res.render("boxes/show", { box });
     })
@@ -90,7 +89,6 @@ module.exports.update = (req, res, next) => {
     .then(box => {
       if (box.user.toString() === req.currentUser._id.toString()) {
         box.set(body);
-        console.log(body)
         box.save()
           .then(() => {
             res.redirect(`/boxes/${box._id}`);
