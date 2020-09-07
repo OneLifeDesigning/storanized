@@ -28,7 +28,7 @@ router.post('/logout', sessionMiddleware.isAuthenticated, userController.doLogou
 router.get('/activate/:id/:token', sessionMiddleware.isNotAuthenticated, userController.doValidateToken)
 
 router.get('/dashboard', sessionMiddleware.isAuthenticated, userController.viewDashboard)
-router.post('/dashboard', sessionMiddleware.isAuthenticated, uploads.any(), userController.doEditDashboard)
+router.post('/dashboard', sessionMiddleware.isAuthenticated, uploads.single(), userController.doEditDashboard)
 
 // Get - Form to change pass
 router.get('/dashboard/password', sessionMiddleware.isAuthenticated, userController.editPassword)
@@ -51,7 +51,6 @@ router.post('/storages/new', sessionMiddleware.isAuthenticated, storageControlle
 router.get('/storages/:id', sessionMiddleware.isAuthenticated, storageController.show)
 router.get('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.edit)
 router.post('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.doEdit)
-// router.post('/storages/:id/delete', sessionMiddleware.isAuthenticated, storageController.delete)
 
 router.get('/addresses', sessionMiddleware.isAuthenticated, addressController.all)
 router.get('/addresses/new', sessionMiddleware.isAuthenticated, addressController.new)
@@ -73,7 +72,7 @@ router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxControlle
 //Get- view all products
 router.get('/products', sessionMiddleware.isAuthenticated, productsController.all)
 router.get('/products/new', sessionMiddleware.isAuthenticated, productsController.new)
-router.post('/products/new', sessionMiddleware.isAuthenticated, productsController.create)
+router.post('/products/new', sessionMiddleware.isAuthenticated, uploads.any(), productsController.create)
 router.get('/products/:id', sessionMiddleware.isAuthenticated, productsController.view)
 router.get('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.viewEdit)
 router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.update)

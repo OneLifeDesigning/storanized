@@ -8,6 +8,7 @@
     flex-grow: 4;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+
     input {
       height: calc(1em + .75rem + 5px);
       width: 100%;
@@ -16,4 +17,9 @@
       transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
      }
   }
+}
+
+.custom-file-label {
+  overflow: hidden;
+  line-height: 1.7em;
 }

@@ -40,10 +40,15 @@ const closeCollaspse = () => {
 
 
 window.onload = () => {
+  const customInput = document.querySelectorAll('.custom-file-input');
   const formAddress = document.getElementById("addAddress");
   const takeImageProduct = document.getElementById("takeImageProduct");
   const selectStorages = document.getElementById('selectStorages')
   const selectBoxes = document.getElementById('selectBoxes')
+
+  if (customInput  !== null) {
+    bsCustomFileInput.init()
+  }
 
   if (selectStorages  !== null) {
     selectStorages.addEventListener("change",  () => {
@@ -139,7 +144,7 @@ window.onload = () => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       canvas.getContext('2d').drawImage(video, 0, 0);
-      screenshotImage.src = canvas.toDataURL('image/jpeg');
+      screenshotImage.src = canvas.toDataURL('image/jpeg', 0.5);
       screenshotImage.classList.remove('d-none');
       screenshotSelector.classList.remove('d-none');
     };
