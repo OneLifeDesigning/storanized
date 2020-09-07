@@ -64,7 +64,6 @@ module.exports.update = (req, res, next) => {
   const body = req.body;
   body.isSold = body.isSold ? true : false
   body.isPublic = body.isPublic ? true : false
-  console.log(body.box)
   Product.findById(req.params.id)
     .then(product => {
       if (product.user.toString() === req.currentUser._id.toString()) {

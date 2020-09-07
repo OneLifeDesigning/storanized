@@ -55,9 +55,9 @@
 <div class="form-group  col-12 col-md-6">
   <div class="input-group mb-3">
     <div class="input-group-prepend">
-      <label class="input-group-text" for="storageFilter">Filter by Storage</label>
+      <label class="input-group-text" for="selectStorages">Filter by Storage</label>
     </div>
-    <select class="custom-select" id="storageFilter">
+    <select class="custom-select" id="selectStorages">
       <option value="" selected></option>
       {{#each user.storages as |storage|}}
       <option value="{{storage.id}}">{{storage.name}}</option>
@@ -68,20 +68,22 @@
 <div class="form-group  col-12 col-md-6">
   <div class="input-group mb-3">
     <div class="input-group-prepend">
-      <label class="input-group-text bg-secondary" for="boxes">Select Box</label>
+      <label class="input-group-text" for="selectBoxes">Select Box</label>
     </div>
-    <select class="custom-select" id="boxes" name="box" disabled>
-      <option value="" selected>Please select first storage</option>
+    <select class="custom-select" id="selectBoxes" name="box" disabled>
+      <option value="" >Please select first storage</option>
     </select>
   </div>
 </div>
-<div class="form-group col-12 col-md-8">
-  <div class="custom-file">
+<div class="form-group col-12 col-md-7">
+  <div class="custom-file browse-image">
     <input type="file" class="custom-file-input" id="image" name="image">
-    <label class="custom-file-label" for="image" data-browse="Browse"><i class="fa fa-image mr-2"></i> Chose image from device</label>
+    <label class="custom-file-label" for="image"><i class="fa fa-image mr-2"></i> Chose image from device</label>
   </div>
+  <img src="" alt="Preview image selected" class="img-fluid image-selected d-none">
 </div>  
-<div class="form-group col-12 col-md-4">
+<div class="form-group col-12 col-md-5">
+  <input type="hidden" name="imageCamera" class="image-camera">
   <a href="#0" class="btn btn-danger btn-block" id="takeImageProduct" data-toggle="modal" data-target="#openCameraImage">
     <i class="fa fa-camera mr-2"></i>Take a photo
   </a>
@@ -110,7 +112,7 @@
   </div>
 </div>
 <div class="form-group col-12">
-  <h3>Add gallery images</h3>
+  <h3 class="mb-1">Add gallery images</h3>
 </div>
 <div class="form-group col-12 col-md-8">
   <div class="custom-file">

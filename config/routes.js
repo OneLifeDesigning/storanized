@@ -4,6 +4,7 @@ const sessionMiddleware = require('../middlewares/session.middleware')
 const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
+const apiController = require('../controllers/api.controller')
 const boxController = require('../controllers/box.controller')
 const productsController = require('../controllers/product.controller')
 const uploads = require('../config/multer.config')
@@ -79,8 +80,8 @@ router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, productsCon
 router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productsController.delete)
 
 // API ENDPOINTS
-router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
-//router.get('/products/data', sessionMiddleware.isAuthenticated, productsController.data)
+router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, apiController.doNewAddress)
+router.post('/api/storages/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
 /* 
 TODO:
   
