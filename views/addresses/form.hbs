@@ -79,7 +79,7 @@
     </div>
     <div class="custom-control custom-switch">
       <input type="checkbox" class="custom-control-input  {{#if error.defaultAddress }}is-invalid{{/if}}" name="defaultAddress" id="defaultAddress" value="true" {{#if  address.defaultAddress}}  
-      {{#ifEquals address.defaultAddress true }}checked{{/ifEquals}}{{/if}} >
+      {{#ifEqual address.defaultAddress true }}checked{{/ifEqual}}{{/if}} >
       <label class="custom-control-label" for="defaultAddress">Use this address as default</label>
     </div>
     {{#if error.address}}

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2
+
 
 const attachmentSchema = new mongoose.Schema(
   {
@@ -7,6 +9,10 @@ const attachmentSchema = new mongoose.Schema(
       trim: true
     },
     url: {
+      type: String,
+      trim: true
+    },
+    cloudinaryPublicId: {
       type: String,
       trim: true
     },
@@ -23,6 +29,21 @@ const attachmentSchema = new mongoose.Schema(
   },
   { timestamps: true, toJSON: { virtuals: true } }
 );
+
+// attachmentSchema.post('remove', function (next) {
+//     cloudinary.uploader.destroy(this._cloudinaryPublicId, function(result) { 
+//       console.log(result) 
+//     })
+//     .then(next)
+//     .catch(next)
+// })
+
+attachmentSchema.post('save', function (next) {
+  Attachment.deleteMany({ product: this.product, _id: { $ne:  this._id }})
+    .then(next)
+    .catch(next)
+  })
+  
 
 const Attachment = mongoose.model("Attachment", attachmentSchema);
 

@@ -82,13 +82,3 @@ module.exports.doEdit = (req, res, next) => {
     })
     .catch(next)
 }
-
-
-// module.exports.delete = (req, res, next) => {
-//   req.storage
-//     .remove()
-//     .then(() => {
-//       res.redirect("/storages");
-//     })
-//     .catch(next);
-// };

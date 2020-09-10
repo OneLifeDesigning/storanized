@@ -1,5 +1,6 @@
-/* TODO: Main image, attachments gallery */
+/* TODO: attachments gallery */
 const mongoose = require('mongoose');
+const Attachment = require("../models/attachment.model")
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -54,6 +55,12 @@ productSchema.virtual("attachments", {
   foreignField: "product",
 });
 
+productSchema.post('remove', function (next) {
+  Promise.all([
+    Attachment.deleteMany({ product: this._id })
+  ])
+    .then(next)
+})
 
 const Product = mongoose.model('Product', productSchema);
 

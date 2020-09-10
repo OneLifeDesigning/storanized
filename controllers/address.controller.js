@@ -81,10 +81,8 @@ module.exports.doEdit = (req, res, next) => {
   if (body.defaultAddress) {
       Address.findOneAndUpdate({_id: { $ne:  req.params.id }, user: req.currentUser._id.toString(), defaultAddress: true}, {defaultAddress: false})
       .then(() => {
-        console.log('Old default address has been update');
         Address.findOneAndUpdate({_id: req.params.id, user: req.currentUser._id.toString()}, body, { runValidators: true, new: true })
         .then(address => {
-          console.log('New default address has been save');
           res.redirect(`/addresses/${address._id}`)
         })
         .catch(error => {

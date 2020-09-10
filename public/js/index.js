@@ -65,16 +65,6 @@ window.onload = () => {
   const selectStorages = document.getElementById('selectStorages')
   const selectBoxes = document.getElementById('selectBoxes')
 
-  if (customInputs  !== null) {
-    bsCustomFileInput.init()
-    customInputs.forEach(input => {
-      input.addEventListener("change", () => {
-        if (input.value !== null) {
-          takeImageProduct.classList.add('d-none')
-        }
-      })
-    })
-  }
 
   
   if (selectStorages  !== null && selectBoxes !== null) {
@@ -86,17 +76,35 @@ window.onload = () => {
     })
   }
   
+  
+  const newImage = document.querySelector('.new-image');
+  if (customInputs  !== null) {
+    bsCustomFileInput.init()
+    customInputs.forEach(input => {
+      input.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          newImage.src = event.target.result
+          newImage.classList.remove('d-none')
+        };
+        
+        reader.readAsDataURL(file);
+        takeImageProduct.classList.add('d-none')
+      })
+    })
+  }
+  
   if (takeImageProduct !== null) {
     const controls = document.querySelector('.controls');
     const cameraOptions = document.querySelector('.video-options');
     const video = document.querySelector('video');
     const close = document.querySelector('button.close');
     const canvas = document.querySelector('canvas');
-    const screenshotImage = document.querySelector('.screenshot>img');
     const screenshotSelector = document.querySelector('.btn-select-image');
-    const screenshotFormPreview = document.querySelector('.image-selected');
     const imageCamera = document.querySelector('.image-camera');
     const localFile = document.querySelector('.browse-image');
+    const screenshotImage = document.querySelector('.screenshot>img');
     const buttons = [...controls.querySelectorAll('.controls button')];
 
     let streamStarted = false;
@@ -164,9 +172,9 @@ window.onload = () => {
     screenshotBtn.onclick = doScreenshot;
 
     screenshotSelector.onclick = () => {
-      screenshotFormPreview.src = screenshotImage.src
+      newImage.src = screenshotImage.src
       imageCamera.value = screenshotImage.src
-      screenshotFormPreview.classList.remove('d-none');
+      newImage.classList.remove('d-none');
       localFile.classList.add('d-none');
       pauseStream()
     }

@@ -5,6 +5,7 @@ const Address = require("../models/address.model");
 const Storage = require("../models/storage.model");
 const Box = require("../models/box.model");
 const Product = require("../models/product.model");
+const Attacthment = require("../models/attachment.model");
 
 const productType = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'] 
 

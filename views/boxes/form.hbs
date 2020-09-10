@@ -36,7 +36,7 @@
             </div>
             <select class="custom-select" id="storages" name="storage">
                 {{#each user.storages as |storage|}}
-                <option {{#ifEquals storage.id ../box.storage}} selected {{/ifEquals}} value="{{storage.id}}">
+                <option {{#ifEqual storage.id ../box.storage}} selected {{/ifEqual}} value="{{storage.id}}">
                     {{storage.name}}</option>
                 {{/each}}
             </select>

@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-12 col-md-4">
     {{#each product.attachments as |attachment|}}
-      <img src="{{attachment.url}}" alt="{{../product.name}}" class="img-fluid">
+      {{#ifEqual attachment.target 'mainImage'}}
+        <img src="{{attachment.url}}" alt="{{../product.name}}" class="img-fluid">
+      {{/ifEqual}}
     {{/each}}
   </div>
   <div class="col-12 col-md-8">
@@ -12,9 +14,9 @@
     {{/each}}
     <h3>Storage</h3>
     {{#each user.storages as |storage|}}
-      {{#ifEquals storage.id ../product.box.storage}}
+      {{#ifEqual storage.id ../product.box.storage}}
         {{storage.name}}
-      {{/ifEquals}}
+      {{/ifEqual}}
     {{/each}}
     <h3>Box</h3>
     <p>{{product.box.name}}</p>
@@ -38,5 +40,11 @@
     {{#if product.price}}
     <p class="txt-primary">{{product.price}}EUR</p>
     {{/if}}
+  </div>
+   <div class="btn-group">
+      <a href="/products/{{product.id}}/edit" class="btn btn-warning"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+      <form action="/products/{{product.id}}/delete" method="POST">
+        <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
+      </form>
   </div>
 </div>

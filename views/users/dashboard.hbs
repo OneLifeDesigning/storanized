@@ -36,9 +36,9 @@
     <div class="form-group col-12 col-md-6">
       <label for="genre">Genre</label>
       <select class="custom-select" name="genre" id="genre">
-        <option {{#ifEquals user.genre 'Female'}}selected{{/ifEquals}} value="Female">Female</option>
-        <option {{#ifEquals user.genre 'Male'}}selected{{/ifEquals}} value="Male">Male</option>
-        <option {{#ifEquals user.genre 'Other'}}selected{{/ifEquals}} value="Other">Other</option>
+        <option {{#ifEqual user.genre 'Female'}}selected{{/ifEqual}} value="Female">Female</option>
+        <option {{#ifEqual user.genre 'Male'}}selected{{/ifEqual}} value="Male">Male</option>
+        <option {{#ifEqual user.genre 'Other'}}selected{{/ifEqual}} value="Other">Other</option>
       </select>
     </div>
     <div class="form-group col-12">

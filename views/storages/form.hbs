@@ -34,13 +34,13 @@
             <p>{{userAdress.address}}<br>{{userAdress.city}}</p>
             <div class="custom-control custom-switch">
               <input type="radio" class="custom-control-input {{#if error.address }}is-invalid{{/if}}" name="address" id="address{{userAdress.id}}" value="{{userAdress.id}}" 
-                {{#ifEquals ../storage.address._id userAdress._id }}
+                {{#ifEqual ../storage.address._id userAdress._id }}
                   checked="checked"
                 {{else}} 
-                  {{#ifEquals userAdress.defaultAddress true }}
+                  {{#ifEqual userAdress.defaultAddress true }}
                   checked="checked"
-                  {{/ifEquals}}
-                {{/ifEquals}} 
+                  {{/ifEqual}}
+                {{/ifEqual}} 
                 required>
               <label class="custom-control-label" for="address{{userAdress.id}}">Select this address.</label>
             </div>
