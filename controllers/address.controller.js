@@ -50,24 +50,6 @@ module.exports.doNew = (req, res, next) => {
     })
 };
 
-module.exports.doNewApi = (req, res, next) => {
-  const address = new Address({
-    ...req.body,
-    user: req.currentUser._id.toString()
-  })
-  address.defaultAddress = false
-  address.save()
-    .then(address => {
-      res.status(200).json(address)
-    })
-    .catch(error => {
-      if (error instanceof mongoose.Error.ValidationError) {
-        res.status(201).json(error.errors)
-      } else {
-        res.status(201).json(error);
-      }
-    })
-};
 
 module.exports.show = (req, res, next) => {
   Address.findOne({user: req.currentUser._id.toString(), _id: req.params.id})

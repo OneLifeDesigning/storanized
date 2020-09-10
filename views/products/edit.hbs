@@ -3,9 +3,15 @@
     <h1 class="mb-0">{{title}}</h1>
   </div>
   <div class="col-12">
-    <form action="/products/{{product._id}}/edit" method="POST"> 
-      {{> products/form }}
+    <form action="/products/{{product._id}}/edit" method="POST" enctype="multipart/form-data"> 
+      <div class="form-row align-items-center">
+        {{> products/form }}
+        <div class="col-12 offset-md-9 col-md-3 mt-2">
+          <button type="submit" class="btn btn-primary btn-block">Save</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
-<a href="/products" class="btn btn-primary">Return to products</a>
+{{> partials/modals/camera }}
+<a href="/products" class="btn btn-secondary">Return to products</a>

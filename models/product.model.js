@@ -1,7 +1,5 @@
 /* TODO: Main image, attachments gallery */
-
 const mongoose = require('mongoose');
-const Box = require('../models/box.model')
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -12,20 +10,27 @@ const productSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, 'Description is required'],
-    minlength: [3, 'Description needs at last 3 chars'],
     trim: true
   },
   tags: {
-    type: Array
+    type: Array,
+    trim: true
   },
-  category: String,
+  category: {
+    type: Array,
+    trim: true
+  },
+  image: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Attachment",
+  },
   user: {
+    required: [true, 'User is required'],
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   box: {
+    required: [true, 'Box is required'],
     type: mongoose.Schema.Types.ObjectId,
     ref: "Box"
   },
@@ -43,12 +48,12 @@ const productSchema = new mongoose.Schema({
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
 
-productSchema.post('remove', function (next) {
-  Promise.all([
-    Box.deleteMany({ product: this._id })
-  ])
-    .then(next)
-})
+productSchema.virtual("attachments", {
+  ref: "Attachment",
+  localField: "_id",
+  foreignField: "product",
+});
+
 
 const Product = mongoose.model('Product', productSchema);
 

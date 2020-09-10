@@ -1,94 +1,130 @@
-<div class="form-row align-items-center">
-    <div class="form-group col-12">
-        <label for="name">Name</label>
-        <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name"
-            value="{{ product.name }}" name="name" required>
-        {{#if error.name}}
-        <div class="invalid-feedback">
-            {{error.name.message}}
-        </div>
-        {{/if}}
+{{#if error}}
+<div class="col-12">
+  <div class="alert alert-danger">
+    {{error.message}}
+  </div>
+</div>
+{{/if}}
+<div class="form-group col-12 col-md-5">
+  <label for="name">Name <sup class="text-danger">*</sup></label>
+  <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ product.name }}" name="name" required>
+  {{#if error.name}}
+  <div class="invalid-feedback">
+    {{error.name.message}}
+  </div>
+  {{/if}}
+</div>
+<div class="form-group col-12 col-md-7">
+  <label for="description">Short description</label>
+  <input type="text" class="form-control  {{#if error.description }}is-invalid{{/if}}" id="description" value="{{ product.description }}" name="description" >
+  {{#if error.description}}
+  <div class="invalid-feedback">
+    {{error.description.message}}
+  </div>
+  {{/if}}
+</div>
+<div class="form-group  col-12 col-md-6">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="category">Category</label>
     </div>
-    <div class="form-group col-12">
-        <label for="description">Description</label>
-        <input type="text" class="form-control  {{#if error.description }}is-invalid{{/if}}" id="description"
-            value="{{ product.description }}" name="description">
-        {{#if error.description}}
-        <div class="invalid-feedback">
-            {{error.description.message}}
-        </div>
-        {{/if}}
+    <select class="custom-select" id="category" name="category" required>
+      <option value="">Please chose one</option>
+      {{#each category as |category|}}
+      <option value="{{category}}" {{#ifEquals category ../product.category}} selected {{/ifEquals}}>{{category}}</option>
+      {{/each}}
+    </select>
+    {{#if error.category}}
+    <div class="invalid-feedback">
+      {{error.category.message}}
     </div>
-    <div class="form-group col-12 col-md-6">
-        <label for="tags">Tag</label>
-        <select multiple data-role="tagsinput" name="tags" id="tags">
-            {{#if product.tags}}
-            {{#each product.tags as |tag|}}
-            <option value="{{tag}}">{{tag}}</option>
-            {{/each}}
-            {{/if}}
-        </select>
-        {{#if error.tags}}
-        <div class="invalid-feedback">
-            {{error.tags.message}}
-        </div>
-        {{/if}}
+    {{/if}}
+  </div>
+</div>
+<div class="form-group col-12 col-md-6">
+  <div class="input-group custom-multi-tags">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="tags">Tags</label>
     </div>
-    <div class="form-group">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="category">Category</label>
-            </div>
-            <select class="custom-select" id="category" name="category">
-                {{#each category as |category|}}
-                <option value="{{category}}" {{#ifEquals category ../product.category}} selected {{/ifEquals}}>
-                    {{category}}</option>
-                {{/each}}
-            </select>
-            {{#if error.category}}
-            <div class="invalid-feedback">
-                {{error.category.message}}
-            </div>
-            {{/if}}
-        </div>
+    <select class="custom-select" multiple data-role="tagsinput" name="tags" id="tags">
+      {{#if product.tags}}
+      {{#each product.tags as |tag|}}
+      <option value="{{tag}}">{{tag}}</option>
+      {{/each}}
+      {{/if}}
+    </select>
+  </div>
+  {{#if error.tags}}
+  <div class="invalid-feedback">
+    {{error.tags.message}}
+  </div>
+  {{/if}}
+</div>
+<div class="form-group  col-12 col-md-6">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="selectStorages">Filter by Storage</label>
     </div>
-    <div class="form-group">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="boxes">Select Box</label>
-            </div>
-            <select class="custom-select" id="boxes" name="box">
-                {{#each user.boxes as |box|}}
-                <option {{#ifEquals box.id ../product.box}} selected {{/ifEquals}} value="{{box.id}}">{{box.name}}
-                </option>
-                {{/each}}
-            </select>
-        </div>
+    <select class="custom-select" id="selectStorages">
+      {{#ifEquals product.box.storage ''}}
+        <option value="" selected></option>
+      {{else}}
+      {{/ifEquals}}
+      {{#each user.storages as |storage|}}
+      <option {{#ifEquals storage.id ../product.box.storage}} selected {{/ifEquals}}value="{{storage.id}}">{{storage.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+</div>
+<div class="form-group  col-12 col-md-6">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="selectBoxes">Select Box</label>
     </div>
-    <div class="form-group col-12">
-        <label for="price">Price</label>
-        <input type="number" class="form-control  {{#if error.price }}is-invalid{{/if}}" id="price"
-            value="{{ product.price }}" name="price">
-        {{#if error.price}}
-        <div class="invalid-feedback">
-            {{error.price.message}}
-        </div>
-        {{/if}}
-    </div>
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" name="isPublic" id="isPublic" value="true" {{#ifEquals product.isPublic true }}checked{{/ifEquals}}>
-        <label class="custom-control-label" for="isPublic">Is public?</label>
-    </div>
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" name="isSold" id="isSold" value="true" {{#ifEquals product.isSold true }}checked{{/ifEquals}}>
-        <label class="custom-control-label" for="isSold">Is sold?</label>
-    </div>
-
-    <div class="col-12 offset-md-9 col-md-3 mt-2">
-        {{#if product}}
-        <button type="submit" class="btn btn-primary btn-block">Save</button>
-        {{else}}
-        <button type="submit" class="btn btn-primary btn-block">Create</button>
-        {{/if}}
-    </div>
+    {{#if product.box}}
+      <select class="custom-select" id="selectBoxes" name="box" readonly required>
+        <option value="{{product.box.id}}" selected>{{product.box.name}}</option>
+      </select>
+    {{else}}
+      <select class="custom-select" id="selectBoxes" name="box" required disabled>
+        <option value="">Please select first storage</option>
+      </select>
+    {{/if}}
+  </div>
+</div>
+<div class="form-group col-12 col-md-7">
+  <div class="custom-file browse-image">
+    <input type="file" class="custom-file-input" id="image" name="image">
+    <label class="custom-file-label" for="image">Chose image from device</label>
+  </div>
+  <img src="" alt="Preview image selected" class="img-fluid image-selected d-none">
+</div>  
+<div class="form-group col-12 col-md-5">
+  <input type="hidden" class="form-control image-camera" id="imageCamera" name="imageCamera">
+  <a href="#0" class="btn btn-danger btn-block" id="takeImageProduct" data-toggle="modal" data-target="#openCameraImage">
+    <i class="fa fa-camera mr-2"></i>Take a photo
+  </a>
+</div>
+<div class="form-group col-12 col-md-4">
+  <label for="price">Price</label>
+  <input type="number" class="form-control  {{#if error.price }}is-invalid{{/if}}" id="price" value="{{ product.price }}" name="price">
+  {{#if error.price}}
+  <div class="invalid-feedback">
+    {{error.price.message}}
+  </div>
+  {{/if}}
+</div>
+<div class="form-group col-12 col-md-4">
+  <label>Check if you want to show it on <b>JungleSales</b></label>
+  <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" name="isPublic" id="isPublic" value="true" {{#ifEquals product.isPublic true }}checked{{/ifEquals}}>
+    <label class="custom-control-label" for="isPublic">is Public?</label>
+  </div>
+</div>
+<div class="form-group col-12 col-md-4">
+  <label>Check if it is sold or you no longer have it</label>
+  <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" name="isSold" id="isSold" value="true" {{#ifEquals product.isSold true }}checked{{/ifEquals}}>
+    <label class="custom-control-label" for="isSold">is Sold?</label>
+  </div>
 </div>

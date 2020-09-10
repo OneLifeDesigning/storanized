@@ -30,7 +30,6 @@ const formClear = async (form) => {
 }
 
 const closeCollaspse = () => {
-  
   setTimeout(() => {
     document.querySelector('.collapse').classList.remove('show').classList.add('collapsing')
       setTimeout(() => {
@@ -39,10 +38,168 @@ const closeCollaspse = () => {
   }, 1000);
 }
 
+const getStorageBoxes = (value) => {
+  axios({
+    method: 'POST',
+    url: `/api/storages/${selectStorages.value}/boxes`
+  })
+  .then(response => {
+    if (response.status === 200) {
+      selectBoxes.removeAttribute('disabled')
+      selectBoxes.innerHTML = ''
+      response.data.forEach(el => {
+        const selected = value === el.id ? 'selected' : ''
+        selectBoxes.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
+      })
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
 
 window.onload = () => {
+  const customInputs = document.querySelectorAll('.custom-file-input');
   const formAddress = document.getElementById("addAddress");
+  const takeImageProduct = document.getElementById("takeImageProduct");
+  const selectStorages = document.getElementById('selectStorages')
+  const selectBoxes = document.getElementById('selectBoxes')
+
+  if (customInputs  !== null) {
+    bsCustomFileInput.init()
+    customInputs.forEach(input => {
+      input.addEventListener("change", () => {
+        if (input.value !== null) {
+          takeImageProduct.classList.add('d-none')
+        }
+      })
+    })
+  }
+
   
+  if (selectStorages  !== null && selectBoxes !== null) {
+    selectStorages.addEventListener("click", () => {
+      getStorageBoxes(selectBoxes.value)
+    })
+    selectStorages.addEventListener("change", () => {
+      getStorageBoxes(selectBoxes.value)
+    })
+  }
+  
+  if (takeImageProduct !== null) {
+    const controls = document.querySelector('.controls');
+    const cameraOptions = document.querySelector('.video-options');
+    const video = document.querySelector('video');
+    const close = document.querySelector('button.close');
+    const canvas = document.querySelector('canvas');
+    const screenshotImage = document.querySelector('.screenshot>img');
+    const screenshotSelector = document.querySelector('.btn-select-image');
+    const screenshotFormPreview = document.querySelector('.image-selected');
+    const imageCamera = document.querySelector('.image-camera');
+    const localFile = document.querySelector('.browse-image');
+    const buttons = [...controls.querySelectorAll('.controls button')];
+
+    let streamStarted = false;
+
+    const [play, screenshotBtn] = buttons;
+
+    const constraints = {
+      video: {
+        width: {
+          min: 1280,
+          ideal: 1920,
+          max: 2560,
+        },
+        height: {
+          min: 720,
+          ideal: 1080,
+          max: 1440
+        },
+      }
+    };
+
+    cameraOptions.onchange = () => {
+      const updatedConstraints = {
+        ...constraints,
+        deviceId: {
+          exact: cameraOptions.value
+        }
+      };
+
+      startStream(updatedConstraints);
+    };
+
+    play.onclick = () => {
+      document.querySelector('.initial-msg').classList.add('d-none');
+      if (streamStarted) {
+        video.play();
+        play.classList.add('d-none');
+        return;
+      }
+      if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia) {
+        const updatedConstraints = {
+          ...constraints,
+          deviceId: {
+            exact: cameraOptions.value
+          }
+        };
+        startStream(updatedConstraints);
+      }
+    };
+    
+    const pauseStream = () => {
+      video.pause();
+      play.classList.remove('d-none');
+    };
+    
+    const doScreenshot = () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      screenshotImage.src = canvas.toDataURL('image/jpeg', 0.5);
+      screenshotImage.classList.remove('d-none');
+      screenshotSelector.classList.remove('d-none');
+    };
+    
+    screenshotBtn.onclick = doScreenshot;
+
+    screenshotSelector.onclick = () => {
+      screenshotFormPreview.src = screenshotImage.src
+      imageCamera.value = screenshotImage.src
+      screenshotFormPreview.classList.remove('d-none');
+      localFile.classList.add('d-none');
+      pauseStream()
+    }
+    
+    close.onclick = () => {
+      pauseStream()
+    }
+
+    const startStream = async (constraints) => {
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      handleStream(stream);
+    };
+
+
+    const handleStream = (stream) => {
+      video.srcObject = stream;
+      play.classList.add('d-none');
+      screenshotBtn.classList.remove('d-none');
+    };
+
+
+    const getCameraSelection = async () => {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      const options = videoDevices.map(videoDevice => {
+        return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
+      });
+      cameraOptions.innerHTML = options.join('');
+    };
+
+    getCameraSelection();
+  }
+
   if (formAddress !== null) {
     const messageErrors = document.getElementById('messageErrors')
     const zipCode = document.getElementById('addressPostalCode')
@@ -52,7 +209,6 @@ window.onload = () => {
     const country = document.getElementById('addressCountry')
     const longitude = document.getElementById('addressLongitude')
     const latitude = document.getElementById('addressLatitude')
-    const panelAddresCollapse = document.getElementById('collapseNewAddress')
     
     const elementsToListen = [zipCode, country, address]
 
@@ -98,7 +254,7 @@ window.onload = () => {
     })
     
     const buttonSend = document.querySelector('.btn-send')
-    const listAddresses = document.getElementById('list-addresses')
+    const listAddresses = document.getElementById('listAddresses')
 
     if (buttonSend  !== null) {
       buttonSend.addEventListener("click",  (e) => {

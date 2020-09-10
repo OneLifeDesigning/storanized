@@ -4,8 +4,11 @@ const sessionMiddleware = require('../middlewares/session.middleware')
 const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
+const apiController = require('../controllers/api.controller')
 const boxController = require('../controllers/box.controller')
 const productsController = require('../controllers/product.controller')
+const uploads = require('../config/multer.config')
+
 
 router.get('/', (req, res) => {
   res.render('index', {
@@ -25,7 +28,7 @@ router.post('/logout', sessionMiddleware.isAuthenticated, userController.doLogou
 router.get('/activate/:id/:token', sessionMiddleware.isNotAuthenticated, userController.doValidateToken)
 
 router.get('/dashboard', sessionMiddleware.isAuthenticated, userController.viewDashboard)
-router.post('/dashboard', sessionMiddleware.isAuthenticated, userController.doEditDashboard)
+router.post('/dashboard', sessionMiddleware.isAuthenticated, uploads.single(), userController.doEditDashboard)
 
 // Get - Form to change pass
 router.get('/dashboard/password', sessionMiddleware.isAuthenticated, userController.editPassword)
@@ -48,7 +51,6 @@ router.post('/storages/new', sessionMiddleware.isAuthenticated, storageControlle
 router.get('/storages/:id', sessionMiddleware.isAuthenticated, storageController.show)
 router.get('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.edit)
 router.post('/storages/:id/edit', sessionMiddleware.isAuthenticated, storageController.doEdit)
-// router.post('/storages/:id/delete', sessionMiddleware.isAuthenticated, storageController.delete)
 
 router.get('/addresses', sessionMiddleware.isAuthenticated, addressController.all)
 router.get('/addresses/new', sessionMiddleware.isAuthenticated, addressController.new)
@@ -70,15 +72,16 @@ router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxControlle
 //Get- view all products
 router.get('/products', sessionMiddleware.isAuthenticated, productsController.all)
 router.get('/products/new', sessionMiddleware.isAuthenticated, productsController.new)
-router.post('/products/new', sessionMiddleware.isAuthenticated, productsController.create)
+router.post('/products/new', sessionMiddleware.isAuthenticated, uploads.any(), productsController.create)
 router.get('/products/:id', sessionMiddleware.isAuthenticated, productsController.view)
 router.get('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.viewEdit)
-router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.update)
+router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, uploads.any(), productsController.update)
 router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productsController.delete)
 
 // API ENDPOINTS
-router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
-//router.get('/products/data', sessionMiddleware.isAuthenticated, productsController.data)
+router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, apiController.doNewAddress)
+router.post('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
+
 /* 
 TODO:
   

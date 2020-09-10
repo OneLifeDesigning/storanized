@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const QRCode = require('qrcode');
-const Storage = require('../models/storage.model')
- 
+
 const boxSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -31,24 +29,13 @@ const boxSchema = new mongoose.Schema({
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
 
-boxSchema.virtual("product", {
+boxSchema.virtual("products", {
   ref: "Product",
   localField: "_id",
   foreignField: "box",
 });
 
-boxSchema.post('remove', function (next) {
-  Promise.all([
-    Storage.deleteMany({ box: this._id })
-  ])
-    .then(next)
-})
 
-//TODO: Pending iterarion when seeds use save
-// boxSchema.post('save', function (next) {
-  // QRCode.toDataURL(this._id,toString, function (err, url) {
-  //   console.log(url)
-  // })
 
 const Box = mongoose.model('Box', boxSchema);
 
