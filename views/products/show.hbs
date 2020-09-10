@@ -11,7 +11,11 @@
       <span class="badge badge-pill badge-primary">{{tag}}</span>
     {{/each}}
     <h3>Storage</h3>
-    <p>{{product.storage.name}}</p>
+    {{#each user.storages as |storage|}}
+      {{#ifEquals storage.id ../product.box.storage}}
+        {{storage.name}}
+      {{/ifEquals}}
+    {{/each}}
     <h3>Box</h3>
     <p>{{product.box.name}}</p>
     <p>{{product.box.qrCode}}</p>
@@ -31,6 +35,8 @@
         No, i have it 
       {{/if}}
     </h4>
+    {{#if product.price}}
     <p class="txt-primary">{{product.price}}EUR</p>
+    {{/if}}
   </div>
 </div>

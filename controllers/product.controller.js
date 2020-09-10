@@ -86,7 +86,6 @@ module.exports.view = (req, res, next) => {
   Product.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
     .populate('attachments')
     .populate('box')
-    .populate('storage')
     .then(product => {
       res.render("products/show", {
         title: 'Edit product',
@@ -100,9 +99,8 @@ module.exports.view = (req, res, next) => {
 
 module.exports.viewEdit = (req, res, next) => {
   Product.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
-  .populate('attachment')
+  .populate('attachments')
   .populate('box')
-  .populate('storages')
   .then(product => {
     console.log(product.attachment);
     res.render("products/edit", {

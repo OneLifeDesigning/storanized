@@ -55,7 +55,6 @@ productSchema.virtual("attachments", {
 });
 
 
-
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
