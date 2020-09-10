@@ -10,17 +10,21 @@
   <thead>
     <tr>
       <th>Product</th>
-      <th>Options</th>
+      <th class="text-right">Options</th>
     </tr>
   </thead>
   <tbody>
     {{#each products as |product|}}
     <tr>
       <td>{{product.name}}</td>
-      <td>
-        <a href="/products/{{product.id}}"><i class="fa fa-eye mr-2"></i></a>
-        | <a href="/products/{{product.id}}/edit"><i class="far fa-edit"></i></a>
-        | <a href="/products/{{product.id}}/delete"><i class="far fa-trash-alt"></i></a>
+      <td class="text-right">
+        <div class="btn-group">
+            <a href="/products/{{product.id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> View</a>
+            <a href="/products/{{product.id}}/edit" class="btn btn-warning"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+            <form action="/products/{{product.id}}/delete" method="POST">
+              <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
+            </form>
+        </div>
       </td>
     </tr>
     {{/each}}

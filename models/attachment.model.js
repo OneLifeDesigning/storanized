@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 const attachmentSchema = new mongoose.Schema(
   {
-    type: {
-      type: String
+    target: {
+      type: String,
+      trim: true
     },
     url: {
       type: String,

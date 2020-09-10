@@ -75,12 +75,13 @@ router.get('/products/new', sessionMiddleware.isAuthenticated, productsControlle
 router.post('/products/new', sessionMiddleware.isAuthenticated, uploads.any(), productsController.create)
 router.get('/products/:id', sessionMiddleware.isAuthenticated, productsController.view)
 router.get('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.viewEdit)
-router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, productsController.update)
+router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, uploads.any(), productsController.update)
 router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productsController.delete)
 
 // API ENDPOINTS
 router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, apiController.doNewAddress)
-router.post('/api/storages/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
+router.post('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
+
 /* 
 TODO:
   

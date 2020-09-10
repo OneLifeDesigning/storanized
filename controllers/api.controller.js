@@ -22,7 +22,7 @@ module.exports.doNewAddress = (req, res, next) => {
 };
 
 module.exports.getBoxesInStorage = (req, res, next) => {
-  Box.find({user: req.currentUser._id, storage: req.body.storage}, {name: 1})
+  Box.find({user: req.currentUser._id, storage: req.params.id}, {name: 1})
   .then(boxes => {
     res.status(200).json(boxes)
   })

@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-12 col-md-4">
+    {{#each product.attachments as |attachment|}}
+      <img src="{{attachment.url}}" alt="{{../product.name}}" class="img-fluid">
+    {{/each}}
+  </div>
+  <div class="col-12 col-md-8">
+    <p class="lead">{{product.category}}</p>
+    <h1>{{product.name}}</h1>
+    {{#each product.tags as |tag|}}
+      <span class="badge badge-pill badge-primary">{{tag}}</span>
+    {{/each}}
+    <h3>Storage</h3>
+    <p>{{product.storage.name}}</p>
+    <h3>Box</h3>
+    <p>{{product.box.name}}</p>
+    <p>{{product.box.qrCode}}</p>
+    <h4>
+      Visibility
+      {{#if product.isPublic}}
+        Is Public 
+      {{else}}
+        Is Privated 
+      {{/if}}
+    </h4>
+    <h4>
+      is Sold?
+      {{#if product.isSold}}
+        Yes, i don't have it
+      {{else}}
+        No, i have it 
+      {{/if}}
+    </h4>
+    <p class="txt-primary">{{product.price}}EUR</p>
+  </div>
+</div>

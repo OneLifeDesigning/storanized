@@ -38,39 +38,51 @@ const closeCollaspse = () => {
   }, 1000);
 }
 
+const getStorageBoxes = (value) => {
+  axios({
+    method: 'POST',
+    url: `/api/storages/${selectStorages.value}/boxes`
+  })
+  .then(response => {
+    if (response.status === 200) {
+      selectBoxes.removeAttribute('disabled')
+      selectBoxes.innerHTML = ''
+      response.data.forEach(el => {
+        const selected = value === el.id ? 'selected' : ''
+        selectBoxes.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
+      })
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
 
 window.onload = () => {
-  const customInput = document.querySelectorAll('.custom-file-input');
+  const customInputs = document.querySelectorAll('.custom-file-input');
   const formAddress = document.getElementById("addAddress");
   const takeImageProduct = document.getElementById("takeImageProduct");
   const selectStorages = document.getElementById('selectStorages')
   const selectBoxes = document.getElementById('selectBoxes')
 
-  if (customInput  !== null) {
+  if (customInputs  !== null) {
     bsCustomFileInput.init()
-  }
-
-  if (selectStorages  !== null) {
-    selectStorages.addEventListener("change",  () => {
-      const storageId = {}
-      storageId.storage = selectStorages.value
-      axios({
-        method: 'POST',
-        url: '/api/storages/boxes',
-        data: storageId
-      })
-      .then(response => {
-        if (response.status === 200) {
-          selectBoxes.removeAttribute('disabled')
-          selectBoxes.innerHTML = ''
-          response.data.forEach(el => {
-            selectBoxes.innerHTML += `<option value="${el.id}" >${el.name}</option>            `
-          })
+    customInputs.forEach(input => {
+      input.addEventListener("change", () => {
+        if (input.value !== null) {
+          takeImageProduct.classList.add('d-none')
         }
       })
-      .catch(err => {
-        console.log(err);
-      })
+    })
+  }
+
+  
+  if (selectStorages  !== null && selectBoxes !== null) {
+    selectStorages.addEventListener("click", () => {
+      getStorageBoxes(selectBoxes.value)
+    })
+    selectStorages.addEventListener("change", () => {
+      getStorageBoxes(selectBoxes.value)
     })
   }
   
