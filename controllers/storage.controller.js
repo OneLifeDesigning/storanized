@@ -26,6 +26,7 @@ module.exports.doNew = (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
         res.render("storages/new", { 
           title: 'Add new storage',
           error: error.errors, 

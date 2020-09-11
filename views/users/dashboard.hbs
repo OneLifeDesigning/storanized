@@ -1,10 +1,13 @@
-<div class="row">
-  <div class="col-12 my-3 mb-2">
+<div class="row my-3 mb-2">
+  <div class="col-12 col-md-4">
+      <img src="{{user.avatar}}" class="img-fluid" alt="{{ user.name }} {{ user.lastname }}">
+  </div>
+  <div class="col-12 col-md-8">
     <p><b>Username:</b> {{ user.username }}</p>
     <p><b>Email:</b> {{ user.email }}</p>
   </div>
 </div>
-<form action="/dashboard" method="POST" class="my-5" > 
+<form action="/dashboard" method="POST" enctype="multipart/form-data" class="my-5"> 
   <div class="form-row align-items-center">
     <div class="form-group col-12 col-md-6">
       <label for="name">Name</label>

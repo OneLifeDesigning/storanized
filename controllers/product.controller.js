@@ -54,7 +54,6 @@ module.exports.create = (req, res, next) => {
           cloudinary.uploader.upload(req.body.imageCamera, {overwrite: true, invalidate: true, folder: 'storanized'})
           .then(image => {
             mainImage.url = image.url
-            mainImage.cloudinaryPublicId = image.public_id
             mainImage.save()
               .then(image => {
                 product.image = image.id.toString()
@@ -76,6 +75,7 @@ module.exports.create = (req, res, next) => {
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
         res.render("products/new", { error: error.errors, product, user: req.currentUser, category: category });
       } else {
         next();
@@ -118,18 +118,18 @@ module.exports.update = (req, res, next) => {
   .then(product => {
     req.body.isSold = req.body.isSold ? true : false
     req.body.isPublic = req.body.isPublic ? true : false
+    product.set(req.body)
     product.save()
       .then(product => {
-        if(req.files || req.body.imageCamera) {
+        if(req.files.length !== 0 || req.body.imageCamera) {
           const mainImage = new Attachment({
             target: 'mainImage',
             product: product.id,
             user: req.currentUser.id
           })
                 
-          if(req.files[0]) { 
+          if(req.files.length !== 0) { 
             mainImage.url = req.files[0].path
-            mainImage.cloudinaryPublicId =  req.files[0].public_id
             mainImage.save()
             .then(image => {
                 product.image = image.id.toString()
@@ -142,11 +142,10 @@ module.exports.update = (req, res, next) => {
               .catch(() => {
                 res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
               })
-          } else {
+          } else if(req.body.imageCamera) {
             cloudinary.uploader.upload(req.body.imageCamera, {overwrite: true, invalidate: true, folder: 'storanized'})
             .then(image => {
               mainImage.url = image.url
-              mainImage.cloudinaryPublicId = image.public_id
               mainImage.save()
                 .then(image => {
                   product.image = image.id.toString()
@@ -163,11 +162,14 @@ module.exports.update = (req, res, next) => {
               .catch(() => {
                   res.render("products/new", { error: {message: 'There was a problem with the uploading your image, please try again later'}, user: req.currentUser, product, category: category });
               })
-          }
+          } 
+        } else {
+          res.redirect(`/products/${product.id}`)
         }
       })
       .catch(error => {
         if (error instanceof mongoose.Error.ValidationError) {
+          error.errors.message = 'Please, check the data entered'
           res.render("products/new", { error: error.errors, user: req.currentUser, product, category: category });
         } else {
           next();
@@ -176,6 +178,7 @@ module.exports.update = (req, res, next) => {
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
         res.render("products/new", { error: error.errors, user: req.currentUser, product, category: category });
       } else {
         next();

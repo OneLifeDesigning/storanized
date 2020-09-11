@@ -1,0 +1,31 @@
+<div class="collapse form-collapse my-2" id="collapseNewBox">
+  <div class="card card-body">
+      <h3 class="mb-2">Add new box</h3>
+      <form id="addBox" method="POST"> 
+        <div id="messageErrors" class="alert alert-danger d-none  mt-2"></div>
+        <div class="form-row align-items-center">
+          <div class="form-group col-12 col-md-6">
+            <label for="boxName">Name</label>
+            <input type="text" class="form-control" id="boxName" name="name" required>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="boxDescription">Description</label>
+            <input type="text" class="form-control" id="boxDescription" name="description">
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="boxLocation">Location</label>
+            <input type="text" class="form-control" id="boxLocation" name="location">
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="boxStorage">Storage</label>
+            <select class="custom-select" id="boxStorage" name="storage">
+              <option value="">Loading…</option>
+            </select>
+          </div>
+          <div class="col-12 offset-md-9 col-md-3 mt-2 mb-0">
+            <a class="btn btn-warning btn-block btn-send" >New box</a>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>
