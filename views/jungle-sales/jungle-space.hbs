@@ -1,0 +1,37 @@
+<header>
+  <div class="container">
+    <div class="profile">
+      <div class="profile-image">
+        <img src="{{user.avatar}}" alt="">
+      </div>
+      <div class="profile-user-settings">
+        <h1 class="profile-user-name">@{{user.username}}</h1>
+      </div>
+      <div class="profile-stats">
+        <ul>
+          <li><a href="/{{product.user.username}}/{{product._id}}"></a>
+            <span class="profile-stat-count">Products: {{user.products.length}}</span></li>
+        </ul>
+      </div>
+      <div class="profile-bio">
+        <p><span class="profile-real-name">{{user.name}} {{user.lastname}}</span> Mi cabeza es un destre pero mi armario
+          NO! 📷✈️🏕️</p>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <div class="gallery">
+      {{#each user.products as |product|}}
+      <div class="gallery-item" tabindex="0">
+        <img src="{{product.image}}" class="gallery-image" alt="">
+        <div class="gallery-item-info">
+          <ul>
+						<li class="gallery-item-name"><span class="visually-hidden"></span>Product: {{product.name}}</li>
+            <li class="gallery-item-name"><span class="visually-hidden"></span>Price: {{product.price}}€</li>
+					</ul>
+        </div>
+      </div>
+      {{/each}}
+</main>

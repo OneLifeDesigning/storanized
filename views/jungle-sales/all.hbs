@@ -1,0 +1,21 @@
+<h1>Welcome Jungle Sales</h1>
+<br>
+<section id="jungle-sales">
+  <div class="row">
+  {{#each products as |product|}}
+  <div class="card" style="width: 18rem; margin: 5px">
+    <img src="{{product.image}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title"><a href="/junglesales/{{product.user.username}}/{{product._id}}"
+          class="text-dark">{{product.name}}</a></h5>
+      <p class="card-text">
+        Owner: <a href="/junglesales/{{product.user._id}}">@{{product.user.username}}</a>
+      <h6>Price: {{product.price}}</h6>
+      <h6>Category: {{product.category}}</h6>
+      </p>
+      <a href="/junglesales/{{product.user.username}}/{{product._id}}" class="btn btn-primary">View Product</a>
+    </div>
+  </div>
+  {{/each}}
+  </div>
+</section>

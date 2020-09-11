@@ -5,13 +5,14 @@ const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
 const boxController = require('../controllers/box.controller')
+const junglesales = require('../controllers/jungle.controller')
 
 router.get('/', (req, res) => {
   res.render('index', {
     title: 'Home'
   })
 })
- 
+
 router.get('/login', sessionMiddleware.isNotAuthenticated, userController.login)
 router.post('/login', sessionMiddleware.isNotAuthenticated, userController.doLogin)
 
@@ -69,14 +70,16 @@ router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxControlle
 // API ENDPOINTS
 router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.doNewApi)
 
+//JUNGLE SALES
+router.get('/junglesales', junglesales.all)
+router.get('/junglesales/:id/', sessionMiddleware.isAuthenticated, junglesales.jungleSpace)
+router.get('/junglesales/:username/:id', sessionMiddleware.isAuthenticated, junglesales.viewProduct)
+
 /* 
 TODO:
-  
   router.get('/auth/slack', userController.doAuthSlack)
   router.get('/auth/google', userController.doAuthGoogle)
   router.get('/auth/facebook', userController.doAuthFacebook)
-  
- 
 */
 
 

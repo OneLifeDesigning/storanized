@@ -86,11 +86,12 @@ function createProduct(userId, boxId) {
     description: faker.lorem.paragraph(),
     tags: [faker.lorem.word()],
     category: getRanElem(productType),
-    price: '',
+    price: faker.commerce.price(),
     isPublic: false,
     isSold: false,
     user: userId,
-    box: boxId
+    box: boxId,
+    image: faker.image.imageUrl()
   })
   return product.save()
 }

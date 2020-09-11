@@ -42,6 +42,10 @@ const productSchema = new mongoose.Schema({
   isSold: {
 		type: Boolean,
 		default: false
+  },
+  image: {
+    type: String,
+    trim: true
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
 

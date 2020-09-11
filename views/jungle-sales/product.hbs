@@ -1,0 +1,16 @@
+<article class="container">
+  <div class="row">
+    <div class="col-2">
+      <img class="w-100 rounded-circle" src="{{product.avatar}}" />
+    </div>
+
+    <div class="col-10">
+      <h2>{{product.name}}</h2>
+      <p>Description: {{product.description}}</p>
+      <p>Price: {{product.price}}</p>
+      <p>Category: {{product.category}}</p>
+      <p>Tags: {{product.tags}}</p>
+      <p><strong>Owner:</strong> @{{product.user.username}}</p>
+    </div>
+  </div>
+</article>
