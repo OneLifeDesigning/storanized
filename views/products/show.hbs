@@ -20,7 +20,7 @@
     {{/each}}
     <h3>Box</h3>
     <p>{{product.box.name}}</p>
-    <p>{{product.box.qrCode}}</p>
+      <img src="{{product.box.qrCode}}" alt="{{product.box.name}}" class="img-fluid">
     <h4>
       Visibility
       {{#if product.isPublic}}
@@ -38,7 +38,7 @@
       {{/if}}
     </h4>
     {{#if product.price}}
-    <p class="txt-primary">{{product.price}}EUR</p>
+    <p class="txt-primary">{{product.price}} EUR</p>
     {{/if}}
   </div>
    <div class="btn-group">

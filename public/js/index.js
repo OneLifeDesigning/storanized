@@ -29,27 +29,49 @@ const formClear = async (form) => {
   }
 }
 
-const closeCollaspse = () => {
-  setTimeout(() => {
-    document.querySelector('.collapse').classList.remove('show').classList.add('collapsing')
-      setTimeout(() => {
-      document.querySelector('.collapse').classList.remove('collapsing')
-    }, 2000);
-  }, 1000);
+const closeFormCollaspse = () => {
+  const toCollapse = document.querySelector('.form-collapse')
+  if(toCollapse !== null) {
+    setTimeout(() => {
+      toCollapse.classList.remove('show').classList.add('collapsing')
+    }, 1000);
+  }
 }
 
-const getStorageBoxes = (value) => {
+const getStorageBoxes = (value, object) => {
+  if (value.length !== 0) {
+    axios({
+      method: 'GET',
+      url: `/api/storages/${value}/boxes`
+    })
+    .then(response => {
+      if (response.status === 200) {
+        object.removeAttribute('disabled')
+        object.innerHTML = ''
+        response.data.forEach(el => {
+          const selected = value === el.id ? 'selected' : ''
+          object.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+}
+const getStorages = (storages) => {
   axios({
-    method: 'POST',
-    url: `/api/storages/${selectStorages.value}/boxes`
+    method: 'GET',
+    url: `/api/storages`
   })
   .then(response => {
     if (response.status === 200) {
-      selectBoxes.removeAttribute('disabled')
-      selectBoxes.innerHTML = ''
+      if (storages.getAttribute('disabled')) {
+        storages.removeAttribute('disabled')
+      }
+      storages.innerHTML = ''
       response.data.forEach(el => {
-        const selected = value === el.id ? 'selected' : ''
-        selectBoxes.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
+        storages.innerHTML += `<option value="${el.id}">${el.name}</option>            `
       })
     }
   })
@@ -58,9 +80,11 @@ const getStorageBoxes = (value) => {
   })
 }
 
+
 window.onload = () => {
   const customInputs = document.querySelectorAll('.custom-file-input');
   const formAddress = document.getElementById("addAddress");
+  const formBox = document.getElementById("addBox");
   const takeImageProduct = document.getElementById("takeImageProduct");
   const selectStorages = document.getElementById('selectStorages')
   const selectBoxes = document.getElementById('selectBoxes')
@@ -68,16 +92,17 @@ window.onload = () => {
 
   
   if (selectStorages  !== null && selectBoxes !== null) {
-    selectStorages.addEventListener("click", () => {
-      getStorageBoxes(selectBoxes.value)
-    })
-    selectStorages.addEventListener("change", () => {
-      getStorageBoxes(selectBoxes.value)
+    // selectStorages.addEventListener("click", (e) => {
+    //     getStorageBoxes(e.target.value, selectBoxes)
+    // })
+    selectStorages.addEventListener("change", (e) => {
+        getStorageBoxes(e.target.value, selectBoxes)
     })
   }
   
   
   const newImage = document.querySelector('.new-image');
+  
   if (customInputs  !== null) {
     bsCustomFileInput.init()
     customInputs.forEach(input => {
@@ -207,6 +232,54 @@ window.onload = () => {
 
     getCameraSelection();
   }
+  if (formBox !== null) {
+    const messageErrors = document.getElementById('messageErrors')
+    const boxStorage = document.getElementById('boxStorage')
+    
+    if (boxStorage !== null) {
+      getStorages(boxStorage)
+    }
+
+    const buttonSend = document.querySelector('.btn-send')
+
+    if (buttonSend  !== null) {
+      buttonSend.addEventListener("click",  (e) => {
+        e.preventDefault()
+        formToObject(formBox)
+          .then(body => {
+            axios({
+              method: 'POST',
+              url: '/api/boxes/new',
+              data: body
+            })
+            .then(response => {
+              if (response.status === 200) {
+                messageErrors.innerHTML = ''
+                messageErrors.classList.add('d-none')
+                formClear(formBox)
+                .then(() => {
+                  closeFormCollaspse()
+                  if (response.data.storage !== null) {
+                    selectStorages.value = response.data.storage
+                  }
+                })
+              } else {
+                messageErrors.classList.remove('d-none')
+                messageErrors.innerHTML = ''
+                messageErrors.innerHTML = 'Sorry, we could not save your address check errors'
+                formErrors(formBox, response.data)
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            })
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      })
+    }
+  }
 
   if (formAddress !== null) {
     const messageErrors = document.getElementById('messageErrors')
@@ -293,7 +366,7 @@ window.onload = () => {
                 </div>`
                 formClear(formAddress)
                 .then(() => {
-                  closeCollaspse()
+                  closeFormCollaspse()
                 })
               } else {
                 messageErrors.classList.remove('d-none')

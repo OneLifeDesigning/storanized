@@ -12,10 +12,6 @@ const attachmentSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-    cloudinaryPublicId: {
-      type: String,
-      trim: true
-    },
     product: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
@@ -30,13 +26,6 @@ const attachmentSchema = new mongoose.Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
-// attachmentSchema.post('remove', function (next) {
-//     cloudinary.uploader.destroy(this._cloudinaryPublicId, function(result) { 
-//       console.log(result) 
-//     })
-//     .then(next)
-//     .catch(next)
-// })
 
 attachmentSchema.post('save', function (next) {
   Attachment.deleteMany({ product: this.product, _id: { $ne:  this._id }})

@@ -2,21 +2,23 @@
   <h1>{{title}}</h1>
   <div>
     {{#if box}}
-    <label for="name">Name:</label>
-    <p>{{box.name}}</p>
-    <label for="description">Description:</label>
-    <p>{{box.description}}</p>
-    <label for="location">Location:</label>
-    <p>{{box.location}}</p>
-    <label for="state">State:</label>
-    <p>{{box.state}}</p>
-    <label for="qr">Code QR:</label>
-    <img src="{{box.qrCode}}" alt="qrCode">
-    <label for="qr">Storage:</label>
-    <p>{{box.storage._id}}</p>
+      <p for="name">Name:</p>
+      <p>{{box.name}}</p>
+      <p for="description">Description:</p>
+      <p>{{box.description}}</p>
+      <p for="location">Location:</p>
+      <p>{{box.location}}</p>
+      <p for="state">State:</p>
+      <p>{{box.state}}</p>
+      <p for="qr">Code QR:</p>
+      <img src="{{box.qrCode}}" alt="qrCode">
+      <p for="qr">Storage:</p>
+      <p>{{box.storage.name}}</p>
+      {{/if}}
   </div>
   <section class="container">
     <h3>Products List</h3>
+    {{#if box.products }}
     <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true">
       <thead class="thead-primary">
         <tr>

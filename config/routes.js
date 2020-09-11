@@ -28,7 +28,7 @@ router.post('/logout', sessionMiddleware.isAuthenticated, userController.doLogou
 router.get('/activate/:id/:token', sessionMiddleware.isNotAuthenticated, userController.doValidateToken)
 
 router.get('/dashboard', sessionMiddleware.isAuthenticated, userController.viewDashboard)
-router.post('/dashboard', sessionMiddleware.isAuthenticated, uploads.single(), userController.doEditDashboard)
+router.post('/dashboard', sessionMiddleware.isAuthenticated, uploads.any(), userController.doEditDashboard)
 
 // Get - Form to change pass
 router.get('/dashboard/password', sessionMiddleware.isAuthenticated, userController.editPassword)
@@ -80,7 +80,9 @@ router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productsC
 
 // API ENDPOINTS
 router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, apiController.doNewAddress)
-router.post('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
+router.get('/api/storages', sessionMiddleware.isAuthenticated, apiController.getStorages)
+router.get('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
+router.post('/api/boxes/new', sessionMiddleware.isAuthenticated, apiController.doNewBox)
 
 /* 
 TODO:

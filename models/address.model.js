@@ -57,6 +57,28 @@ addressSchema.virtual("storage", {
   foreignField: "address",
 });
 
+addressSchema.pre('save', function(next) {
+  if (this.defaultAddress === true) {
+    Address.findOneAndUpdate({user: this.user, defaultAddress: true, _id: { $ne:  this._id }}, {defaultAddress: false})
+    .then(next)
+    .catch(next)
+  } else {
+    Address.findById( this._id )
+      .then(address => {
+        if (address && address.defaultAddress === true) {
+          this.defaultAddress = true
+          const error = {defaultAddress: {
+            message: 'The changes have been saved correctly, except the default address change, you must at least have an assigned, edit another in its place'
+          }}
+          next(error)
+        } else {
+          next()
+        }
+      })
+      .catch(next)
+    }  
+})
+
 const Address = mongoose.model('Address', addressSchema);
 
 module.exports = Address;

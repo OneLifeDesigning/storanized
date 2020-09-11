@@ -102,6 +102,7 @@ module.exports.doSignup = (req, res, next) => {
       })
       .catch(error => {
         if (error instanceof mongoose.Error.ValidationError) {
+          error.errors.message = 'Please, check the data entered'
           res.render('users/signup', { 
             title: 'Signup',
             user,
@@ -213,8 +214,9 @@ module.exports.doEditDashboard = (req, res, next) => {
   const body = req.body
   const user = req.currentUser
   
-  if (req.file) {
-    body.avatar = req.file.path
+  console.log(req.files);
+  if (req.files[0]) {
+    body.avatar = req.files[0].path
   }
   
   body.role = 'client'
@@ -230,6 +232,7 @@ module.exports.doEditDashboard = (req, res, next) => {
     })
     .catch((error, user )=> {
       if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
         res.render('users/dashboard', { 
           user,
           error: error.errors

@@ -5,15 +5,18 @@ const Address = require("../models/address.model");
 const Storage = require("../models/storage.model");
 const Box = require("../models/box.model");
 const Product = require("../models/product.model");
-const Attacthment = require("../models/attachment.model");
+const Attachment = require("../models/attachment.model");
 
 const productType = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'] 
+
+const genre = ['Female', 'Male', 'Other']
 
 const getRanElem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)]
 } 
 
 const faker = require("faker");
+const { random } = require('faker');
 
 const generateRandomToken = () => {
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -29,17 +32,17 @@ function createUser() {
     name: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
-    username: faker.internet.userName(),
     password: 12345678,
-    phoneNumber: faker.phone.phoneNumber(),
+    username: faker.internet.userName(),
     avatar: faker.image.avatar(),
+    genre: getRanElem(genre),
+    phoneNumber: faker.phone.phoneNumber(),
     activation: {
       active: true,
       token: generateRandomToken()
     },
     role: 'client',
-    terms: true,
-    createdAt: faker.date.past()
+    terms: true
   })
 
   return user.save()
@@ -70,6 +73,7 @@ function createStorage(userId, addressId) {
   })
   return storage.save()
 }
+
 function createBox(userId, storageId) {
   const box = new Box({
     name: faker.commerce.productName(),
@@ -95,6 +99,15 @@ function createProduct(userId, boxId) {
   })
   return product.save()
 }
+function createAttachment(userId, productId) {
+  const attachment = new Attachment({
+    target: 'mainImage',
+    url: faker.image.imageUrl(random),
+    product: productId,
+    user: userId
+  })
+  return attachment.save()
+}
 
 const users = []
 
@@ -104,6 +117,7 @@ function restoreDatabase() {
     Address.deleteMany({}),
     Storage.deleteMany({}),
     Box.deleteMany({}),
+    Attachment.deleteMany({}),
     Product.deleteMany({})
   ])
 }
@@ -116,7 +130,6 @@ function seeds() {
         createUser()
           .then(user => {
             console.log(user.email)
-            
             users.push(user)
             createAddress(user.id)
               .then(address => {
@@ -132,13 +145,21 @@ function seeds() {
                           for (let i = 0; i < 20; i++) {
                             createProduct(user.id, box.id)
                               .then(product => {
-                                console.log('product', product.name);
-                                
+                                createAttachment(user.id, product.id)
+                                .then(attachment => {
+                                  product.image = attachment.id
+                                  product.save()
+                                    .then(product => {
+                                        console.log('product', product.name);
+                                      })
+                                      .catch()
+                                    })
+                                    .catch()
                               })
                               .catch()
                           }
-                          })
-                          .catch()
+                        })
+                        .catch()
                       }
                     })
                     .catch()

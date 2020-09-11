@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const Box = require("../models/box.model");
-const QRCode = require('qrcode');
-const cloudinary = require('cloudinary').v2
 
 module.exports.all = (req, res) => {
   res.render("boxes/all", { 
@@ -24,35 +22,12 @@ module.exports.create = (req, res, next) => {
   });
 
   box.save()
-    .then(box => {
-      QRCode.toDataURL(process.env.MAIN_HOST || 'http://localhost:3000/' + 'boxes/' + box._id.toString(), function (error, qrcode) {
-        if (error) {
-          next(error)
-        }
-        cloudinary.uploader.upload(qrcode, { 
-          overwrite: true, invalidate: true, folder: 'storanized/qrCode'
-        }, function (error, result) {
-            if (error) {
-              next(error)
-            }
-            box.qrCode = result.url
-            box.save()
-            .then(box => {
-              res.redirect(`/boxes/${box._id}`);
-            })
-            .catch(error => {
-              if (error instanceof mongoose.Error.ValidationError) {
-                res.render("boxes/new", { error: error.errors, box });
-              } else {
-                next(error);
-              }
-            });
-        })
-
-      })
+  .then(box => {
+    res.redirect(`/boxes/${box._id}`);
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
         res.render("boxes/new", { error: error.errors, box });
       } else {
         next(error);
