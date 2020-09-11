@@ -92,9 +92,6 @@ window.onload = () => {
 
   
   if (selectStorages  !== null && selectBoxes !== null) {
-    // selectStorages.addEventListener("click", (e) => {
-    //     getStorageBoxes(e.target.value, selectBoxes)
-    // })
     selectStorages.addEventListener("change", (e) => {
         getStorageBoxes(e.target.value, selectBoxes)
     })
