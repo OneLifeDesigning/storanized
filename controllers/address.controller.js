@@ -17,28 +17,30 @@ module.exports.new = (req, res, next) => {
 };
 
 module.exports.doNew = (req, res, next) => {
-  req.body.defaultAddress = req.body.defaultAddress ? true : false 
+  req.body.defaultAddress = req.body.defaultAddress ? true : false
   const address = new Address({
     ...req.body,
     user: req.currentUser._id.toString()
   })
+  if (address.defaultAddress) {
+    Address.findOne({user: req.currentUser._id.toString(), defaultAddress: true})
+      .then(oldAddress => {
+        oldAddress.defaultAddress = false
+        oldAddress.save()
+          .then()
+          .catch(next)
+      })
+      .catch(next)
+  }
   address.save()
     .then(address => {
       res.redirect(`/addresses/${address._id}`)
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
-        error.errors.message = 'Please, check the data entered'
-        res.render("addresses/edit", { 
+        res.render("addresses/new", { 
           title: 'Add new Address',
           error: error.errors, 
-          address,
-          user: req.currentUser
-        })
-      } else if(error.defaultAddress) {
-        res.render("addresses/edit", { 
-          title: 'Add new Address',
-          error: error.defaultAddress, 
           address,
           user: req.currentUser
         })
@@ -74,25 +76,27 @@ module.exports.edit = (req, res, next) => {
 };
 
 module.exports.doEdit = (req, res, next) => {
-  req.body.defaultAddress = req.body.defaultAddress ? true : false
-  
-  Address.findOneAndUpdate({user: req.currentUser._id.toString(), _id: req.params.id}, {body: req.body})
+  const body = req.body;
+  body.defaultAddress = body.defaultAddress ? true : false
+  Address.findOneAndUpdate({_id: req.params.id, user: req.currentUser._id.toString()}, body, { runValidators: true, new: true })
     .then(address => {
+      if (address.defaultAddress) {
+        Address.findOne({user: req.currentUser._id.toString(), defaultAddress: true, _id: { $ne: address._id}})
+          .then(oldAddress => {
+            oldAddress.defaultAddress = false
+            oldAddress.save()
+              .then()
+              .catch(next)
+          })
+          .catch(next)
+      }
       res.redirect(`/addresses/${address._id}`)
     })
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
-        error.errors.message = 'Please, check the data entered'
         res.render("addresses/edit", { 
           title: 'Add new Address',
           error: error.errors, 
-          address,
-          user: req.currentUser
-        })
-      } else if(error.defaultAddress) {
-        res.render("addresses/edit", { 
-          title: 'Add new Address',
-          error: error.defaultAddress, 
           address,
           user: req.currentUser
         })

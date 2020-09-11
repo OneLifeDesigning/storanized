@@ -33,7 +33,7 @@ const closeFormCollaspse = () => {
   const toCollapse = document.querySelector('.form-collapse')
   if(toCollapse !== null) {
     setTimeout(() => {
-      toCollapse.classList.remove('show').classList.add('collapsing')
+      toCollapse.classList.remove('show')
     }, 1000);
   }
 }
@@ -59,6 +59,7 @@ const getStorageBoxes = (value, object) => {
     })
   }
 }
+
 const getStorages = (storages) => {
   axios({
     method: 'GET',
@@ -80,6 +81,100 @@ const getStorages = (storages) => {
   })
 }
 
+const mapSetAddress = document.getElementById('mapSetAddress')
+const mapViewAddress = document.getElementById('mapViewAddress')
+
+function initMap() {
+  const myLatlng = {lat: 40.459452, lng: -3.690572};
+  let map = ''
+  let infoWindow = ''
+  
+  if (mapSetAddress && navigator.geolocation) {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+    
+    const success = (pos) => {
+      const crd = pos.coords;
+      setTimeout(() => {
+        map.setCenter({lat: crd.latitude, lng: crd.longitude})
+        if (mapSetAddress) {
+            infoWindow.close();
+            infoWindow = new google.maps.InfoWindow({content: 'Click the map to get Address!', position: {lat: crd.latitude, lng: crd.longitude}});
+            infoWindow.open(map);
+        }
+      }, 3000);
+    }
+
+    const error = (err) => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error, options)
+  }
+
+  if (mapSetAddress) {
+    const geocoder = new google.maps.Geocoder();
+    map = new google.maps.Map(mapSetAddress, {zoom: 15, center: myLatlng});
+    infoWindow = new google.maps.InfoWindow({content: 'Click the map to get Address!', position: myLatlng});
+    infoWindow.open(map);
+    
+    map.addListener('click', function(event) {
+      geocoder.geocode({
+        'latLng': event.latLng
+      }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[0]) {
+            axios({
+              method: 'GET',
+              url: `https://maps.googleapis.com/maps/api/geocode/json?address=${results[0].formatted_address}&key=NEEDAPI`
+            })
+            .then(response => {
+              infoWindow.close();
+              infoWindow = new google.maps.InfoWindow({position: event.latLng});
+              infoWindow.setContent(`<p>${results[0].formatted_address}<br>Cordinates: ${response.data.results[0].geometry.location.lat}, ${response.data.results[0].geometry.location.lng}</p><a href="#0" class="btn btn-primary" id="setAddress" data-address="${response.data.results[0].address_components[1].long_name}" data-number="${response.data.results[0].address_components[0].long_name}" data-city="${response.data.results[0].address_components[2].long_name}" data-state="${response.data.results[0].address_components[4].long_name}" data-country="${response.data.results[0].address_components[5].long_name}" data-postalcode="${response.data.results[0].address_components[6].long_name}" data-lat="${response.data.results[0].geometry.location.lat}" data-long="${response.data.results[0].geometry.location.lng}"
+              >Use this</a>`);
+              infoWindow.open(map);
+            })
+            .catch(error => {
+              console.log(error);
+            })
+          }
+        }
+      });
+    });
+
+    document.addEventListener('click',function(e){
+      if(e.target && e.target.id === 'setAddress'){
+        const address = document.getElementById('addressAddress')
+        address.value = `${e.path[0].dataset.address}, ${e.path[0].dataset.number}`
+        const zipCode = document.getElementById('addressPostalCode')
+        zipCode.value = e.path[0].dataset.postalcode
+        const city = document.getElementById('addressCity')
+        city.value = e.path[0].dataset.city
+        const state = document.getElementById('addressState')
+        state.value = e.path[0].dataset.state
+        const country = document.getElementById('addressCountry')
+        country.value = e.path[0].dataset.country
+        const longitude = document.getElementById('addressLongitude')
+        longitude.value = e.path[0].dataset.long
+        const latitude = document.getElementById('addressLatitude')
+        latitude.value = e.path[0].dataset.lat
+      }
+    })
+
+  }
+
+  if (mapViewAddress !== null) {
+    map = new google.maps.Map(mapViewAddress, {zoom: 15, center: myLatlng});
+    map.setCenter({lat: Number(mapViewAddress.dataset.lat), lng: Number(mapViewAddress.dataset.long)})
+    infoWindow = new google.maps.InfoWindow({position: {lat: Number(mapViewAddress.dataset.lat), lng: Number(mapViewAddress.dataset.long)}});
+    infoWindow.setContent(`<h5><b>${mapViewAddress.dataset.name}</b></h5><p>${mapViewAddress.dataset.address}<br>${mapViewAddress.dataset.postalcode} - ${mapViewAddress.dataset.city} <br> ${mapViewAddress.dataset.state}<br>${mapViewAddress.dataset.country}</p>`);
+    infoWindow.open(map);
+  }
+}
 
 window.onload = () => {
   const customInputs = document.querySelectorAll('.custom-file-input');
@@ -90,13 +185,11 @@ window.onload = () => {
   const selectBoxes = document.getElementById('selectBoxes')
 
 
-  
   if (selectStorages  !== null && selectBoxes !== null) {
     selectStorages.addEventListener("change", (e) => {
         getStorageBoxes(e.target.value, selectBoxes)
     })
   }
-  
   
   const newImage = document.querySelector('.new-image');
   
@@ -229,6 +322,7 @@ window.onload = () => {
 
     getCameraSelection();
   }
+
   if (formBox !== null) {
     const messageErrors = document.getElementById('messageErrors')
     const boxStorage = document.getElementById('boxStorage')
@@ -298,7 +392,7 @@ window.onload = () => {
           address.classList.remove('is-invalid')
           axios({
             method: 'GET',
-            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address.value}, ${zipCode.value}, ${country.value}&key=neddapi`
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address.value}, ${zipCode.value}, ${country.value}&key=NEEDAPI`
           })
           .then(response => {
             if (response.data.status !== 'ZERO_RESULTS') {

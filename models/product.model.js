@@ -1,4 +1,3 @@
-/* TODO: attachments gallery */
 const mongoose = require('mongoose');
 const Attachment = require("../models/attachment.model")
 

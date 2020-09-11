@@ -2,15 +2,6 @@ const mongoose = require('mongoose')
 const mailer = require('../config/mailer.config');
 const User = require('../models/user.model')
 
-// TODO: Errase for producction 
-const userDemo = {
-  email: process.env.USER_DEFAULT_EMAIL || 'helo@you.com',
-  password: process.env.USER_DEFAULT_PASSWORD || '12345678',
-  username: process.env.USER_DEFAULT_USERNAME || 'hell0',
-  name: process.env.USER_DEFAULT_NAME || 'Hess',
-  lastname: process.env.USER_DEFAULT_LASTNAME || 'loll'   
-}
-
 const generateRandomToken = () => {
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let token = '';
