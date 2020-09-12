@@ -34,3 +34,12 @@
     </div>
   </div>
 </nav>
+{{#if breadcrumbs }}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    {{#each breadcrumbs as |crumb| }}
+        <li class="breadcrumb-item"><a href="{{crumb.url}}">{{crumb.name}}</a></li>
+    {{/each}}
+  </ol>
+</nav>
+{{/if}}

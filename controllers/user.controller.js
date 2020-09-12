@@ -12,7 +12,7 @@ const generateRandomToken = () => {
 }
 
 module.exports.login = (req, res) => {
-  res.render('users/login', { title: 'Login', user: userDemo} )
+  res.render('users/login', { title: 'Login', breadcrumbs: req.breadcrumbs} )
 }
 
 module.exports.doLogin = (req, res, next) => {
@@ -24,6 +24,7 @@ module.exports.doLogin = (req, res, next) => {
       res.render('users/login', {
         title: 'Login',
         user,
+        breadcrumbs: req.breadcrumbs,
         error: {
           validation: {
             message: 'The email and password combination does not match, please try again.'
@@ -40,6 +41,7 @@ module.exports.doLogin = (req, res, next) => {
             } else {
               res.render('users/login', {
                 title: 'Login',
+                breadcrumbs: req.breadcrumbs,
                 error: {
                   validation: {
                     message: 'Your account is not active, check your email!.'
@@ -55,7 +57,8 @@ module.exports.doLogin = (req, res, next) => {
                 validation: {
                   message: 'The email and password combination does not match, please try again.'
                 } 
-              }
+              },
+              breadcrumbs: req.breadcrumbs
             })
           }
         })
@@ -66,7 +69,7 @@ module.exports.doLogin = (req, res, next) => {
 }
 
 module.exports.signup = (req, res, next) => {
-  res.render('users/signup', { title: 'Signup', user: userDemo } )
+  res.render('users/signup', { title: 'Signup', breadcrumbs: req.breadcrumbs } )
 }
 
 module.exports.doSignup = (req, res, next) => {
@@ -88,7 +91,8 @@ module.exports.doSignup = (req, res, next) => {
           title: 'Login',
           success: {
             message: 'Check your email for activate account.'
-          }
+          },
+          breadcrumbs: req.breadcrumbs
         })
       })
       .catch(error => {
@@ -97,21 +101,24 @@ module.exports.doSignup = (req, res, next) => {
           res.render('users/signup', { 
             title: 'Signup',
             user,
-            error: error.errors
+            error: error.errors,
+            breadcrumbs: req.breadcrumbs
           })
         } else if (error.code === 11000) {
           mailer.sendDuplicateEmail({
             name: user.name,
             email: user.email,
             id: user._id.toString(),
-            activationToken: user.activation.token
+            activationToken: user.activation.token,
+            breadcrumbs: req.breadcrumbs
           })
 
           res.render('users/login', {
             title: 'Signup',            
             success: {
               message: 'Check your email for activate account.'
-            }
+            },
+            breadcrumbs: req.breadcrumbs
           })
         } else {
           next(error);
@@ -136,7 +143,8 @@ module.exports.doValidateToken = (req, res, next) => {
             activation: {
               message: 'Something has gone wrong, click the button to generate a new activation code.'
             }
-          }
+          },
+          breadcrumbs: req.breadcrumbs
         })
       } else {
         user.activation.active = true;
@@ -147,7 +155,8 @@ module.exports.doValidateToken = (req, res, next) => {
               title: 'Login',              
               success: {
                 message: 'Your account has been activated, login below!'
-              }
+              },
+              breadcrumbs: req.breadcrumbs
             })
           })
           .catch(next)
@@ -170,7 +179,8 @@ module.exports.doNewToken = (req, res, next) => {
             activation: {
               message: 'Something has gone wrong, enter again your email, please'
             }
-          }
+          },
+          breadcrumbs: req.breadcrumbs
         })
       } else {
         user.activation.oldToken = user.activation.token;
@@ -188,7 +198,8 @@ module.exports.doNewToken = (req, res, next) => {
               title: 'Get new token',
               success: {
                 message: 'Check your email for activate account'
-              }
+              },
+              breadcrumbs: req.breadcrumbs
             })
           })
           .catch(next) 
@@ -224,16 +235,18 @@ module.exports.doEditDashboard = (req, res, next) => {
     .catch((error, user )=> {
       if (error instanceof mongoose.Error.ValidationError) {
         error.errors.message = 'Please, check the data entered'
-        res.render('users/dashboard', { 
+        res.render('users/dashboard', {
+          title: 'Dashboard',
           user,
-          error: error.errors
+          error: error.errors,
+          breadcrumbs: req.breadcrumbs
         })
       }
     })
 }
 
 module.exports.forgotPassword = (req, res, next) => {
-  res.render('users/password')
+  res.render('users/password', {breadcrumbs: req.breadcrumbs})
 }
 
 module.exports.doForgotPassword = (req, res, next) => {
@@ -241,6 +254,8 @@ module.exports.doForgotPassword = (req, res, next) => {
     .then(user => {
       if (!user) {
         res.render('users/password', {
+          title: 'Get new password',
+          breadcrumbs: req.breadcrumbs,
           error: {
             validation: {
               message: 'Something has gone wrong, please enter your email try again'
@@ -267,6 +282,8 @@ module.exports.recoveryPassword = (req, res, next) => {
     .then(user => {
       if (!user) {
         res.render('users/password', {
+          title: 'Get new password',
+          breadcrumbs: req.breadcrumbs,
           error: {
             validation: {
               message: 'Something has gone wrong, please enter your email try again'
@@ -283,7 +300,8 @@ module.exports.recoveryPassword = (req, res, next) => {
 
 module.exports.editPassword = (req, res, next) => {
   res.render('users/changepassword', {
-    title: 'Change Password'
+    title: 'Change Password',
+    breadcrumbs: req.breadcrumbs
   })
 }
 
@@ -293,6 +311,7 @@ module.exports.doEditPassword = (req, res, next) => {
       if (!user) {
         res.render('users/changepassword', {
           title: 'Change Password',
+          breadcrumbs: req.breadcrumbs,
           error: {
             validation: {
               message: 'Something has gone wrong, please try again'
@@ -303,6 +322,7 @@ module.exports.doEditPassword = (req, res, next) => {
         if (req.body.password !== req.body.passwordValidate) {
           res.render('users/changepassword', {
             title: 'Change password',
+            breadcrumbs: req.breadcrumbs,
             error: {
               validation: {
                 message: 'Passwords not match!, try again'
@@ -312,6 +332,7 @@ module.exports.doEditPassword = (req, res, next) => {
         } else if (req.body.password.length <= 8) {
           res.render('users/changepassword', {
             title: 'Change password',
+            breadcrumbs: req.breadcrumbs,
             error: {
               validation: {
                 message: 'Password is too short, min 8 characters'
@@ -330,4 +351,3 @@ module.exports.doEditPassword = (req, res, next) => {
       })
     .catch(next)
 }
-
