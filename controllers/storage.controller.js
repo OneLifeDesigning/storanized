@@ -4,13 +4,15 @@ const Storage = require("../models/storage.model")
 module.exports.all = (req, res, next) => {
     res.render("storages/all", { 
       title: 'View all storages',
-      storages:  req.currentUser.storages
+      storages:  req.currentUser.storages,
+      breadcrumbs: req.breadcrumbs
     });
 };
 
 module.exports.new = (req, res, next) => {
   res.render('storages/new', { 
     title: 'Add new storage',
+    breadcrumbs: req.breadcrumbs,
     user: req.currentUser
   })
 };
@@ -29,6 +31,7 @@ module.exports.doNew = (req, res, next) => {
         error.errors.message = 'Please, check the data entered'
         res.render("storages/new", { 
           title: 'Add new storage',
+          breadcrumbs: req.breadcrumbs,
           error: error.errors, 
           storage,
           user: req.currentUser
@@ -45,6 +48,7 @@ module.exports.show = (req, res, next) => {
   .populate("address")
   .then(storage => {
       res.render("storages/show", { 
+        breadcrumbs: req.breadcrumbs,
         title: 'View of storage',
         storage, 
         user: req.currentUser
@@ -58,6 +62,7 @@ module.exports.edit = (req, res, next) => {
   .populate("address")
   .then(storage => {
     res.render("storages/edit", {
+      breadcrumbs: req.breadcrumbs,
       title: 'Edit new storage',
       storage,
       user: req.currentUser

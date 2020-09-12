@@ -5,6 +5,10 @@ const logger = require('morgan');
 const path = require('path')
 const cookieParser = require('cookie-parser')
 
+
+
+
+require('./config/breadcrumbs.config')
 require('./config/db.config')
 require('./config/hbs.config')
 
@@ -29,6 +33,10 @@ app.use(express.urlencoded({ extended: false, limit: '2MB' }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(session)
+app.use((req, res, next) => {
+  req.breadcrumbs = get_breadcrumbs(req.originalUrl);
+  next();
+});
 
 const sessionMiddleware = require('./middlewares/session.middleware')
 app.use(sessionMiddleware.getCurrentUser)

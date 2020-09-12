@@ -9,7 +9,6 @@ const boxController = require('../controllers/box.controller')
 const productsController = require('../controllers/product.controller')
 const uploads = require('../config/multer.config')
 
-
 router.get('/', (req, res) => {
   res.render('index', {
     title: 'Home'

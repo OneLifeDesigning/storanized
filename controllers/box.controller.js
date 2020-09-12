@@ -4,14 +4,16 @@ const Box = require("../models/box.model");
 module.exports.all = (req, res) => {
   res.render("boxes/all", { 
     title: 'View all boxes',
-    boxes:  req.currentUser.boxes
+    boxes:  req.currentUser.boxes,
+    breadcrumbs: req.breadcrumbs
   });
 };
 
 module.exports.newBox = (req, res) => {
   res.render('boxes/new', { 
     title: 'Add new box',
-    user: req.currentUser
+    user: req.currentUser,
+    breadcrumbs: req.breadcrumbs
   })
 };
 
@@ -28,7 +30,7 @@ module.exports.create = (req, res, next) => {
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
         error.errors.message = 'Please, check the data entered'
-        res.render("boxes/new", { error: error.errors, box });
+        res.render("boxes/new", { error: error.errors, box, breadcrumbs: req.breadcrumbs });
       } else {
         next(error);
       }
@@ -41,7 +43,7 @@ module.exports.view = (req, res, next) => {
     .populate("storage")
     .populate("products")
     .then((box) => {
-      res.render("boxes/show", { box });
+      res.render("boxes/show", { box, breadcrumbs: req.breadcrumbs });
     })
     .catch(next);
 };
@@ -52,7 +54,8 @@ module.exports.viewEdit = (req, res, next) => {
     res.render("boxes/edit", {
       title: 'Edit new box',
       box,
-      user: req.currentUser
+      user: req.currentUser,
+      breadcrumbs: req.breadcrumbs
     })
   })
   .catch(next)
