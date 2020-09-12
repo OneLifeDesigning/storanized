@@ -26,6 +26,7 @@ module.exports.doNew = (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
         res.render("storages/new", { 
           title: 'Add new storage',
           error: error.errors, 
@@ -53,7 +54,7 @@ module.exports.show = (req, res, next) => {
 };
 
 module.exports.edit = (req, res, next) => {
-  Storage.findById(req.params.id)
+  Storage.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
   .populate("address")
   .then(storage => {
     res.render("storages/edit", {
@@ -67,7 +68,7 @@ module.exports.edit = (req, res, next) => {
 
 module.exports.doEdit = (req, res, next) => {
   const body = req.body;
-  Storage.findById(req.params.id)
+  Storage.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
     .then(storage => {
       if (storage.user.toString() === req.currentUser._id.toString()) {
         storage.set(body);
@@ -82,13 +83,3 @@ module.exports.doEdit = (req, res, next) => {
     })
     .catch(next)
 }
-
-
-// module.exports.delete = (req, res, next) => {
-//   req.storage
-//     .remove()
-//     .then(() => {
-//       res.redirect("/storages");
-//     })
-//     .catch(next);
-// };

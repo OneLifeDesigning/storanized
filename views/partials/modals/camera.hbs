@@ -1,0 +1,27 @@
+<div class="modal fade" id="openCameraImage" tabindex="-1" role="dialog" aria-labelledby="openCameraImageTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="display-cover">
+            <p class="initial-msg">PLEASE, ACTIVE CAMERA</p>
+            <video autoplay></video>
+            <button type="button" class="close color-white" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <canvas class="d-none"></canvas>
+            <div class="screenshot">
+              <a href="#0" class="btn btn-success btn-select-image d-none" data-dismiss="modal" aria-label="Close">Select photo</a>
+              <img class="img-fluid d-none" alt="">
+            </div>
+            <div class="controls">
+                <select class="video-options custom-select">
+                    <option value="">Select camera</option>
+                </select>
+                <button class="btn btn-danger play" title="Play"><i class="fa fa-camera"></i></button>
+                <button class="btn btn-outline-success d-none"><i class="fa fa-image"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

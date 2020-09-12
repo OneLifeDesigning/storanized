@@ -1,0 +1,71 @@
+.modal-body {
+  padding: 0;
+  margin: 0;
+}
+
+.screenshot {
+  .btn-select-image {
+    position: absolute;
+    bottom: 60px;
+    left: 10px;
+    z-index: 3;
+  }
+
+  img {
+    width: 250px;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    border: 2px solid whitesmoke;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: 60px;
+    left: 10px;
+    background: white;
+  }
+} 
+.display-cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+
+  .initial-msg {
+    position: absolute;
+  }
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+  }
+  video {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  button,
+  .video-options {
+    width: auto;
+    margin-right: 1rem;
+  }
+  .video-options {
+    color: #ced4da;
+    background-color: #495057;
+    border-color: #495057;
+  }
+  
+  .controls {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    padding: 5px 10px;
+    background-color: rgba(0,0,0,.7);
+  }
+
+}

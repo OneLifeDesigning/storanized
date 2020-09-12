@@ -1,10 +1,14 @@
+require('dotenv').config()
+
 const mongoose = require('mongoose');
 const QRCode = require('qrcode');
-const Storage = require('../models/storage.model')
- 
+const cloudinary = require('cloudinary').v2
+
 const boxSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: [true, 'Name is required'],
+    minlength: [3, 'Name needs at last 3 chars'],
     trim: true
   },
   description: {
@@ -31,24 +35,30 @@ const boxSchema = new mongoose.Schema({
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
 
-boxSchema.virtual("product", {
+boxSchema.virtual("products", {
   ref: "Product",
   localField: "_id",
   foreignField: "box",
 });
 
-boxSchema.post('remove', function (next) {
-  Promise.all([
-    Storage.deleteMany({ box: this._id })
-  ])
-    .then(next)
+boxSchema.pre('save', function(next) {
+  QRCode.toDataURL(process.env.MAIN_HOST || 'http://localhost:3000/' + 'boxes/' + this._id.toString())
+  .then(qrcode => {
+    cloudinary.uploader.upload(qrcode, { 
+      overwrite: true, invalidate: true, folder: 'storanized/qrCode', 
+      cloud_name: process.env.CLOUDINARY_NAME,
+      api_key: process.env.CLOUDINARY_KEY,
+      api_secret: process.env.CLOUDINARY_SECRET
+    })
+    .then(result => {
+      this.qrCode = result.url
+      console.log(this);
+      next()
+    })
+    .catch(next)
+  })
+  .catch(next)
 })
-
-//TODO: Pending iterarion when seeds use save
-// boxSchema.post('save', function (next) {
-  // QRCode.toDataURL(this._id,toString, function (err, url) {
-  //   console.log(url)
-  // })
 
 const Box = mongoose.model('Box', boxSchema);
 

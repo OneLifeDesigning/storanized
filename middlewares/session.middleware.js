@@ -1,11 +1,24 @@
 const User = require('../models/user.model')
 
 module.exports.getCurrentUser = (req, res, next) => {
+  const ordering = { sort: { updatedAt: -1 } }
   User.findById(req.session.userId)
-    .populate('addresses')
-    .populate('storages')
-    .populate('boxes')
-    .populate('products')
+    .populate({
+      path: 'addresses',
+      options: ordering
+    })
+    .populate({
+      path: 'storages',
+      options: ordering
+    })
+    .populate({
+      path: 'boxes',
+      options: ordering
+    })
+    .populate({
+      path: 'products',
+      options: ordering
+    })
     .then(user => {
       if (!user) {
         res.locals.currentUser = false

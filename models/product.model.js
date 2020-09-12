@@ -1,7 +1,6 @@
-/* TODO: Main image, attachments gallery */
-
+/* TODO: attachments gallery */
 const mongoose = require('mongoose');
-const Box = require('../models/box.model')
+const Attachment = require("../models/attachment.model")
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -12,22 +11,27 @@ const productSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, 'Description is required'],
-    minlength: [3, 'Description needs at last 3 chars'],
     trim: true
   },
   tags: {
-    type: Array
+    type: Array,
+    trim: true
   },
   category: {
-    enum: ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros']
+    type: Array,
+    trim: true
+  },
+  image: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Attachment",
   },
   user: {
+    required: [true, 'User is required'],
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   box: {
+    required: [true, 'Box is required'],
     type: mongoose.Schema.Types.ObjectId,
     ref: "Box"
   },
@@ -49,9 +53,15 @@ const productSchema = new mongoose.Schema({
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
 
+productSchema.virtual("attachments", {
+  ref: "Attachment",
+  localField: "_id",
+  foreignField: "product",
+});
+
 productSchema.post('remove', function (next) {
   Promise.all([
-    Box.deleteMany({ product: this._id })
+    Attachment.deleteMany({ product: this._id })
   ])
     .then(next)
 })

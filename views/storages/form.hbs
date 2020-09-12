@@ -24,7 +24,7 @@
       <a href="#0" class="btn btn-success btn-collapser" data-toggle="collapse" data-target="#collapseNewAddress" aria-expanded="false" aria-controls="collapseNewAddress"><i class="fa fa-plus"></i> Add address</a>
   </div>
   <div class="col-12 mt-3">
-    <div id="list-addresses" class="row">
+    <div id="listAddresses" class="row">
       {{#if user.addresses}}
       {{#each user.addresses as |userAdress|}}
       <div class="col-sm-6 mb-4">
@@ -34,13 +34,13 @@
             <p>{{userAdress.address}}<br>{{userAdress.city}}</p>
             <div class="custom-control custom-switch">
               <input type="radio" class="custom-control-input {{#if error.address }}is-invalid{{/if}}" name="address" id="address{{userAdress.id}}" value="{{userAdress.id}}" 
-                {{#ifEquals ../storage.address._id userAdress._id }}
+                {{#ifEqual ../storage.address._id userAdress._id }}
                   checked="checked"
                 {{else}} 
-                  {{#ifEquals userAdress.defaultAddress true }}
+                  {{#ifEqual userAdress.defaultAddress true }}
                   checked="checked"
-                  {{/ifEquals}}
-                {{/ifEquals}} 
+                  {{/ifEqual}}
+                {{/ifEqual}} 
                 required>
               <label class="custom-control-label" for="address{{userAdress.id}}">Select this address.</label>
             </div>

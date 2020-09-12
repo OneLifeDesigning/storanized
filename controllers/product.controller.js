@@ -1,72 +1,199 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product.model");
-const User = require("../models/user.model");
+const Attachment = require("../models/attachment.model");
+const cloudinary = require('cloudinary').v2
+
+const category = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros']
 
 module.exports.all = (req, res, next) => {
-  Product.find()
-    .populate("user")
-    .populate("box")
-    .then((product) => {
-      res.render("products/all", { product });
-    })
-    .catch(next);
+  res.render("products/all", { 
+    title: 'View all products',
+    products:  req.currentUser.products
+  });
 };
 
 module.exports.new = (req, res, next) => {
-  res.render("products/new");
+  res.render("products/new", {
+    category: category,
+    user: req.currentUser
+  });
 };
 
 module.exports.create = (req, res, next) => {
+  req.body.isSold = req.body.isSold ? true : false
+  req.body.isPublic = req.body.isPublic ? true : false
   const product = new Product({
     ...req.body,
+    user: req.currentUser._id.toString()
   });
-
-  product
-    .save()
-    .then((product) => {
-      res.redirect(`/products/${product._id}`);
+  product.save()
+    .then(product => {
+      if(req.files || req.body.imageCamera) {
+        const mainImage = new Attachment({
+          target: 'mainImage',
+          product: product.id,
+          user: req.currentUser.id
+        })
+              
+        if(req.files[0]) { 
+          mainImage.url = req.files[0].path
+          mainImage.save()
+            .then(image => {
+              product.image = image.id.toString()
+              product.save()
+                .then(() => {res.redirect(`/products/${product.id}`)})
+                .catch(() => {
+                  res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                })
+            })
+            .catch(() => {
+              res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+            })
+          
+        } else {
+          cloudinary.uploader.upload(req.body.imageCamera, {overwrite: true, invalidate: true, folder: 'storanized'})
+          .then(image => {
+            mainImage.url = image.url
+            mainImage.save()
+              .then(image => {
+                product.image = image.id.toString()
+                product.save()
+                .then(() => {res.redirect(`/products/${product.id}`)})
+                .catch(() => {
+                  res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                })
+              })
+              .catch(() => {
+                res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+              })
+            })
+            .catch(() => {
+                res.render("products/new", { error: {message: 'There was a problem with the uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+            })
+        }
+      }
     })
-    .catch((error) => {
+    .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.render("products/new", { error: error.errors, product });
+        error.errors.message = 'Please, check the data entered'
+        res.render("products/new", { error: error.errors, product, user: req.currentUser, category: category });
       } else {
-        next(error);
+        next();
       }
     });
 };
 
 module.exports.view = (req, res, next) => {
-  Product.findById(req.params.id)
-    .populate("user")
-    .populate("box")
-    .then((product) => {
-      res.render("products/view", { product });
+  Product.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
+    .populate('attachments')
+    .populate('box')
+    .then(product => {
+      res.render("products/show", {
+        title: 'Edit product',
+        product,
+        category: category,
+        user: req.currentUser
+      })
     })
     .catch(next);
 };
 
 module.exports.viewEdit = (req, res, next) => {
-    res.render("products/edit");
+  Product.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
+  .populate('attachments')
+  .populate('box')
+  .then(product => {
+    res.render("products/edit", {
+      title: 'Edit product',
+      product,
+      category: category,
+      user: req.currentUser
+    })
+  })
+  .catch(next)
 };
 
 module.exports.update = (req, res, next) => {
-  const body = req.body;
-  const product = req.product;
-
-  product.set(body);
-  product
-    .save()
-    .then(() => {
-      res.redirect(`/products/${product._id}`);
+  Product.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
+  .then(product => {
+    req.body.isSold = req.body.isSold ? true : false
+    req.body.isPublic = req.body.isPublic ? true : false
+    product.set(req.body)
+    product.save()
+      .then(product => {
+        if(req.files.length !== 0 || req.body.imageCamera) {
+          const mainImage = new Attachment({
+            target: 'mainImage',
+            product: product.id,
+            user: req.currentUser.id
+          })
+                
+          if(req.files.length !== 0) { 
+            mainImage.url = req.files[0].path
+            mainImage.save()
+            .then(image => {
+                product.image = image.id.toString()
+                product.save()
+                  .then(() => {res.redirect(`/products/${product.id}`)})
+                  .catch(() => {
+                    res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                  })
+              })
+              .catch(() => {
+                res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+              })
+          } else if(req.body.imageCamera) {
+            cloudinary.uploader.upload(req.body.imageCamera, {overwrite: true, invalidate: true, folder: 'storanized'})
+            .then(image => {
+              mainImage.url = image.url
+              mainImage.save()
+                .then(image => {
+                  product.image = image.id.toString()
+                  product.save()
+                  .then(() => {res.redirect(`/products/${product.id}`)})
+                  .catch(() => {
+                    res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                  })
+                })
+                .catch(() => {
+                  res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+                })
+              })
+              .catch(() => {
+                  res.render("products/new", { error: {message: 'There was a problem with the uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+              })
+          } 
+        } else {
+          res.redirect(`/products/${product.id}`)
+        }
+      })
+      .catch(error => {
+        if (error instanceof mongoose.Error.ValidationError) {
+          error.errors.message = 'Please, check the data entered'
+          res.render("products/new", { error: error.errors, user: req.currentUser, product, category: category });
+        } else {
+          next();
+        }
+      });
     })
-    .catch(next);
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
+        res.render("products/new", { error: error.errors, user: req.currentUser, product, category: category });
+      } else {
+        next();
+      }
+    });
 };
 
 module.exports.delete = (req, res, next) => {
-  req.product
-    .remove()
-    .then(() => {
-      res.redirect("/products");
+  Product.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
+  .then(product => {
+    product.remove()
+      .then(() => {
+        res.redirect("/products");
+      })
+      .catch(next);
     })
     .catch(next);
 };

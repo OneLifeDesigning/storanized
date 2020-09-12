@@ -1,10 +1,13 @@
-<div class="row">
-  <div class="col-12 my-3 mb-2">
+<div class="row my-3 mb-2">
+  <div class="col-12 col-md-4">
+      <img src="{{user.avatar}}" class="img-fluid" alt="{{ user.name }} {{ user.lastname }}">
+  </div>
+  <div class="col-12 col-md-8">
     <p><b>Username:</b> {{ user.username }}</p>
     <p><b>Email:</b> {{ user.email }}</p>
   </div>
 </div>
-<form action="/dashboard" method="POST" class="my-5" > 
+<form action="/dashboard" method="POST" enctype="multipart/form-data" class="my-5"> 
   <div class="form-row align-items-center">
     <div class="form-group col-12 col-md-6">
       <label for="name">Name</label>
@@ -36,9 +39,9 @@
     <div class="form-group col-12 col-md-6">
       <label for="genre">Genre</label>
       <select class="custom-select" name="genre" id="genre">
-        <option {{#ifEquals user.genre 'Female'}}selected{{/ifEquals}} value="Female">Female</option>
-        <option {{#ifEquals user.genre 'Male'}}selected{{/ifEquals}} value="Male">Male</option>
-        <option {{#ifEquals user.genre 'Other'}}selected{{/ifEquals}} value="Other">Other</option>
+        <option {{#ifEqual user.genre 'Female'}}selected{{/ifEqual}} value="Female">Female</option>
+        <option {{#ifEqual user.genre 'Male'}}selected{{/ifEqual}} value="Male">Male</option>
+        <option {{#ifEqual user.genre 'Other'}}selected{{/ifEqual}} value="Other">Other</option>
       </select>
     </div>
     <div class="form-group col-12">

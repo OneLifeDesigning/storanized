@@ -29,20 +29,255 @@ const formClear = async (form) => {
   }
 }
 
-const closeCollaspse = () => {
-  
-  setTimeout(() => {
-    document.querySelector('.collapse').classList.remove('show').classList.add('collapsing')
-      setTimeout(() => {
-      document.querySelector('.collapse').classList.remove('collapsing')
-    }, 2000);
-  }, 1000);
+const closeFormCollaspse = () => {
+  const toCollapse = document.querySelector('.form-collapse')
+  if(toCollapse !== null) {
+    setTimeout(() => {
+      toCollapse.classList.remove('show').classList.add('collapsing')
+    }, 1000);
+  }
+}
+
+const getStorageBoxes = (value, object) => {
+  if (value.length !== 0) {
+    axios({
+      method: 'GET',
+      url: `/api/storages/${value}/boxes`
+    })
+    .then(response => {
+      if (response.status === 200) {
+        object.removeAttribute('disabled')
+        object.innerHTML = ''
+        response.data.forEach(el => {
+          const selected = value === el.id ? 'selected' : ''
+          object.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+}
+const getStorages = (storages) => {
+  axios({
+    method: 'GET',
+    url: `/api/storages`
+  })
+  .then(response => {
+    if (response.status === 200) {
+      if (storages.getAttribute('disabled')) {
+        storages.removeAttribute('disabled')
+      }
+      storages.innerHTML = ''
+      response.data.forEach(el => {
+        storages.innerHTML += `<option value="${el.id}">${el.name}</option>            `
+      })
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  })
 }
 
 
 window.onload = () => {
+  const customInputs = document.querySelectorAll('.custom-file-input');
   const formAddress = document.getElementById("addAddress");
+  const formBox = document.getElementById("addBox");
+  const takeImageProduct = document.getElementById("takeImageProduct");
+  const selectStorages = document.getElementById('selectStorages')
+  const selectBoxes = document.getElementById('selectBoxes')
+
+
   
+  if (selectStorages  !== null && selectBoxes !== null) {
+    selectStorages.addEventListener("change", (e) => {
+        getStorageBoxes(e.target.value, selectBoxes)
+    })
+  }
+  
+  
+  const newImage = document.querySelector('.new-image');
+  
+  if (customInputs  !== null) {
+    bsCustomFileInput.init()
+    customInputs.forEach(input => {
+      input.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          newImage.src = event.target.result
+          newImage.classList.remove('d-none')
+        };
+        
+        reader.readAsDataURL(file);
+        takeImageProduct.classList.add('d-none')
+      })
+    })
+  }
+  
+  if (takeImageProduct !== null) {
+    const controls = document.querySelector('.controls');
+    const cameraOptions = document.querySelector('.video-options');
+    const video = document.querySelector('video');
+    const close = document.querySelector('button.close');
+    const canvas = document.querySelector('canvas');
+    const screenshotSelector = document.querySelector('.btn-select-image');
+    const imageCamera = document.querySelector('.image-camera');
+    const localFile = document.querySelector('.browse-image');
+    const screenshotImage = document.querySelector('.screenshot>img');
+    const buttons = [...controls.querySelectorAll('.controls button')];
+
+    let streamStarted = false;
+
+    const [play, screenshotBtn] = buttons;
+
+    const constraints = {
+      video: {
+        width: {
+          min: 1280,
+          ideal: 1920,
+          max: 2560,
+        },
+        height: {
+          min: 720,
+          ideal: 1080,
+          max: 1440
+        },
+      }
+    };
+
+    cameraOptions.onchange = () => {
+      const updatedConstraints = {
+        ...constraints,
+        deviceId: {
+          exact: cameraOptions.value
+        }
+      };
+
+      startStream(updatedConstraints);
+    };
+
+    play.onclick = () => {
+      document.querySelector('.initial-msg').classList.add('d-none');
+      if (streamStarted) {
+        video.play();
+        play.classList.add('d-none');
+        return;
+      }
+      if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia) {
+        const updatedConstraints = {
+          ...constraints,
+          deviceId: {
+            exact: cameraOptions.value
+          }
+        };
+        startStream(updatedConstraints);
+      }
+    };
+    
+    const pauseStream = () => {
+      video.pause();
+      play.classList.remove('d-none');
+    };
+    
+    const doScreenshot = () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      screenshotImage.src = canvas.toDataURL('image/jpeg', 0.5);
+      screenshotImage.classList.remove('d-none');
+      screenshotSelector.classList.remove('d-none');
+    };
+    
+    screenshotBtn.onclick = doScreenshot;
+
+    screenshotSelector.onclick = () => {
+      newImage.src = screenshotImage.src
+      imageCamera.value = screenshotImage.src
+      newImage.classList.remove('d-none');
+      localFile.classList.add('d-none');
+      pauseStream()
+    }
+    
+    close.onclick = () => {
+      pauseStream()
+    }
+
+    const startStream = async (constraints) => {
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      handleStream(stream);
+    };
+
+
+    const handleStream = (stream) => {
+      video.srcObject = stream;
+      play.classList.add('d-none');
+      screenshotBtn.classList.remove('d-none');
+    };
+
+
+    const getCameraSelection = async () => {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      const options = videoDevices.map(videoDevice => {
+        return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
+      });
+      cameraOptions.innerHTML = options.join('');
+    };
+
+    getCameraSelection();
+  }
+  if (formBox !== null) {
+    const messageErrors = document.getElementById('messageErrors')
+    const boxStorage = document.getElementById('boxStorage')
+    
+    if (boxStorage !== null) {
+      getStorages(boxStorage)
+    }
+
+    const buttonSend = document.querySelector('.btn-send')
+
+    if (buttonSend  !== null) {
+      buttonSend.addEventListener("click",  (e) => {
+        e.preventDefault()
+        formToObject(formBox)
+          .then(body => {
+            axios({
+              method: 'POST',
+              url: '/api/boxes/new',
+              data: body
+            })
+            .then(response => {
+              if (response.status === 200) {
+                messageErrors.innerHTML = ''
+                messageErrors.classList.add('d-none')
+                formClear(formBox)
+                .then(() => {
+                  closeFormCollaspse()
+                  if (response.data.storage !== null) {
+                    selectStorages.value = response.data.storage
+                  }
+                })
+              } else {
+                messageErrors.classList.remove('d-none')
+                messageErrors.innerHTML = ''
+                messageErrors.innerHTML = 'Sorry, we could not save your address check errors'
+                formErrors(formBox, response.data)
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            })
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      })
+    }
+  }
+
   if (formAddress !== null) {
     const messageErrors = document.getElementById('messageErrors')
     const zipCode = document.getElementById('addressPostalCode')
@@ -52,7 +287,6 @@ window.onload = () => {
     const country = document.getElementById('addressCountry')
     const longitude = document.getElementById('addressLongitude')
     const latitude = document.getElementById('addressLatitude')
-    const panelAddresCollapse = document.getElementById('collapseNewAddress')
     
     const elementsToListen = [zipCode, country, address]
 
@@ -98,7 +332,7 @@ window.onload = () => {
     })
     
     const buttonSend = document.querySelector('.btn-send')
-    const listAddresses = document.getElementById('list-addresses')
+    const listAddresses = document.getElementById('listAddresses')
 
     if (buttonSend  !== null) {
       buttonSend.addEventListener("click",  (e) => {
@@ -129,7 +363,7 @@ window.onload = () => {
                 </div>`
                 formClear(formAddress)
                 .then(() => {
-                  closeCollaspse()
+                  closeFormCollaspse()
                 })
               } else {
                 messageErrors.classList.remove('d-none')

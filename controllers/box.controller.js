@@ -1,19 +1,14 @@
 const mongoose = require("mongoose");
 const Box = require("../models/box.model");
-const User = require("../models/user.model");
 
-module.exports.all = (req, res, next) => {
-  Box.find({user: req.currentUser._id.toString() })
-    .then(boxes => {
-      res.render("boxes/all", { 
-        title: 'View all boxes',
-        boxes
-      });
-    })
-    .catch(next)
+module.exports.all = (req, res) => {
+  res.render("boxes/all", { 
+    title: 'View all boxes',
+    boxes:  req.currentUser.boxes
+  });
 };
 
-module.exports.newBox = (req, res, next) => {
+module.exports.newBox = (req, res) => {
   res.render('boxes/new', { 
     title: 'Add new box',
     user: req.currentUser
@@ -26,13 +21,13 @@ module.exports.create = (req, res, next) => {
     user: req.currentUser._id.toString(),
   });
 
-  box
-    .save()
-    .then((box) => {
-      res.redirect(`/boxes/${box._id}`);
+  box.save()
+  .then(box => {
+    res.redirect(`/boxes/${box._id}`);
     })
-    .catch((error) => {
+    .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
         res.render("boxes/new", { error: error.errors, box });
       } else {
         next(error);
@@ -44,7 +39,7 @@ module.exports.view = (req, res, next) => {
   Box.findById({user: req.currentUser._id.toString(), _id: req.params.id})
     .populate("user")
     .populate("storage")
-    .populate("product")
+    .populate("products")
     .then((box) => {
       res.render("boxes/show", { box });
     })
@@ -69,7 +64,6 @@ module.exports.update = (req, res, next) => {
     .then(box => {
       if (box.user.toString() === req.currentUser._id.toString()) {
         box.set(body);
-        console.log(body)
         box.save()
           .then(() => {
             res.redirect(`/boxes/${box._id}`);
