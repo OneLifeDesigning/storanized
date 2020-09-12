@@ -73,7 +73,7 @@ router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressCont
 //JUNGLE SALES
 router.get('/junglesales', junglesales.all)
 router.get('/junglesales/:id/', sessionMiddleware.isAuthenticated, junglesales.jungleSpace)
-router.get('/junglesales/:username/:id', sessionMiddleware.isAuthenticated, junglesales.viewProduct)
+router.get('/junglesales/:id/:productId', sessionMiddleware.isAuthenticated, junglesales.viewProduct)
 
 /* 
 TODO:

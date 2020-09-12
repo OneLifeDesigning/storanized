@@ -14,19 +14,16 @@ module.exports.all = (req, res, next) => {
 };
 
 module.exports.jungleSpace = (req, res, next) => {
-  User.findById(req.params.id)
-    .populate({
-      path: "products",
-      populate: "user",
-    })
-    .then((user) => {
-      res.render("jungle-sales/jungle-space", { user });
+  Product.find({ user: req.params.id, isPublic: true})
+    .populate("user")
+    .then((products) => {
+      res.render("jungle-sales/jungle-space", { products, user: products[0].user });
     })
     .catch(next);
 };
 
 module.exports.viewProduct = (req, res, next) => {
-  Product.findById(req.params.id)
+  Product.findById(req.params.userId)
     .populate("user")
     .then((product) => {
       res.render("jungle-sales/product", { product });

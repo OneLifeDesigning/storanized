@@ -9,8 +9,8 @@
       </div>
       <div class="profile-stats">
         <ul>
-          <li><a href="/{{product.user.username}}/{{product._id}}"></a>
-            <span class="profile-stat-count">Products: {{user.products.length}}</span></li>
+          <li><a href="/{{user._id}}/{{products._id}}"></a>
+            <span class="profile-stat-count">Products: {{products.length}}</span></li>
         </ul>
       </div>
       <div class="profile-bio">
@@ -23,7 +23,7 @@
 <main>
   <div class="container">
     <div class="gallery">
-      {{#each user.products as |product|}}
+      {{#each products as |product|}}
       <div class="gallery-item" tabindex="0">
         <img src="{{product.image}}" class="gallery-image" alt="">
         <div class="gallery-item-info">
