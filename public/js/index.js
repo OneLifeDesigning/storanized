@@ -84,6 +84,13 @@ const getStorages = (storages) => {
 const mapSetAddress = document.getElementById('mapSetAddress')
 const mapViewAddress = document.getElementById('mapViewAddress')
 
+const breadcrumb = document.getElementById('breadcrumb')
+
+if (breadcrumb) {
+  const childs = breadcrumb.childNodes
+  childs[childs.length-4].classList.add('active')
+}
+
 function initMap() {
   const myLatlng = {lat: 40.459452, lng: -3.690572};
   let map = ''

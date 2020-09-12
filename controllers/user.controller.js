@@ -209,7 +209,7 @@ module.exports.doNewToken = (req, res, next) => {
 }
 
 module.exports.viewDashboard = (req, res, next) => {
-  res.render('users/dashboard', { user: req.currentUser })
+  res.render('users/dashboard', { user: req.currentUser, breadcrumbs: req.breadcrumbs  })
 }
 
 module.exports.doEditDashboard = (req, res, next) => {

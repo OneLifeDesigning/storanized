@@ -5,6 +5,7 @@ const Storage = require("../models/storage.model")
 module.exports.all = (req, res, next) => {
     res.render("addresses/all", { 
       title: 'View all addresses',
+      breadcrumbs: req.breadcrumbs,
       addresses: req.currentUser.addresses
     });
 };
@@ -12,6 +13,7 @@ module.exports.all = (req, res, next) => {
 module.exports.new = (req, res, next) => {
   res.render('addresses/new', { 
     title: 'Add new Address',
+    breadcrumbs: req.breadcrumbs,
     user: req.currentUser,
   })
 };
@@ -41,6 +43,7 @@ module.exports.doNew = (req, res, next) => {
         res.render("addresses/new", { 
           title: 'Add new Address',
           error: error.errors, 
+          breadcrumbs: req.breadcrumbs,
           address,
           user: req.currentUser
         })
@@ -57,7 +60,8 @@ module.exports.show = (req, res, next) => {
       res.render("addresses/show", { 
         title: 'View of address',
         address, 
-        user: req.currentUser
+        user: req.currentUser,
+        breadcrumbs: req.breadcrumbs
       });
     })
     .catch(next);
@@ -68,6 +72,7 @@ module.exports.edit = (req, res, next) => {
   .then(address => {
     res.render("addresses/edit", {
       title: 'Edit new Address',
+      breadcrumbs: req.breadcrumbs,
       address,
       user: req.currentUser
     })
@@ -96,7 +101,8 @@ module.exports.doEdit = (req, res, next) => {
       if (error instanceof mongoose.Error.ValidationError) {
         res.render("addresses/edit", { 
           title: 'Add new Address',
-          error: error.errors, 
+          error: error.errors,
+          breadcrumbs: req.breadcrumbs, 
           address,
           user: req.currentUser
         })
@@ -112,6 +118,7 @@ module.exports.delete = (req, res, next) => {
     if (address.defaultAddress) {
       res.render("addresses/show", { 
         title: 'View of address',
+        breadcrumbs: req.breadcrumbs,
         address, 
         user: req.currentUser,
         error: {

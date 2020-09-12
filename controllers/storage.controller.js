@@ -4,7 +4,8 @@ const Storage = require("../models/storage.model")
 module.exports.all = (req, res, next) => {
     res.render("storages/all", { 
       title: 'View all storages',
-      storages:  req.currentUser.storages
+      storages:  req.currentUser.storages,
+      breadcrumbs: req.breadcrumbs
     });
 };
 
