@@ -19,6 +19,13 @@
   background-position-y: center;
 }
 
+.bg-products-form {
+  background-image: url("/img/products.png");
+  background-attachment: inherit;
+  background-repeat: no-repeat;
+  background-position-x: right;
+}
+
 .bg-address {
   background-image: url("/img/maps.png");
   background-attachment: inherit;
@@ -32,12 +39,27 @@
   background-attachment: inherit;
   background-size: 500px;
   background-repeat: no-repeat;
-  background-position-y: 127px;
-  background-position-x: 100px;
+  background-position-y: center;
 }
 
 .bg-address-form {
   background-image: url("/img/navigation.png");
+  background-attachment: inherit;
+  background-size: 700px;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.bg-storage {
+  background-image: url("/img/website-setting.png");
+  background-attachment: inherit;
+  background-size: 500px;
+  background-repeat: no-repeat;
+  background-position-y: bottom;
+}
+
+.bg-storage-form {
+  background-image: url("/img/website-setting.png");
   background-attachment: inherit;
   background-size: 700px;
   background-repeat: no-repeat;

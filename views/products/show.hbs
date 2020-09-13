@@ -1,52 +1,54 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-md-4">
-      {{#each product.attachments as |attachment|}}
-      {{#ifEqual attachment.target 'mainImage'}}
-      <img src="{{attachment.url}}" alt="{{../product.name}}" class="img-fluid">
-      {{/ifEqual}}
-      {{/each}}
-    </div>
-    <div class="col-12 col-md-8">
-      <p class="lead">{{product.category}}</p>
-      <h1>{{product.name}}</h1>
-      {{#each product.tags as |tag|}}
-      <span class="badge badge-pill badge-primary">{{tag}}</span>
-      {{/each}}
-      <h3>Storage</h3>
-      {{#each user.storages as |storage|}}
-      {{#ifEqual storage.id ../product.box.storage}}
-      {{storage.name}}
-      {{/ifEqual}}
-      {{/each}}
-      <h3>Box</h3>
-      <p>{{product.box.name}}</p>
-      <img src="{{product.box.qrCode}}" alt="{{product.box.name}}" class="img-fluid">
-      <h4>
-        Visibility
-        {{#if product.isPublic}}
-        Is Public
-        {{else}}
-        Is Privated
-        {{/if}}
-      </h4>
-      <h4>
-        is Sold?
-        {{#if product.isSold}}
-        Yes, i don't have it
-        {{else}}
-        No, i have it
-        {{/if}}
-      </h4>
-      {{#if product.price}}
-      <p class="txt-primary">{{product.price}} EUR</p>
-      {{/if}}
-    </div>
-    <div class="btn-group">
-      <a href="/products/{{product.id}}/edit" class="btn btn-warning"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
-      <form action="/products/{{product.id}}/delete" method="POST">
-        <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
-      </form>
+<section class="bg-products-form">
+  <div class="container">
+    <div class="general-container">
+      <div class="row">
+        <div class="col-12 col-md-4">
+          {{#each product.attachments as |attachment|}}
+          {{#ifEqual attachment.target 'mainImage'}}
+          <img src="{{attachment.url}}" alt="{{../product.name}}" class="img-fluid">
+          {{/ifEqual}}
+          {{/each}}
+        </div>
+        <div class="col-12 col-md-8">
+          <h1>{{product.name}}</h1>
+          {{#each product.tags as |tag|}}
+          <span class="badge badge-pill badge-primary">{{tag}}</span>
+          {{/each}}
+          <p><strong>Category: </strong>{{product.category}}</p>
+          {{#each user.storages as |storage|}}
+          {{#ifEqual storage.id ../product.box.storage}}
+          <p><strong>Storage: </strong>{{storage.name}}</p>
+          {{/ifEqual}}
+          {{/each}}
+          <p><strong>Box: </strong>{{product.box.name}}</p>
+          <img src="{{product.box.qrCode}}" alt="{{product.box.name}}" class="img-fluid">
+            <p><strong>Is public?: </strong>
+            {{#if product.isPublic}}
+            Yes, Is Public
+            {{else}}
+            No, Is Privated
+            {{/if}}
+            </p>
+          <p><strong>Is Sold?: </strong>
+            {{#if product.isSold}}
+            Yes, i don't have it
+            {{else}}
+            No, i have it
+            {{/if}}
+          </p>
+          {{#if product.price}}
+          <p class="txt-primary"><strong>Price: </strong>{{product.price}} EUR</p>
+          {{/if}}
+        </div>
+        <div class="form-inline col-12">
+          <div style="margin: 8px;">
+          <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+          </div>
+          <form action="/products/{{product.id}}/delete" method="POST">
+            <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>

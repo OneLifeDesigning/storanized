@@ -50,7 +50,7 @@ module.exports.viewEdit = (req, res, next) => {
   Box.findById(req.params.id)
   .then(box => {
     res.render("boxes/edit", {
-      title: 'Edit new box',
+      title: 'Edit box',
       box,
       user: req.currentUser
     })

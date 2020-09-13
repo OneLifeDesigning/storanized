@@ -1,16 +1,21 @@
-<div class="container">
-  <h1>{{title}}</h1>
-  {{#if storage}}
-  <p>{{ storage.name }}</p>
-  <p>{{ storage.description }}</p>
-  <p>{{ storage.address.name }}</p>
-  <div class="row">
-    <div class="col-6">
-      <a href="/storages/{{storage.id}}/edit" class="btn btn-warning"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
-    </div>
-    <div class="col-6 text-right">
-      <a href="/storages/{{storage.id}}/delete" class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</a>
+<section class="bg-storage-form">
+  <div class="container">
+    <div class="general-container">
+      <h1 class="text-center">{{title}}</h1>
+      <br>
+      {{#if storage}}
+      <p><strong>Name: </strong>{{ storage.name }}</p>
+      <p><strong>Description: </strong>{{ storage.description }}</p>
+      <p><strong>Address: </strong>{{ storage.address.name }}</p>
+      <div class="form-inline">
+        <div>
+          <a href="/storages/{{storage.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+        </div>
+        <div style="margin-left: 8px">
+          <a href="/storages/{{storage.id}}/delete" class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</a>
+        </div>
+      </div>
+      {{/if}}
     </div>
   </div>
-  {{/if}}
-</div>
+</section>

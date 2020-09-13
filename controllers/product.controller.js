@@ -14,6 +14,7 @@ module.exports.all = (req, res, next) => {
 
 module.exports.new = (req, res, next) => {
   res.render("products/new", {
+    title: 'New product',
     category: category,
     user: req.currentUser
   });
