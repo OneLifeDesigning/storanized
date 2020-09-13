@@ -1,14 +1,14 @@
-
+<div class="container">
   <div class="row align-items-center mb-4">
     <div class="col-12 col-md-9">
-      <h1 class="">{{title}}</h1>
+      <h1>{{title}} <i class="fas fa-boxes"></i></h1>
     </div>
     <div class="col-12 col-md-3 text-right">
       <a href="/storages/new" class="btn btn-primary"><i class="fa fa-plus mr-2"></i> Add new</a>
     </div>
   </div>
   <div class="row">
-  {{#if storages}}
+    {{#if storages}}
     {{#each storages as |storage|}}
     <div class="col-sm-6 mb-2">
       <div class="card">
@@ -33,4 +33,5 @@
     </div>
     {{/each}}
   </div>
-{{/if}}
+  {{/if}}
+</div>

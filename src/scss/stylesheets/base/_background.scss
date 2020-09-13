@@ -1,0 +1,45 @@
+.bg-box {
+  background-image: url("/img/box1.png");
+  background-size: 300px;
+  background-repeat: no-repeat;
+  background-position: right;
+  &_all {
+    background-image: url("/img/box1.png");
+    background-size: 384px;
+    background-repeat: no-repeat;
+    background-position-y: center;
+  }
+}
+
+.bg-products {
+  background-image: url("/img/checklist.png");
+  background-attachment: inherit;
+  background-size: 400px;
+  background-repeat: no-repeat;
+  background-position-y: center;
+}
+
+.bg-address {
+  background-image: url("/img/maps.png");
+  background-attachment: inherit;
+  background-size: 200px;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.bg-products-all {
+  background-image: url("/img/checklist.png");
+  background-attachment: inherit;
+  background-size: 500px;
+  background-repeat: no-repeat;
+  background-position-y: 127px;
+  background-position-x: 100px;
+}
+
+.bg-address-form {
+  background-image: url("/img/navigation.png");
+  background-attachment: inherit;
+  background-size: 700px;
+  background-repeat: no-repeat;
+  background-position: right;
+}

@@ -159,7 +159,7 @@
   transition: all 0.5s ease 0s;
 
   &:hover {
-    background: #41eb9cba;
+    background: #41ebdaba;
     box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.2);
     -webkit-transition: all 0.5s ease 0;
     transition: all 0.5s ease 0;
@@ -176,14 +176,15 @@
 }
 
 #logo-jungle {
-  margin-left: 100%;
-  width: 60%;
+  margin-left: 65%;
+  margin-top: -59px;
+  margin-bottom: 26px;
 }
 
 .all-products {
   position: relative;
   z-index: 1;
-  top: -500px;
+  top: -68px;
 }
 
 .jungle-bg {

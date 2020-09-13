@@ -1,11 +1,15 @@
-<div class="row align-items-center mb-4">
-  <div class="col-12 col-md-9">
-    <h1 class="mb-0">{{title}}</h1>
-  </div>
-  <div class="col-12">
-    <form action="/boxes/{{box.id}}/edit" method="POST"> 
-      {{> boxes/form }}
-    </form>
+<div class="container">
+  <div class="general-container bg-box">
+    <div class="row align-items-center mb-4">
+      <div class="col-12 col-md-9">
+        <h1 class="mb-0">{{title}}</h1>
+        <br>
+      </div>
+      <div class="col-12">
+        <form action="/boxes/{{box.id}}/edit" method="POST">
+          {{> boxes/form }}
+        </form>
+      </div>
+    </div>
   </div>
 </div>
-<a href="/boxes" class="btn btn-primary">Return to boxes</a>
