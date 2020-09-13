@@ -6,6 +6,7 @@ const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
 const apiController = require('../controllers/api.controller')
 const boxController = require('../controllers/box.controller')
+const junglesales = require('../controllers/jungle.controller')
 const productsController = require('../controllers/product.controller')
 const uploads = require('../config/multer.config')
 
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
     title: 'Home'
   })
 })
- 
+
 router.get('/login', sessionMiddleware.isNotAuthenticated, userController.login)
 router.post('/login', sessionMiddleware.isNotAuthenticated, userController.doLogin)
 
@@ -83,14 +84,16 @@ router.get('/api/storages', sessionMiddleware.isAuthenticated, apiController.get
 router.get('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
 router.post('/api/boxes/new', sessionMiddleware.isAuthenticated, apiController.doNewBox)
 
+//JUNGLE SALES
+router.get('/junglesales', junglesales.all)
+router.get('/junglesales/:id/', sessionMiddleware.isAuthenticated, junglesales.jungleSpace)
+router.get('/junglesales/:id/:productId', sessionMiddleware.isAuthenticated, junglesales.viewProduct)
+
 /* 
 TODO:
-  
   router.get('/auth/slack', userController.doAuthSlack)
   router.get('/auth/google', userController.doAuthGoogle)
   router.get('/auth/facebook', userController.doAuthFacebook)
-  
- 
 */
 
 

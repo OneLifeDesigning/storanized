@@ -1,0 +1,30 @@
+<section id="jungle-sales">
+  <div class="container">
+    <br>
+    <img id="logo-jungle" src="/img/logo-jungleSales.png" alt="{{title}}">
+    <br>
+    <main class="all-products">
+      <div class="row">
+        {{#each products as |product|}}
+        <div class="col-lg-4 col-sm-6">
+          <div class="item">
+            {{#each product.attachments as |attachment|}}
+            {{#ifEqual attachment.target 'mainImage'}}
+            <img src="{{attachment.url}}" alt="{{../product.name}}" class="card-img-top">
+            {{/ifEqual}}
+            {{/each}}
+            <div class="card-body">
+              <p class="card-title"><a href="/junglesales/{{product.user.username}}/{{product._id}}"
+                  class="text-dark">{{product.name}}</a></p>
+              <p class="card-text">
+              <h5><strong>Price:</strong> {{product.price}}€</h5>
+              </p>
+              <a href="/junglesales/{{product.user.id}}/{{product._id}}" class="btn btn-lg btn-info">View Product</a>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </main>
+  </div>
+</section>
