@@ -216,7 +216,6 @@ module.exports.doEditDashboard = (req, res, next) => {
   const body = req.body
   const user = req.currentUser
   
-  console.log(req.files);
   if (req.files[0]) {
     body.avatar = req.files[0].path
   }

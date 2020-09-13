@@ -142,3 +142,24 @@ module.exports.delete = (req, res, next) => {
   })
   .catch(next)
 }
+
+
+module.exports.apiDoNewAddress = (req, res, next) => {
+  req.body.defaultAddress = req.body.defaultAddress ? true : false 
+  const address = new Address({
+    ...req.body,
+    user: req.currentUser._id.toString()
+  })
+  address.save()
+    .then(address => {
+      res.status(200).json(address)
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
+        res.status(201).json(error.errors)
+      } else {
+        res.status(201).json(error);
+      }
+    })
+}

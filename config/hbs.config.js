@@ -17,3 +17,18 @@ hbs.registerHelper(
     return val1 === val2 ? options.inverse(this) : options.fn(this)
   }
 );
+hbs.registerHelper(
+  'DateFormat', function(date) {
+    if (date) {
+      return date.toLocaleString('es-ES', { timeZone: 'UTC' })
+    }
+  }
+);
+
+hbs.registerHelper(
+  'Truncate', function(paragraph, num) {
+    if (paragraph && paragraph.length <= num) {
+      return paragraph
+    }
+    return paragraph.slice(0, num) + '...'  }
+);

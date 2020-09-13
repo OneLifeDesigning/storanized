@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const Address = require("../models/address.model");
-const Storage = require("../models/storage.model");
-const Box = require("../models/box.model");
-const Product = require("../models/product.model");
 
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\']+(\.[^<>()\[\]\.,;:\s@\']+)*)|(\'.+\'))@(([^<>()[\]\.,;:\s@\']+\.)+[^<>()[\]\.,;:\s@\']{2,})$/i;
 

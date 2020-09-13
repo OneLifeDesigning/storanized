@@ -5,18 +5,22 @@ const Address = require("../models/address.model");
 const Storage = require("../models/storage.model");
 const Box = require("../models/box.model");
 const Product = require("../models/product.model");
+const Message = require("../models/message.model");
+const Chat = require("../models/chat.model");
 const Attachment = require("../models/attachment.model");
+
+const usersProducts = []
 
 const productType = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'] 
 
 const genre = ['Female', 'Male', 'Other']
+const bool = [true, false]
 
 const getRanElem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)]
 } 
 
 const faker = require("faker");
-const { random } = require('faker');
 
 const generateRandomToken = () => {
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -99,15 +103,38 @@ function createProduct(userId, boxId) {
   })
   return product.save()
 }
+
+function createChat(userId, ownerId, productId) {
+  const chat = new Chat({
+    user: userId,
+    owner: ownerId,
+    product: productId,
+    unread: false
+  })
+  return chat.save()
+}
+function createMessage(chatId, ownerId, userId, createdAt, unread) {
+  const messages = new Message({
+    chatId: chatId,
+    owner: ownerId,
+    to: userId,
+    text: faker.lorem.paragraph(),
+    unread: unread,
+    createdAt: createdAt
+  })
+  return messages.save()
+}
+
 function createAttachment(userId, productId) {
   const attachment = new Attachment({
     target: 'mainImage',
-    url: faker.image.imageUrl(random),
+    url: faker.image.image(),
     product: productId,
     user: userId
   })
   return attachment.save()
 }
+
 
 const users = []
 
@@ -118,15 +145,16 @@ function restoreDatabase() {
     Storage.deleteMany({}),
     Box.deleteMany({}),
     Attachment.deleteMany({}),
-    Product.deleteMany({})
+    Product.deleteMany({}),
+    Chat.deleteMany({}),
+    Message.deleteMany({})
   ])
 }
 function seeds() {
   restoreDatabase()
     .then(() => {
       console.log('Database restored!')
-
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 30; i++) {
         createUser()
           .then(user => {
             console.log(user.email)
@@ -141,22 +169,61 @@ function seeds() {
                       for (let i = 0; i < 4; i++) {
                         createBox(user.id, storage.id)
                         .then(box => {
-                          console.log('box', box.location);
-                          for (let i = 0; i < 20; i++) {
+                          console.log('box', box.name);
+                          for (let i = 0; i < 10; i++) {
                             createProduct(user.id, box.id)
                               .then(product => {
                                 createAttachment(user.id, product.id)
                                 .then(attachment => {
                                   product.image = attachment.id
                                   product.save()
-                                    .then(product => {
-                                        console.log('product', product.name);
-                                      })
-                                      .catch()
-                                    })
-                                    .catch()
-                              })
-                              .catch()
+                                  .then(product => {
+                                    if (usersProducts.length >= 6) {
+                                      for (let i = 0; i < Math.floor(Math.random() * 2); i++) {
+                                        const ownerData = getRanElem(usersProducts)
+                                        if (user.id !== ownerData.ownerId) {
+                                          createChat(user.id, ownerData.ownerId, ownerData.productId)
+                                            .then(chat => {
+                                              const maxMesages = Math.floor(Math.random() * 4)
+                                              for (let i = 0; i < maxMesages; i++) {
+                                                const time = new Date()
+                                                createMessage(chat.id, ownerData.ownerId, user.id, time, false)
+                                                .then(() => {
+                                                  let unread = false
+                                                  if (maxMesages === i+1) {
+                                                    console.log('last message');
+                                                    unread = getRanElem(bool)
+                                                  }
+                                                  console.log(unread);
+                                                  createMessage(chat.id, user.id, ownerData.ownerId, time.setMinutes( time.getMinutes() + Math.floor(Math.random() * 10)), unread)
+                                                  .then(() => {
+                                                    if (unread) {
+                                                      chat.unread = unread
+                                                      chat.save()
+                                                      .then(() => {
+                                                        console.log('chat update')
+                                                      })
+                                                      .catch()
+                                                      console.log('chat no update')
+                                                    }
+                                                  })
+                                                  .catch()
+                                                })
+                                                .catch()
+                                              }
+                                            })
+                                            .catch()
+                                        }
+                                      }
+                                    }
+                                    usersProducts.push({ownerId: user.id, productId: product.id })
+                                    console.log('product', product.name);
+                                  })
+                                  .catch()
+                                })
+                                .catch()
+                            })
+                            .catch()
                           }
                         })
                         .catch()

@@ -8,6 +8,8 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto mr-0">
         {{#if currentUser }}
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="/junglesales/chats"><i class="fa fa-envelope mr-2"></i><span id="newMsgs" class="badge badge-light">9</span></a>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{currentUser.name}} {{ currentUser.lastname }}</a>
             <div class="dropdown-menu dropdown-menu-right">

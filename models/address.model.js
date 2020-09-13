@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { address } = require('faker');
 
 const addressSchema = new mongoose.Schema({
   name: {

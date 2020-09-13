@@ -5,9 +5,6 @@ const logger = require('morgan');
 const path = require('path')
 const cookieParser = require('cookie-parser')
 
-
-
-
 require('./config/breadcrumbs.config')
 require('./config/db.config')
 require('./config/hbs.config')
