@@ -8,6 +8,7 @@ const category = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio
 module.exports.all = (req, res, next) => {
   res.render("products/all", { 
     title: 'View all products',
+    breadcrumbs: req.breadcrumbs,
     products:  req.currentUser.products
   });
 };
@@ -15,6 +16,7 @@ module.exports.all = (req, res, next) => {
 module.exports.new = (req, res, next) => {
   res.render("products/new", {
     title: 'New product',
+    breadcrumbs: req.breadcrumbs,
     category: category,
     user: req.currentUser
   });
@@ -44,11 +46,11 @@ module.exports.create = (req, res, next) => {
               product.save()
                 .then(() => {res.redirect(`/products/${product.id}`)})
                 .catch(() => {
-                  res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                  res.render("products/new", { breadcrumbs: req.breadcrumbs, error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
                 })
             })
             .catch(() => {
-              res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+              res.render("products/new", { breadcrumbs: req.breadcrumbs, error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
             })
           
         } else {
@@ -61,15 +63,15 @@ module.exports.create = (req, res, next) => {
                 product.save()
                 .then(() => {res.redirect(`/products/${product.id}`)})
                 .catch(() => {
-                  res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                  res.render("products/new", { breadcrumbs: req.breadcrumbs, error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
                 })
               })
               .catch(() => {
-                res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+                res.render("products/new", { breadcrumbs: req.breadcrumbs, error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
               })
             })
             .catch(() => {
-                res.render("products/new", { error: {message: 'There was a problem with the uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+                res.render("products/new", { breadcrumbs: req.breadcrumbs, error: {message: 'There was a problem with the uploading your image, please try again later'}, user: req.currentUser, product, category: category });
             })
         }
       }
@@ -77,7 +79,7 @@ module.exports.create = (req, res, next) => {
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
         error.errors.message = 'Please, check the data entered'
-        res.render("products/new", { error: error.errors, product, user: req.currentUser, category: category });
+        res.render("products/new", { breadcrumbs: req.breadcrumbs, error: error.errors, product, user: req.currentUser, category: category });
       } else {
         next();
       }
@@ -91,6 +93,7 @@ module.exports.view = (req, res, next) => {
     .then(product => {
       res.render("products/show", {
         title: 'Edit product',
+        breadcrumbs: req.breadcrumbs,
         product,
         category: category,
         user: req.currentUser
@@ -106,6 +109,7 @@ module.exports.viewEdit = (req, res, next) => {
   .then(product => {
     res.render("products/edit", {
       title: 'Edit product',
+      breadcrumbs: req.breadcrumbs,
       product,
       category: category,
       user: req.currentUser
@@ -137,11 +141,11 @@ module.exports.update = (req, res, next) => {
                 product.save()
                   .then(() => {res.redirect(`/products/${product.id}`)})
                   .catch(() => {
-                    res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                    res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, breadcrumbs: req.breadcrumbs, category: category });
                   })
               })
               .catch(() => {
-                res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+                res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, breadcrumbs: req.breadcrumbs, category: category });
               })
           } else if(req.body.imageCamera) {
             cloudinary.uploader.upload(req.body.imageCamera, {overwrite: true, invalidate: true, folder: 'storanized'})
@@ -153,15 +157,15 @@ module.exports.update = (req, res, next) => {
                   product.save()
                   .then(() => {res.redirect(`/products/${product.id}`)})
                   .catch(() => {
-                    res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, product, category: category });
+                    res.render("products/new", { error: {message: 'There was a problem with saving product, please try again later'}, user: req.currentUser, breadcrumbs: req.breadcrumbs, product, category: category });
                   })
                 })
                 .catch(() => {
-                  res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+                  res.render("products/new", { error: {message: 'There was a problem with uploading your image, please try again later'}, user: req.currentUser, product, breadcrumbs: req.breadcrumbs, category: category });
                 })
               })
               .catch(() => {
-                  res.render("products/new", { error: {message: 'There was a problem with the uploading your image, please try again later'}, user: req.currentUser, product, category: category });
+                  res.render("products/new", { error: {message: 'There was a problem with the uploading your image, please try again later'}, user: req.currentUser, product, breadcrumbs: req.breadcrumbs, category: category });
               })
           } 
         } else {
@@ -171,7 +175,7 @@ module.exports.update = (req, res, next) => {
       .catch(error => {
         if (error instanceof mongoose.Error.ValidationError) {
           error.errors.message = 'Please, check the data entered'
-          res.render("products/new", { error: error.errors, user: req.currentUser, product, category: category });
+          res.render("products/new", { error: error.errors, user: req.currentUser, product, breadcrumbs: req.breadcrumbs, category: category });
         } else {
           next();
         }
@@ -180,7 +184,7 @@ module.exports.update = (req, res, next) => {
     .catch(error => {
       if (error instanceof mongoose.Error.ValidationError) {
         error.errors.message = 'Please, check the data entered'
-        res.render("products/new", { error: error.errors, user: req.currentUser, product, category: category });
+        res.render("products/new", { error: error.errors, user: req.currentUser, product, breadcrumbs: req.breadcrumbs, category: category });
       } else {
         next();
       }

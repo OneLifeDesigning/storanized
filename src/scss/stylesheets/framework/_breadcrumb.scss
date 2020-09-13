@@ -1,0 +1,12 @@
+.nav-bread, .breadcrumb.container {
+  background-color: $ligth-grey;
+}
+.breadcrumb {
+  a {
+    color: $text-primary;
+    font-weight: 500;
+  }
+  span {
+    color: $dark-grey;
+  }
+}
