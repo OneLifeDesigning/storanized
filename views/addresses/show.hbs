@@ -1,39 +1,32 @@
-<h1>{{title}}</h1>
-{{#if address}}
-{{#if error}}
-<div class="alert alert-danger">
-  <p class="mb-0">{{error.message}}</p>
-</div>
-{{/if}}
-  <div class="row">
-    <div class="col-12 col-md-4">
-      <p>{{address.name}}</p>
-      <p>{{address.address}}</p>
-      <p>{{address.city}}</p>
-      <p>{{address.state}}</p>
-      <p>{{address.country}}</p>
-      <p>{{address.postalCode}}</p>
-      <p>{{address.phone}}</p>
-      <p>{{address.longitude}}</p>
-      <p>{{address.latitude}}</p>
-      <p>
-      {{#if address.defaultAddress}}Yes{{else}}No{{/if}}Default address</p>
-    </div>
-    <div class="col-12 col-md-8">
-      <div class="embed-responsive embed-responsive-16by9">
-        <div id="mapViewAddress" class="embed-responsive-item" data-name="{{address.name}}" data-address="{{address.address}}" data-city="{{address.city}}" data-state="{{address.state}}" data-country="{{address.country}}" data-postalcode="{{address.postalCode}}" data-lat="{{address.latitude}}" data-long="{{address.longitude}}"></div>
-      </div>   
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <a href="/addresses/{{address.id}}/edit" class="btn btn-warning">
-      <i class="fa fa-pencil-alt mr-2"></i> Edit</a>
-    </div>
-    <div class="col-6 text-right">
-      <form action="/addresses/{{address.id}}/delete" method="POST">
-        <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
-      </form>
+<section class="bg-address-form">
+  <div class="container">
+    <div class="general-container">
+      <h1 style="text-align: center;">{{title}}</h1>
+      <br>
+      {{#if address}}
+      {{#if error}}
+      <div class="alert alert-danger">
+        <p class="mb-0">{{error.message}}</p>
+      </div>
+      {{/if}}
+      <p><strong>Name: </strong>{{address.name}}</p>
+      <p><strong>Address: </strong>{{address.address}}</p>
+      <p><strong>City: </strong>{{address.city}}</p>
+      <p><strong>State: </strong>{{address.state}}</p>
+      <p><strong>Country: </strong>{{address.country}}</p>
+      <p><strong>Postal Code: </strong>{{address.postalCode}}</p>
+      <p><strong>Phone: </strong>{{address.phone}}</p>
+      <p><strong>Longitude: </strong>{{address.longitude}}</p>
+      <p><strong>Latitude: </strong>{{address.latitude}}</p>
+      <p style="color: green;">{{#if address.defaultAddress}}Yes{{else}}No{{/if}}Default address</p>
+      <div class="address_btn">
+        <a href="/addresses/{{address.id}}/edit" class="btn btn-warning">
+          <i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+        <form action="/addresses/{{address.id}}/delete" method="POST">
+          <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
+        </form>
+      </div>
+      {{/if}}
     </div>
   </div>
-{{/if}}
+</section>
