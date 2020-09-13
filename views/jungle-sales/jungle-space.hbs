@@ -1,3 +1,4 @@
+<section id="jungle-space" class="jungle-bg">
 <header>
   <div class="container">
     <div class="profile">
@@ -15,23 +16,34 @@
       </div>
       <div class="profile-bio">
         <p><span class="profile-real-name">{{user.name}} {{user.lastname}}</span> Mi cabeza es un destre pero mi armario
-          NO! 📷✈️🏕️</p>
+          NO! 📷✈🏕️</p>
       </div>
     </div>
   </div>
 </header>
 <main>
   <div class="container">
-    <div class="gallery">
+    <div class="row">
       {{#each products as |product|}}
-      <div class="gallery-item" tabindex="0">
-        <img src="{{product.image}}" class="gallery-image" alt="">
-        <div class="gallery-item-info">
-          <ul>
-						<li class="gallery-item-name"><span class="visually-hidden"></span>Product: {{product.name}}</li>
-            <li class="gallery-item-name"><span class="visually-hidden"></span>Price: {{product.price}}€</li>
-					</ul>
+      <div class="col-lg-4 col-sm-6">
+        <div class="item">
+          {{#each product.attachments as |attachment|}}
+          {{#ifEqual attachment.target 'mainImage'}}
+          <img src="{{attachment.url}}" alt="{{../product.name}}" class="card-img-top">
+          {{/ifEqual}}
+          {{/each}}
+          <div class="card-body">
+            <p class="card-title"><a href="/junglesales/{{product.user.id}}/{{product._id}}"
+                class="text-dark">{{product.name}}</a></p>
+            <p class="card-text">
+            <h5><strong>Price:</strong> {{product.price}}€</h5>
+            </p>
+            <a href="/junglesales/{{product.user.id}}/{{product._id}}" class="btn btn-lg btn-info">View Product</a>
+          </div>
         </div>
       </div>
       {{/each}}
+    </div>
+  </div>
 </main>
+</section>

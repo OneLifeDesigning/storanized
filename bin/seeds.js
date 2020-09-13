@@ -10,13 +10,13 @@ const Attachment = require("../models/attachment.model");
 const productType = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'] 
 
 const genre = ['Female', 'Male', 'Other']
+const isPublic = [true, false]
 
 const getRanElem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)]
 } 
 
 const faker = require("faker");
-const { random } = require('faker');
 
 const generateRandomToken = () => {
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -92,18 +92,17 @@ function createProduct(userId, boxId) {
     tags: [faker.lorem.word()],
     category: getRanElem(productType),
     price: faker.commerce.price(),
-    isPublic: false,
+    isPublic: getRanElem(isPublic),
     isSold: false,
     user: userId,
     box: boxId,
-    image: faker.image.imageUrl()
   })
   return product.save()
 }
 function createAttachment(userId, productId) {
   const attachment = new Attachment({
     target: 'mainImage',
-    url: faker.image.imageUrl(random),
+    url: faker.image.image(),
     product: productId,
     user: userId
   })

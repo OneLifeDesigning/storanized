@@ -47,10 +47,6 @@ const productSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false
   },
-  image: {
-    type: String,
-    trim: true
-  }
 },{ timestamps: true, toJSON: { virtuals: true } });
 
 productSchema.virtual("attachments", {

@@ -1,16 +1,29 @@
-<article class="container">
-  <div class="row">
-    <div class="col-2">
-      <img class="w-100 rounded-circle" src="{{product.avatar}}" />
-    </div>
-
-    <div class="col-10">
-      <h2>{{product.name}}</h2>
-      <p>Description: {{product.description}}</p>
-      <p>Price: {{product.price}}</p>
-      <p>Category: {{product.category}}</p>
-      <p>Tags: {{product.tags}}</p>
-      <p><strong>Owner:</strong> @{{product.user.username}}</p>
+<section class="jungle-bg">
+  <div class="container">
+    <div class="jungle-prod-info_border">
+      <div class="row">
+        <div class="jungle-prod">
+          {{#each product.attachments as |attachment|}}
+          {{#ifEqual attachment.target 'mainImage'}}
+          <img src="{{attachment.url}}" alt="{{../product.name}}" class="gallery-image">
+          {{/ifEqual}}
+          {{/each}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="jungle-prod-info">
+          <h1 class="jungle-prod-info_name">{{product.name}}</h1>
+          <p><strong class="tag">Price:</strong> {{product.price}}€</p>
+          <p><strong class="tag">Category:</strong> {{product.category}}</p>
+          <p><strong class="tag">Tags:</strong> {{product.tags}}</p>
+          <p><strong class="tag">Description:</strong> {{product.description}}</p>
+          <p><strong class="tag">Owner:</strong><a
+              href="/junglesales/{{product.user._id}}">@{{product.user.username}}</a>
+          </p>
+          <a class="btn btn-lg btn-info jungle-prod-info_btn" href="/junglesales/chat"> <i class="far fa-comments"></i>
+            Contact with</a>
+        </div>
+      </div>
     </div>
   </div>
-</article>
+</section>
