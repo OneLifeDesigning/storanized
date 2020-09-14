@@ -17,7 +17,6 @@
             <div class="card-body">
               <h5 class="card-title"><a href="/storages/{{storage.id}}/edit">{{storage.name}}</a></h5>
               <p class="card-text">{{storage.description}}</p>
-              <div class="row">
                 <div class="form-inline">
                   <div>
                     <a href="/storages/{{storage.id}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
@@ -28,7 +27,6 @@
                   <form action="/storages/{{storage.id}}/delete" method="POST">
                     <button class="btn btn-danger"><i class="fa fa-trash"></i> </button>
                   </form>
-                </div>
               </div>
             </div>
           </div>

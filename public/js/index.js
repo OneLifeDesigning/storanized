@@ -55,7 +55,6 @@ const getStorageBoxes = (value, object) => {
       }
     })
     .catch(err => {
-      console.log(err);
     })
   }
 }
@@ -70,14 +69,15 @@ const getStorages = (storages) => {
       if (storages.getAttribute('disabled')) {
         storages.removeAttribute('disabled')
       }
-      storages.innerHTML = ''
-      response.data.forEach(el => {
-        storages.innerHTML += `<option value="${el.id}">${el.name}</option>            `
-      })
+      if (storages.data) {
+        storages.innerHTML = ''
+        response.data.forEach(el => {
+          storages.innerHTML += `<option value="${el.id}">${el.name}</option>            `
+        })  
+      }
     }
   })
   .catch(err => {
-    console.log(err);
   })
 }
 
@@ -138,17 +138,18 @@ function initMap() {
           if (results[0]) {
             axios({
               method: 'GET',
-              url: `https://maps.googleapis.com/maps/api/geocode/json?address=${results[0].formatted_address}&key=AIzaSyDV6b7jqn1LvDF5ut5SjDRuZJl3nnVzo5I`
+              url: `https://maps.googleapis.com/maps/api/geocode/json?address=${results[0].formatted_address}&key=AIzaSyBYXm379NbtX6xF2bMJzEb_9R0lyKX5k8A`
             })
             .then(response => {
-              infoWindow.close();
-              infoWindow = new google.maps.InfoWindow({position: event.latLng});
-              infoWindow.setContent(`<p>${results[0].formatted_address}<br>Cordinates: ${response.data.results[0].geometry.location.lat}, ${response.data.results[0].geometry.location.lng}</p><a href="#0" class="btn btn-primary" id="setAddress" data-address="${response.data.results[0].address_components[1].long_name}" data-number="${response.data.results[0].address_components[0].long_name}" data-city="${response.data.results[0].address_components[2].long_name}" data-state="${response.data.results[0].address_components[4].long_name}" data-country="${response.data.results[0].address_components[5].long_name}" data-postalcode="${response.data.results[0].address_components[6].long_name}" data-lat="${response.data.results[0].geometry.location.lat}" data-long="${response.data.results[0].geometry.location.lng}"
-              >Use this</a>`);
-              infoWindow.open(map);
+              if (response.data) {
+                infoWindow.close();
+                infoWindow = new google.maps.InfoWindow({position: event.latLng});
+                infoWindow.setContent(`<p>${results[0].formatted_address}<br>Cordinates: ${response.data.results[0].geometry.location.lat}, ${response.data.results[0].geometry.location.lng}</p><a href="#0" class="btn btn-primary" id="setAddress" data-address="${response.data.results[0].address_components[1].long_name}" data-number="${response.data.results[0].address_components[0].long_name}" data-city="${response.data.results[0].address_components[2].long_name}" data-state="${response.data.results[0].address_components[4].long_name}" data-country="${response.data.results[0].address_components[5].long_name}" data-postalcode="${response.data.results[0].address_components[6].long_name}" data-lat="${response.data.results[0].geometry.location.lat}" data-long="${response.data.results[0].geometry.location.lng}"
+                >Use this</a>`);
+                infoWindow.open(map);
+              }
             })
             .catch(error => {
-              console.log(error);
             })
           }
         }
@@ -223,7 +224,6 @@ const markReadMsg = (id) => {
   })
   .then(response => {
     if (response.status === 200) {
-      console.log('mark ok');
     }
   })
   .catch()
@@ -262,7 +262,6 @@ window.onload = () => {
       const targetId = targetSlash.substring(1)
 
       const moveTo = document.getElementById(targetId)
-      console.log(moveTo);
       setTimeout(() => {
         moveTo.scrollIntoView()
       }, 500);
@@ -497,11 +496,9 @@ window.onload = () => {
               }
             })
             .catch(err => {
-              console.log(err);
             })
           })
           .catch(error => {
-            console.log(error);
           })
       })
     }
@@ -516,7 +513,7 @@ window.onload = () => {
     const country = document.getElementById('addressCountry')
     const longitude = document.getElementById('addressLongitude')
     const latitude = document.getElementById('addressLatitude')
-    
+
     const elementsToListen = [zipCode, country, address]
 
     elementsToListen.forEach(el => {
@@ -527,7 +524,7 @@ window.onload = () => {
           address.classList.remove('is-invalid')
           axios({
             method: 'GET',
-            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address.value}, ${zipCode.value}, ${country.value}&key=AIzaSyDV6b7jqn1LvDF5ut5SjDRuZJl3nnVzo5I`
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address.value}, ${zipCode.value}, ${country.value}&key=AIzaSyBYXm379NbtX6xF2bMJzEb_9R0lyKX5k8A`
           })
           .then(response => {
             if (response.data.status !== 'ZERO_RESULTS') {
@@ -548,7 +545,6 @@ window.onload = () => {
             }
           })
           .catch(error => {
-            console.log(error);
           })
         } else {
           elementsToListen.forEach(element => {
@@ -602,11 +598,9 @@ window.onload = () => {
               }
             })
             .catch(err => {
-              console.log(err);
             })
           })
           .catch(error => {
-            console.log(error);
           })
       })
     }
