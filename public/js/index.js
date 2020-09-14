@@ -314,13 +314,13 @@ window.onload = () => {
     sendMsgButton.addEventListener('click', () => {
       sendToApiNewMsg()
     })
-    
+
     sendMsgInput.addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         sendToApiNewMsg()
       }
   });
-  
+
   }
 
   if (customInputs) {
