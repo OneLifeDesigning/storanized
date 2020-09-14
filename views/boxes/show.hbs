@@ -1,54 +1,59 @@
 <section class="container">
   <div class="general-container">
-  <h1>{{title}}</h1>
-  <div class="bg-box">
-    {{#if box}}
+    <h1>{{title}}</h1>
+    <div class="bg-box">
+      {{#if box}}
       <h1 style="text-align: center;"></strong>{{box.name}}</h1>
       <br>
       <p for="description"><strong>Description: </strong>{{box.description}}</p>
       <p for="location"><strong>Location: </strong>{{box.location}}</p>
-      <p for="qr"><strong>Code QR:</p></strong> 
+      <p for="qr"><strong>Code QR:</p></strong>
       <img src="{{box.qrCode}}" alt="qrCode">
       <p for="qr"><strong>Storage: </strong>{{box.storage.name}}</p>
       {{/if}}
-  </div>
-  <section class="bg-products">
-    <hr>
-    <h1 class="jungle-prod-info_name">Products List</h1>
-    {{#if box.products }}
-    <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true">
-      <thead class="thead-primary">
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Category</th>
-          <th scope="col">Tags</th>
-          <th scope="col">Options</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each box.products as |product|}}
-        <tr>
-          <td>{{product.name}}</td>
-          <td>{{product.category}}</td>
-          <td>
-            {{#each product.tags as |tag|}}
+    </div>
+    <section class="bg-products">
+      <hr>
+      <h1 class="jungle-prod-info_name">Products List</h1>
+      {{#if box.products }}
+      <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true">
+        <thead class="thead-primary">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each box.products as |product|}}
+          <tr>
+            <td>{{product.name}}</td>
+            <td>{{product.category}}</td>
+            <td>
+              {{#each product.tags as |tag|}}
               <span class="badge badge-pill badge-primary mr-1">{{tag}}</span>
-            {{/each}}
-          </td>
-          <td>
-            <div class="btn-group">
-              <a href="/products/{{product._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
-              <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
-            </div>
-            <form action="/products/{{product.id}}/delete" method="POST" class="float-right">
-              <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
-            </form>
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </section>
-  {{/if}}
+              {{/each}}
+            </td>
+            <td>
+              <div class="form-inline">
+                <div>
+                  <a href="/products/{{product._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
+                </div>
+                <div class="btn-general">
+                  <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i>
+                    Edit</a>
+                </div>
+                <form action="/products/{{product.id}}/delete" method="POST" class="float-right">
+                  <button class="btn btn-danger"><i class="fa fa-trash"></i>Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </section>
+    {{/if}}
   </div>
 </section>

@@ -71,7 +71,7 @@ module.exports.edit = (req, res, next) => {
   Address.findOne({_id: req.params.id, user: req.currentUser._id.toString()})
   .then(address => {
     res.render("addresses/edit", {
-      title: 'Edit new Address',
+      title: 'Edit Address',
       breadcrumbs: req.breadcrumbs,
       address,
       user: req.currentUser

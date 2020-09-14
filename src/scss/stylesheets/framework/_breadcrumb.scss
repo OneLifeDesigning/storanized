@@ -1,6 +1,8 @@
-.nav-bread, .breadcrumb.container {
+.nav-bread, .breadcrumb {
   background-color: $zink;
   margin-bottom: 0;
+  height: 60px;
+  line-height: 2.5em;
 }
 .breadcrumb {
   a {
