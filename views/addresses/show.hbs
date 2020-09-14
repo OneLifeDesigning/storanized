@@ -21,7 +21,7 @@
             <p><strong>Phone: </strong>{{address.phone}}</p>
             <p><strong>Longitude: </strong>{{address.longitude}}</p>
             <p><strong>Latitude: </strong>{{address.latitude}}</p>
-            <p style="color: green;">{{#if address.defaultAddress}}Yes{{else}}No{{/if}} <span class="text-muted"></span></p>
+            {{#if address.defaultAddress}}<p class="text-success">Yes{{else}}<p class="text-danger">No{{/if}} <span class="text-muted">Default Address</span></p>
             <div class="address_btn">
               <a href="/addresses/{{address.id}}/edit" class="btn btn-warning">
                 <i class="fa fa-pencil-alt mr-2"></i> Edit</a>

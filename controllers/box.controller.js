@@ -80,8 +80,7 @@ module.exports.update = (req, res, next) => {
 };
 
 module.exports.delete = (req, res, next) => {
-  req.box
-    .remove()
+  req.box.remove()
     .then(() => {
       res.redirect("/boxes");
     })
