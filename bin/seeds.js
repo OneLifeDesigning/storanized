@@ -1,4 +1,6 @@
+require('dotenv').config();
 require("../config/db.config");
+const faker = require("faker");
 
 const User = require("../models/user.model");
 const Address = require("../models/address.model");
@@ -20,7 +22,7 @@ const getRanElem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)]
 } 
 
-const faker = require("faker");
+
 
 const generateRandomToken = () => {
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
