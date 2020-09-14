@@ -31,7 +31,7 @@ const formClear = async (form) => {
 
 const closeFormCollaspse = () => {
   const toCollapse = document.querySelector('.form-collapse')
-  if(toCollapse !== null) {
+  if(toCollapse) {
     setTimeout(() => {
       toCollapse.classList.remove('show')
     }, 1000);
@@ -174,13 +174,59 @@ function initMap() {
 
   }
 
-  if (mapViewAddress !== null) {
+  if (mapViewAddress) {
     map = new google.maps.Map(mapViewAddress, {zoom: 15, center: myLatlng});
     map.setCenter({lat: Number(mapViewAddress.dataset.lat), lng: Number(mapViewAddress.dataset.long)})
     infoWindow = new google.maps.InfoWindow({position: {lat: Number(mapViewAddress.dataset.lat), lng: Number(mapViewAddress.dataset.long)}});
     infoWindow.setContent(`<h5><b>${mapViewAddress.dataset.name}</b></h5><p>${mapViewAddress.dataset.address}<br>${mapViewAddress.dataset.postalcode} - ${mapViewAddress.dataset.city} <br> ${mapViewAddress.dataset.state}<br>${mapViewAddress.dataset.country}</p>`);
     infoWindow.open(map);
   }
+}
+const countNewMsgToBullet = (data, ele) => {
+  if (data && ele) {
+    if (ele.classList.contains('d-none')) {
+      ele.classList.remove('d-none')
+    }
+    ele.innerText = data.length;
+  }
+}
+const countNewMsgToList = (newMessages, toPrint) => {
+  if (newMessages && toPrint) {
+    const messages = newMessages.filter(message => {
+      return message.chatId === toPrint.dataset.chatid
+    })
+    if (messages.length > 0) {
+      messages.forEach(msg => {
+        toPrint.innerHTML += `<div class="incoming_msg"><div class="incoming_msg_img"><img src="${msg.from.avatar}" alt="${msg.from.username}" class="rounded-circle img-fluid"> </div><div class="received_msg mb-1"><div class="received_withd_msg"><p>${msg.text}</p><span class="time_date">${msg.createdAt}</span></div></div></div>`
+        listMsg.scrollTop = listMsg.scrollHeight;
+        markReadMsg(msg.id)
+      })
+    }
+  }
+} 
+const markReadMsg = (id) => {
+  axios({
+    method: 'POST',
+    url: '/api/junglesales/chats/messages/readed',
+    data: {id: id}
+  })
+  .then(response => {
+    if (response.status === 200) {
+      console.log('mark ok');
+    }
+  })
+  .catch()
+}
+const getMsgPending = (bullet, list) => {
+  axios({
+    method: 'GET',
+    url: '/api/junglesales/chats/messages/get'
+  })
+  .then(response => {
+    countNewMsgToBullet(response.data, bullet)
+    countNewMsgToList(response.data, list)
+  })
+  .catch()
 }
 
 window.onload = () => {
@@ -190,17 +236,75 @@ window.onload = () => {
   const takeImageProduct = document.getElementById("takeImageProduct");
   const selectStorages = document.getElementById('selectStorages')
   const selectBoxes = document.getElementById('selectBoxes')
+  const newImage = document.querySelector('.new-image');
+  const sentNewMsg = document.getElementById('newMsg')
+  const badgetNewMsgs = document.getElementById('badgetNewMsgs')
+  const listMsg = document.getElementById('listMsg')
+  const noMsg = document.getElementById('noMsg')
 
 
-  if (selectStorages  !== null && selectBoxes !== null) {
+  if (selectStorages && selectBoxes) {
     selectStorages.addEventListener("change", (e) => {
         getStorageBoxes(e.target.value, selectBoxes)
     })
   }
+  if (badgetNewMsgs) {
+    if (listMsg) {
+      getMsgPending(badgetNewMsgs, listMsg)
+      setInterval(() => {
+        getMsgPending(badgetNewMsgs, listMsg)
+      }, 10000);
+    } else {
+      getMsgPending(badgetNewMsgs)
+      setInterval(() => {
+        getMsgPending(badgetNewMsgs)
+      }, 10000);
+    }
+  }
+
+  if (sentNewMsg && listMsg) {
+    listMsg.scrollTop = listMsg.scrollHeight;
+    const sendMsgButton = sentNewMsg.childNodes[3]
+    const sendMsgInput = sentNewMsg.childNodes[1]
+    
+    const sendToApiNewMsg = () => {
+      if (!sendMsgInput.value) {
+        sendMsgInput.classList.add('is-invalid')
+      } else {
+        sendMsgInput.classList.remove('is-invalid')
+        const data = { text: sendMsgInput.value, chatId: sendMsgButton.dataset.id, from: sendMsgButton.dataset.from};
+        axios({
+          method: 'POST',
+          url: '/api/junglesales/chats/messages/new',
+          data: data
+        })
+        .then(response => {
+          if (response.status === 200) {
+            sendMsgInput.value = ''
+            if(noMsg) {
+              noMsg.classList.add('d-none')
+            }
+            listMsg.innerHTML += `<div class="outgoing_msg"><div class="sent_msg"><p>${response.data.text}</p><span class="time_date">Just Now</span></div></div>`
+            listMsg.scrollTop = listMsg.scrollHeight;
+          }
+        })
+        .catch()
+      }
+    }
+    
+    sendMsgButton.addEventListener('click', () => {
+      sendToApiNewMsg()
+    })
+    
+    sendMsgInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        sendToApiNewMsg()
+      }
+  });
   
-  const newImage = document.querySelector('.new-image');
-  
-  if (customInputs  !== null) {
+  }
+
+  if (customInputs) {
     bsCustomFileInput.init()
     customInputs.forEach(input => {
       input.addEventListener("change", (e) => {
@@ -210,14 +314,13 @@ window.onload = () => {
           newImage.src = event.target.result
           newImage.classList.remove('d-none')
         };
-        
         reader.readAsDataURL(file);
         takeImageProduct.classList.add('d-none')
       })
     })
   }
   
-  if (takeImageProduct !== null) {
+  if (takeImageProduct) {
     const controls = document.querySelector('.controls');
     const cameraOptions = document.querySelector('.video-options');
     const video = document.querySelector('video');
@@ -330,17 +433,17 @@ window.onload = () => {
     getCameraSelection();
   }
 
-  if (formBox !== null) {
+  if (formBox) {
     const messageErrors = document.getElementById('messageErrors')
     const boxStorage = document.getElementById('boxStorage')
     
-    if (boxStorage !== null) {
+    if (boxStorage) {
       getStorages(boxStorage)
     }
 
     const buttonSend = document.querySelector('.btn-send')
 
-    if (buttonSend  !== null) {
+    if (buttonSend) {
       buttonSend.addEventListener("click",  (e) => {
         e.preventDefault()
         formToObject(formBox)
@@ -357,7 +460,7 @@ window.onload = () => {
                 formClear(formBox)
                 .then(() => {
                   closeFormCollaspse()
-                  if (response.data.storage !== null) {
+                  if (response.data.storage) {
                     selectStorages.value = response.data.storage
                   }
                 })
@@ -379,7 +482,7 @@ window.onload = () => {
     }
   }
 
-  if (formAddress !== null) {
+  if (formAddress) {
     const messageErrors = document.getElementById('messageErrors')
     const zipCode = document.getElementById('addressPostalCode')
     const city = document.getElementById('addressCity')
@@ -435,7 +538,7 @@ window.onload = () => {
     const buttonSend = document.querySelector('.btn-send')
     const listAddresses = document.getElementById('listAddresses')
 
-    if (buttonSend  !== null) {
+    if (buttonSend) {
       buttonSend.addEventListener("click",  (e) => {
         e.preventDefault()
         formToObject(formAddress)

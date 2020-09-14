@@ -52,7 +52,6 @@ boxSchema.pre('save', function(next) {
     })
     .then(result => {
       this.qrCode = result.url
-      console.log(this);
       next()
     })
     .catch(next)

@@ -1,0 +1,79 @@
+ <div class="row align-items-center mb-4">
+   <div class="col-12">
+     <h1 class="">{{title}}</h1>
+   </div>
+   <div class="col-12">
+    <div class="messaging">
+      <div class="inbox_msg">
+        <div class="inbox_people">
+          <div class="headind_srch">
+            <div class="recent_heading">
+              <h4>Product info</h4>
+            </div>
+          </div>
+          <div class="inbox_chat">
+            <div class="chat_list active_chat">
+              <div class="chat_people">
+                <div class="chat_ib">
+                  <h4>{{chat.product.name}}</h4>
+                  {{#each chat.product.attachments as |attachment|}}
+                    {{#ifEqual attachment.target 'mainImage'}}
+                      <img src="{{attachment.url}}" alt="{{../chat.product.name}}" class="img-fluid mb-2">
+                    {{/ifEqual}}
+                  {{/each}}
+                  <p><small>Owner:</small>
+                  <br><b>{{chat.product.user.username}}</b>
+                  {{chat.product.user.email}}</p>
+                  <p><small>Descriptrion:</small> 
+                    <br>{{#Truncate chat.product.description 80}}{{/Truncate}}</p>
+                  {{#if chat.product.tags}}
+                  <div>
+                    <p><small>Tags:</small></p>
+                    {{#each chat.product.tags as |tag|}}
+                      <span class="badge badge-pill badge-secondary mr-2">{{tag}}</span>
+                    {{/each}}
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mesgs">
+          <div id="listMsg" data-chatId="{{chat.id}}" class="msg_history">
+            {{#if chat.messages}}
+              {{#each chat.messages as |message|}}
+                {{#ifEqual message.from.id ../user.id}}
+                <div class="outgoing_msg">
+                  <div class="sent_msg">
+                    <p>{{message.text}}</p>
+                    <span class="time_date"> {{#DateFormat message.createdAt}}{{/DateFormat}}</span>
+                  </div>
+                </div>
+                {{else}}
+                  <div class="incoming_msg">
+                    <div class="incoming_msg_img"> <img src="{{message.from.avatar}}" alt="{{message.from.username}}" class="rounded-circle img-fluid"> </div>
+                    <div class="received_msg mb-1">
+                      <div class="received_withd_msg">
+                        <p>{{message.text}}</p>
+                        <span class="time_date"> {{#DateFormat message.createdAt}}{{/DateFormat}}</span>
+                      </div>
+                    </div>
+                  </div>
+                {{/ifEqual}}
+              {{/each}}
+            {{else}}
+              <p id="noMsg" class="text-muted">No messages to show</p>
+            {{/if}}
+
+          </div>
+          <div class="type_msg">
+            <div id="newMsg" class="input_msg_write">
+              <input type="text" class="form-control write_msg" placeholder="Type a message" />
+              <button class="msg_send_btn" data-id="{{chat.id}}" data-from="{{user.id}}" type="button"><i class="fa fa-paper-plane mr-2" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>

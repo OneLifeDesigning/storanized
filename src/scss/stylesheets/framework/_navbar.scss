@@ -1,0 +1,21 @@
+.navbar-nav  {
+  .nav-link-icon {
+    color: $text-tertiary;
+    background-color: $dark-grey;
+    display: inline-block;
+    padding: 5px 10px;
+    margin-top: 8px;
+  }
+}
+.img-avatar {
+  max-height: 30px;
+  margin-right: 10px;
+}
+.dropdown-menu.bg-dark {
+  .dropdown-item.text-light {
+    &:hover {
+      color: $text-tertiary;
+      background-color: $dark-grey;
+    }
+  }
+}

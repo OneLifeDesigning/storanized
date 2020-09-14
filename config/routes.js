@@ -4,10 +4,10 @@ const sessionMiddleware = require('../middlewares/session.middleware')
 const userController = require('../controllers/user.controller')
 const storageController = require('../controllers/storage.controller')
 const addressController = require('../controllers/address.controller')
-const apiController = require('../controllers/api.controller')
 const boxController = require('../controllers/box.controller')
 const junglesales = require('../controllers/jungle.controller')
 const productsController = require('../controllers/product.controller')
+const chatController = require('../controllers/chat.controller')
 const uploads = require('../config/multer.config')
 
 router.get('/', (req, res) => {
@@ -60,7 +60,7 @@ router.get('/addresses/:id/edit', sessionMiddleware.isAuthenticated, addressCont
 router.post('/addresses/:id/edit', sessionMiddleware.isAuthenticated, addressController.doEdit)
 router.post('/addresses/:id/delete', sessionMiddleware.isAuthenticated, addressController.delete)
 
-//Get- view all boxes
+//CRUD boxes
 router.get('/boxes', sessionMiddleware.isAuthenticated, boxController.all)
 router.get('/boxes/new', sessionMiddleware.isAuthenticated, boxController.newBox)
 router.post('/boxes/new', sessionMiddleware.isAuthenticated, boxController.create)
@@ -69,7 +69,7 @@ router.get('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.v
 router.post('/boxes/:id/edit', sessionMiddleware.isAuthenticated, boxController.update)
 router.post('/boxes/:id/delete', sessionMiddleware.isAuthenticated, boxController.delete)
 
-//Get- view all products
+//CRUD products
 router.get('/products', sessionMiddleware.isAuthenticated, productsController.all)
 router.get('/products/new', sessionMiddleware.isAuthenticated, productsController.new)
 router.post('/products/new', sessionMiddleware.isAuthenticated, uploads.any(), productsController.create)
@@ -78,11 +78,20 @@ router.get('/products/:id/edit', sessionMiddleware.isAuthenticated, productsCont
 router.post('/products/:id/edit', sessionMiddleware.isAuthenticated, uploads.any(), productsController.update)
 router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productsController.delete)
 
+//CRUD chat
+router.get('/junglesales/chats', sessionMiddleware.isAuthenticated, chatController.all)
+router.post('/junglesales/chats/new/:owner/:user/:product', sessionMiddleware.isAuthenticated, chatController.newChat)
+router.get('/junglesales/chats/:id', sessionMiddleware.isAuthenticated, chatController.show)
+
+
 // API ENDPOINTS
-router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, apiController.doNewAddress)
-router.get('/api/storages', sessionMiddleware.isAuthenticated, apiController.getStorages)
-router.get('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, apiController.getBoxesInStorage)
-router.post('/api/boxes/new', sessionMiddleware.isAuthenticated, apiController.doNewBox)
+router.get('/api/storages', sessionMiddleware.isAuthenticated, storageController.apiGetStorages)
+router.get('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, boxController.apiGetBoxesInStorage)
+router.post('/api/boxes/new', sessionMiddleware.isAuthenticated, boxController.apiDoNewBox)
+router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.apiDoNewAddress)
+router.post('/api/junglesales/chats/messages/new', sessionMiddleware.isAuthenticated, chatController.apiNewMessage)
+router.get('/api/junglesales/chats/messages/get', sessionMiddleware.isAuthenticated, chatController.apiGetUnreadMessages)
+router.post('/api/junglesales/chats/messages/readed', sessionMiddleware.isAuthenticated, chatController.apiMarkReadedMessage)
 
 //JUNGLE SALES
 router.get('/junglesales', junglesales.all)

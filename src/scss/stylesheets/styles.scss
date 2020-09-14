@@ -13,8 +13,11 @@
 
 /* FRAMEWORK - Structure and layout files.
 ========================================================================== */
+
+@import 'framework/_navbar.scss';
 @import 'framework/_junglesales.scss';
 @import 'framework/_forms.scss';
+@import 'framework/_chat.scss';
 @import 'framework/_tags.scss';
 @import 'framework/_breadcrumb.scss';
 @import 'framework/_modal-camera.scss';

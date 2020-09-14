@@ -88,3 +88,10 @@ module.exports.doEdit = (req, res, next) => {
     })
     .catch(next)
 }
+
+module.exports.apiGetStorages = (req, res, next) => {
+  Storage.find({user: req.currentUser._id}, {name: 1})
+  .then(storages => {
+    res.status(200).json(storages)
+  })
+};

@@ -87,3 +87,29 @@ module.exports.delete = (req, res, next) => {
     })
     .catch(next);
 };
+
+module.exports.apiDoNewBox = (req, res, next) => {
+  const box = new Box({
+    ...req.body,
+    user: req.currentUser._id.toString()
+  })
+  box.save()
+    .then(box => {
+      res.status(200).json(box)
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        error.errors.message = 'Please, check the data entered'
+        res.status(201).json(error.errors)
+      } else {
+        res.status(201).json(error);
+      }
+    })
+}
+
+module.exports.apiGetBoxesInStorage = (req, res, next) => {
+  Box.find({user: req.currentUser._id, storage: req.params.id}, {name: 1})
+  .then(boxes => {
+    res.status(200).json(boxes)
+  })
+};
