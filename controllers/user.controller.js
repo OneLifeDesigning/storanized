@@ -75,8 +75,7 @@ module.exports.signup = (req, res, next) => {
 module.exports.doSignup = (req, res, next) => {
     const user = new User({
       ...req.body,
-      role: 'client',
-      avatar: './img/default-avatar.png'
+      role: 'client'
     });
     user.save()
       .then(user => {
