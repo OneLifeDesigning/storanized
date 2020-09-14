@@ -185,6 +185,10 @@ function initMap() {
   }
 }
 const countNewMsgToBullet = (data, ele) => {
+  if (data.length === 0) {
+    ele.classList.add('d-none')
+    return
+  }
   if (data && ele) {
     if (ele.classList.contains('d-none')) {
       ele.classList.remove('d-none')

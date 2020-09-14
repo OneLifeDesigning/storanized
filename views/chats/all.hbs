@@ -1,62 +1,63 @@
-<section class="bg-chat">
+<section class="bg-chat {{#if chats }}{{else}}error{{/if}}">
   <div class="container">
     <div class="row align-items-center mb-4">
       <div class="col-12 col-md-9">
         <h1 class="">{{title}}</h1>
       </div>
     </div>
-    {{#if chats}}
+    {{#if chats }}
     <div class="accordion" id="accordionExample">
       {{#if chats.received }}
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-              data-target="#collapseReceived" aria-expanded="true" aria-controls="collapseReceived">
-              <i class="fa fa-paper-plane" aria-hidden="true"></i> Received
-            </button>
-          </h2>
-        </div>
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                data-target="#collapseReceived" aria-expanded="true" aria-controls="collapseReceived">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i> Received
+              </button>
+            </h2>
+          </div>
 
-        <div id="collapseReceived" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-          <div class="card-body">
-            <table class="table" data-toggle="table" data-pagination="true" data-search="true">
-              <thead class="thead-primary">
-                <tr>
-                  <th class="text-center">Status</th>
-                  <th>From</th>
-                  <th>Product</th>
-                  <th>Date</th>
-                  <th class="text-right">Options</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each chats.received as |received|}}
-                <tr>
-                  <td class="text-center">
-                    {{#if received.unread }}
-                    <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
-                    {{else}}
-                    <i class="fa fa-envelope-open" aria-hidden="true"></i>
-                    {{/if}}
-                  </td>
-                  <td>{{received.owner.name}} {{received.owner.lastname}} </td>
-                  <td>{{received.product.name}}</td>
-                  <td>{{#DateFormat received.updatedAt}}{{/DateFormat}}</td>
-                  <td class="text-right">
-                    <div class="btn-group">
-                      <a href="/junglesales/chats/{{received.id}}" class="btn btn-success"><i
-                          class="fa fa-comments mr-2"></i> Open</a>
-                    </div>
-                  </td>
-                </tr>
-                {{/each}}
-              </tbody>
-            </table>
+          <div id="collapseReceived" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+              <table class="table" data-toggle="table" data-pagination="true" data-search="true">
+                <thead class="thead-primary">
+                  <tr>
+                    <th class="text-center">Status</th>
+                    <th>From</th>
+                    <th>Product</th>
+                    <th>Date</th>
+                    <th class="text-right">Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each chats.received as |received|}}
+                  <tr>
+                    <td class="text-center">
+                      {{#if received.unread }}
+                      <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
+                      {{else}}
+                      <i class="fa fa-envelope-open" aria-hidden="true"></i>
+                      {{/if}}
+                    </td>
+                    <td>{{received.owner.name}} {{received.owner.lastname}} </td>
+                    <td>{{received.product.name}}</td>
+                    <td>{{#DateFormat received.updatedAt}}{{/DateFormat}}</td>
+                    <td class="text-right">
+                      <div class="btn-group">
+                        <a href="/junglesales/chats/{{received.id}}" class="btn btn-success"><i
+                            class="fa fa-comments mr-2"></i> Open</a>
+                      </div>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-        {{/if}}
-        {{#if chats.sent }}
+      {{/if}}
+      {{#if chats.sent }}
         <div class="card mt-3">
           <div class="card-header" id="headingOne">
             <h2 class="mb-0">
@@ -66,7 +67,6 @@
               </button>
             </h2>
           </div>
-
           <div id="collapseSent" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
               <table class="table" data-toggle="table" data-pagination="true" data-search="true">
@@ -104,9 +104,20 @@
               </table>
             </div>
           </div>
-          {{/if}}
+        </div>
+      {{/if}}
+    </div>
+    {{else}}
+        <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+          <h2 class="mb-0 text-center">
+            Ops,Sorry
+            <br><small class="text-center lead">There are  recent chats, go to <a href="/junglesales">JungleSales</a> to start one</small>
+          </h2>
         </div>
       </div>
-      {{/if}}
+    {{/if}}
     </div>
 </section>
