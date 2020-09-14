@@ -30,7 +30,7 @@ module.exports.viewProduct = (req, res, next) => {
     .populate("user")
     .populate("attachments")
     .then((product) => {
-      res.render("jungle-sales/product", { product });
+      res.render("jungle-sales/product", { product, user: req.currentUser });
     })
     .catch(next);
 };

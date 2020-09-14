@@ -20,8 +20,9 @@
           <p><strong class="tag">Owner:</strong><a
               href="/junglesales/{{product.user._id}}">@{{product.user.username}}</a>
           </p>
-          <a class="btn btn-lg btn-info jungle-prod-info_btn" href="/junglesales/chat"> <i class="far fa-comments"></i>
-            Contact with</a>
+          <form action="/junglesales/chats/new/{{user.id}}/{{product.user._id}}/{{product.id}}" method="POST">
+            <button type="submit" class="btn btn-lg btn-info jungle-prod-info_btn"> <i class="far fa-comments"></i> Contact with</button>
+          </form>
         </div>
       </div>
     </div>

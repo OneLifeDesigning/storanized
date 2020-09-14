@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Chat = require("../models/chat.model")
+
 
 const messageSchema = new mongoose.Schema({
   chatId: {
@@ -26,6 +28,18 @@ const messageSchema = new mongoose.Schema({
     default: true
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
+
+
+messageSchema.post('save', function (next) {
+  Chat.findById(this.chatId.toString())
+    .then(chat => {
+      chat.unread = true
+      chat.save()
+        .then(next)
+        .catch(next)
+    })
+    .catch(next)
+})
 
 const Message = mongoose.model('Message', messageSchema);
 

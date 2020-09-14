@@ -17,6 +17,7 @@ ul {
 .form-row > [class*="col-"] {
   margin-bottom: 1.5rem;
 }
+
 .form-row > .col,
 .form-row > [class*="col-"] {
   padding-left: 0.75rem;
@@ -35,9 +36,9 @@ table {
   background-color: rgba(255, 255, 255, 0.57);
 }
 
-p {
-  width: 80%;
-}
+// p {
+//   width: 80%;
+// }
 
 .btn-danger-box {
   color: red;

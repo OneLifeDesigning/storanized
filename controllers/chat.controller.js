@@ -6,7 +6,7 @@ const { populate } = require("../models/chat.model");
 
 module.exports.all = (req, res, next) => {
   Chat.find({user: req.currentUser.id.toString()})
-  .sort({unread: -1})
+  .sort({unread: -1, createdAt: -1})
   .populate('user')
   .populate('product')
   .populate('owner')
@@ -54,8 +54,9 @@ module.exports.apiNewMessage = (req, res, next) => {
 
 
 module.exports.newChat = (req, res, next) => {
+  console.log(req.params);
   const chat = new Chat({
-    ...req.body,
+    ...req.params,
     owner: req.currentUser.id.toString()
   })
   chat.save()
