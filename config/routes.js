@@ -12,7 +12,8 @@ const uploads = require('../config/multer.config')
 
 router.get('/', (req, res) => {
   res.render('index', {
-    title: 'Home'
+    title: 'Home',
+    user: req.currentUser
   })
 })
 
