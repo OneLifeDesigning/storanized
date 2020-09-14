@@ -17,7 +17,7 @@
       <div class="search-bar">
         {{#if breadcrumbs }}
           <nav aria-label="breadcrumb" class="nav-bread">
-            <ol id="breadcrumb" class="breadcrumb container">
+            <ol id="breadcrumb" class="breadcrumb">
               {{#each breadcrumbs as |crumb| }}
                 <li class="breadcrumb-item">
                   {{#if crumb.url}}
@@ -30,9 +30,11 @@
             </ol>
           </nav>
         {{/if}}
+        {{#if user}}
         <button id="tipNewMsgs" class="right-side-button" @click="rightSide = !rightSide">
           <i class="fa fa-bars fa-2x text-white"></i>
         </button>
+        {{/if}}
       </div>
         {{{body}}}
     </main>

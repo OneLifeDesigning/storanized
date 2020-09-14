@@ -13,14 +13,14 @@
         <thead class="thead-primary">
           <tr>
             <th class="text-center">Box</th>
-            <th class="text-right">Options</th>
+            <th class="text-center">Options</th>
           </tr>
         </thead>
         <tbody>
           {{#each boxes as |box|}}
           <tr>
             <td class="text-rigth">{{box.name}}</td>
-            <td class="text-right">
+            <td class="text-center">
               <div class="btn-group">
                 <a href="/boxes/{{box._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
                 <a href="/boxes/{{box.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>

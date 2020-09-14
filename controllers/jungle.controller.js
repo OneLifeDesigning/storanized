@@ -20,6 +20,7 @@ module.exports.jungleSpace = (req, res, next) => {
   Product.find({ user: req.params.id, isPublic: true})
     .populate("user")
     .populate("attachments")
+    .limit(20)
     .then((products) => {
       res.render("jungle-sales/jungle-space", { 
         products, 

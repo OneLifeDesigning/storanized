@@ -23,8 +23,10 @@
             <p><strong>Latitude: </strong>{{address.latitude}}</p>
             {{#if address.defaultAddress}}<p class="text-success">Yes{{else}}<p class="text-danger">No{{/if}} <span class="text-muted">Default Address</span></p>
             <div class="address_btn">
+              <div class="btn-general">
               <a href="/addresses/{{address.id}}/edit" class="btn btn-warning">
                 <i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+              </div>
               <form action="/addresses/{{address.id}}/delete" method="POST">
                 <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
               </form>
