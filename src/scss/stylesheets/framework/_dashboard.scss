@@ -61,18 +61,16 @@
   background-color: $bg-color;
   display: flex;
   flex-direction: column;
-  @media screen and (max-width: 1210px) {
-   position: fixed;
-   right: 0;
-   top: 0;
-   transition: 0.3s;
-   height: 100%;
-   transform: translateX(280px);
-   z-index: 4;
+  transform: translateX(280px);
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: 0.3s;
+  height: 100%;
+  z-index: 4;
  
    &.active {
     transform: translatex(0);
-   }
   }
  }
  
@@ -757,15 +755,13 @@
   visibility: hidden;
   pointer-events: none;
   transition: 0.3s;
- 
-  @media screen and (max-width: 1210px) {
-   &.active {
-    z-index: 3;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
-   }
+  &.active {
+   z-index: 3;
+   opacity: 1;
+   visibility: visible;
+   pointer-events: all;
   }
+
  }
  
  .right-side-button {
@@ -778,7 +774,7 @@
   background-color: #1e2031;
   border-left: 1px solid $border-color;
   color: $text-secondary;
-  display: none;
+  display: block;
   cursor: pointer;
   .right-side-button.active {
     &:before {
