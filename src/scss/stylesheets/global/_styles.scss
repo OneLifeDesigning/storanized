@@ -35,6 +35,11 @@ ul {
 table {
   background-color: rgba(255, 255, 255, 0.9);
 }
+hr {
+  border-top: 2px solid $ligth-grey;
+  width: 90%;
+  margin: .5rem auto 1rem;
+}
 
 // p {
 //   width: 80%;

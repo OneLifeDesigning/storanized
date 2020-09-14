@@ -13,7 +13,7 @@ $middle-grey: #aaa;
 $grey: #606060;
 $dark-grey: #292929;
 $black: #000;
-$zink: #3b3b3b;
+$zink: #2c2c2c;
 $aquamarine: #0eb5b5;
 
 $link-primary: $red;
@@ -22,8 +22,16 @@ $link-tertiary: $middle-grey;
 $link-fourth: $black;
 $link-fifty: $grey;
 
-$text-primary: $black;
+$text-primary: $zink;
 $text-secondary: $white;
 $text-tertiary: $middle-grey;
-$text-fourty: $zink;
-$text-fifty: $grey;
+$text-fourty: $black;
+$text-fifty: $dark-grey;
+
+
+$bg-color: #f4f3ef;
+$border-color: $grey;
+$title-font: "DM Sans", sans-serif;
+$body-font: "Source Sans Pro", sans-serif;
+$side-title: #5c5e6e;
+$button: #8f98a9;

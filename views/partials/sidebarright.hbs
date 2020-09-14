@@ -1,0 +1,73 @@
+  {{#if currentUser }}
+  <div class="right-side" :class="{ 'active': rightSide }">
+    <div class="account">
+      <a class="nav-link-icon account-button mr-2" href="/junglesales/chats"><i class="fa fa-envelope fa-2x"></i><span id="badgetNewMsgs" class="d-none ml-2 badge badge-light"></span></a>
+        <a class="account-user dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <img class="img-avatar rounded-circle img-fluid" src="{{ currentUser.avatar }}" alt="{{currentUser.name}} {{ currentUser.lastname }}">{{currentUser.name}} {{ currentUser.lastname }}</a>
+          <div class="dropdown-menu dropdown-menu-right bg-dark rounded-0">
+            <form action="/logout" method="POST">
+              <button class="dropdown-item text-light" type="submit">Logout</button>
+            </form>
+          </div>
+        </a>
+    </div>
+    <div class="side-wrapper">
+      <div class="card text-white bg-secondary mb-3">
+        <div class="card-body">
+          <h5 class="card-title">PROFILE</h5>
+          <form action="/dashboard" method="POST" enctype="multipart/form-data">
+            <div class="form-row align-items-center">
+              <div class="form-group col-12">
+                <label for="name">Name</label>
+                <input type="text" class="form-control  {{#if error.name }}is-invalid{{/if}}" id="name" value="{{ user.name }}"
+                  name="name" required>
+                {{#if error.name}}
+                <div class="invalid-feedback">
+                  {{error.name.message}}
+                </div>
+                {{/if}}
+              </div>
+              <div class="form-group col-12">
+                <label for="phoneNumber">Lastname</label>
+                <input type="text" class="form-control  {{#if error.lastname }}is-invalid{{/if}}" id="lastname"
+                  value="{{ user.lastname }}" name="lastname" required>
+                {{#if error.lastname}}
+                <div class="invalid-feedback">
+                  {{error.lastname.message}}
+                </div>
+                {{/if}}
+              </div>
+              <div class="form-group col-12">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" class="form-control  {{#if error.phoneNumber }}is-invalid{{/if}}" id="phoneNumber"
+                  value="{{ user.phoneNumber }}" name="phoneNumber">
+                {{#if error.phoneNumber}}
+                <div class="invalid-feedback">
+                  {{error.phoneNumber.message}}
+                </div>
+                {{/if}}
+              </div>
+              <div class="form-group col-12">
+                <label for="genre">Genre</label>
+                <select class="custom-select" name="genre" id="genre">
+                  <option {{#ifEqual user.genre 'Female'}}selected{{/ifEqual}} value="Female">Female</option>
+                  <option {{#ifEqual user.genre 'Male'}}selected{{/ifEqual}} value="Male">Male</option>
+                  <option {{#ifEqual user.genre 'Other'}}selected{{/ifEqual}} value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group col-12">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="avatar" name="avatar">
+                  <label class="custom-file-label" for="avatar" data-browse="Browse">Chose file</label>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/if}}

@@ -196,6 +196,11 @@ const countNewMsgToBullet = (data, ele) => {
     ele.innerText = data.length;
   }
 }
+const countNewMsgToMenu = (data, ele) => {
+  if (data.length !== 0) {
+    ele.classList.add('active')
+  }
+}
 const countNewMsgToList = (newMessages, toPrint) => {
   if (newMessages && toPrint) {
     const messages = newMessages.filter(message => {
@@ -223,13 +228,14 @@ const markReadMsg = (id) => {
   })
   .catch()
 }
-const getMsgPending = (bullet, list) => {
+const getMsgPending = (bullet, tipsMenu, list) => {
   axios({
     method: 'GET',
     url: '/api/junglesales/chats/messages/get'
   })
   .then(response => {
     countNewMsgToBullet(response.data, bullet)
+    countNewMsgToMenu(response.data, tipsMenu)
     countNewMsgToList(response.data, list)
   })
   .catch()
@@ -248,7 +254,7 @@ window.onload = () => {
   const badgetNewMsgs = document.getElementById('badgetNewMsgs')
   const listMsg = document.getElementById('listMsg')
   const noMsg = document.getElementById('noMsg')
-
+  const tipNewMsgs = document.getElementById('tipNewMsgs')
 
   if (collapserBtn) {
     collapserBtn.addEventListener("click", (e) => {
@@ -267,16 +273,16 @@ window.onload = () => {
         getStorageBoxes(e.target.value, selectBoxes)
     })
   }
-  if (badgetNewMsgs) {
+  if (badgetNewMsgs && tipNewMsgs) {
     if (listMsg) {
-      getMsgPending(badgetNewMsgs, listMsg)
+      getMsgPending(badgetNewMsgs, tipNewMsgs, listMsg)
       setInterval(() => {
-        getMsgPending(badgetNewMsgs, listMsg)
+        getMsgPending(badgetNewMsgs, tipNewMsgs, listMsg)
       }, 10000);
     } else {
-      getMsgPending(badgetNewMsgs)
+      getMsgPending(badgetNewMsgs, tipNewMsgs)
       setInterval(() => {
-        getMsgPending(badgetNewMsgs)
+        getMsgPending(badgetNewMsgs, tipNewMsgs)
       }, 10000);
     }
   }

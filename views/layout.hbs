@@ -11,11 +11,34 @@
 </head>
 
 <body>
-  {{>partials/navbar}}
-  <main>
-    {{{body}}}
-  </main>
-
+  <div id="dashboard" class="container-fluid p-0 " x-data="{ rightSide: false, leftSide: false }">
+    {{>partials/sidebarleft}}
+    <main class="main">
+      <div class="search-bar">
+        {{#if breadcrumbs }}
+          <nav aria-label="breadcrumb" class="nav-bread">
+            <ol id="breadcrumb" class="breadcrumb container">
+              {{#each breadcrumbs as |crumb| }}
+                <li class="breadcrumb-item">
+                  {{#if crumb.url}}
+                    <a href="{{crumb.url}}">{{crumb.name}}</a>
+                  {{else}}
+                  <span>{{crumb.name}}</span>
+                  {{/if}}
+                  </li>
+              {{/each}}
+            </ol>
+          </nav>
+        {{/if}}
+        <button id="tipNewMsgs" class="right-side-button" @click="rightSide = !rightSide">
+          <i class="fa fa-bars fa-2x text-white"></i>
+        </button>
+      </div>
+        {{{body}}}
+    </main>
+    {{>partials/sidebarright}}
+    <div class="overlay" @click="rightSide = false; leftSide = false" :class="{ 'active': rightSide || leftSide }"></div>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
@@ -25,6 +48,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
   <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v1.9.4/dist/alpine.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV6b7jqn1LvDF5ut5SjDRuZJl3nnVzo5I&callback=initMap" type="text/javascript"></script>
   <script src="/js/index.js"></script>
 </body>
