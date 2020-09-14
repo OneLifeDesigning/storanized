@@ -9,7 +9,8 @@ module.exports.all = (req, res, next) => {
     .populate("attachments")
     .then((products) => {
       res.render("jungle-sales/all", {
-        products
+        products,
+        breadcrumbs: req.breadcrumbs,
       });
     })
     .catch(next);
@@ -20,7 +21,10 @@ module.exports.jungleSpace = (req, res, next) => {
     .populate("user")
     .populate("attachments")
     .then((products) => {
-      res.render("jungle-sales/jungle-space", { products, user: products[0].user });
+      res.render("jungle-sales/jungle-space", { 
+        products, 
+        user: products[0].user,
+        breadcrumbs: req.breadcrumbs, });
     })
     .catch(next);
 };
@@ -30,7 +34,10 @@ module.exports.viewProduct = (req, res, next) => {
     .populate("user")
     .populate("attachments")
     .then((product) => {
-      res.render("jungle-sales/product", { product, user: req.currentUser });
+      res.render("jungle-sales/product", { 
+        product, 
+        user: req.currentUser,
+        breadcrumbs: req.breadcrumbs });
     })
     .catch(next);
 };
