@@ -33,7 +33,7 @@
         <div class="form-group  col-12 col-md-6">
           <label for="password">Password</label>
           <input type="password" class="form-control  {{#if error.password }}is-invalid{{/if}}" id="password"
-            name="password" {{#if user.password }}value="{{user.password}}" {{/if}} required>
+            name="password" value="" required>
           {{#if error.password}}
           <div class="invalid-feedback">
             {{error.password.message}}

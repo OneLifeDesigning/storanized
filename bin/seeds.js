@@ -1,4 +1,6 @@
+require('dotenv').config();
 require("../config/db.config");
+const faker = require("faker");
 
 const User = require("../models/user.model");
 const Address = require("../models/address.model");
@@ -11,7 +13,7 @@ const Attachment = require("../models/attachment.model");
 
 const usersProducts = []
 
-const productType = ['Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine, Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Materiales de construcción', 'Industria y Agricultura', 'Otros'] 
+const productType = ['Motorcycles',' Motor and Accessories', 'Fashion and Accessories',' TV, Audio and Photo ',' Mobile Phones and Telephony ',' Computers and Electronics', 'Sports and Leisure', 'Bicycles',' Consoles and Videogames ',' Home and Garden ',' Household appliances', 'Cinema, Books and Music', 'Children and Babies',' Collecting ',' Building materials', 'Industry and Agriculture', 'Others'] 
 
 const genre = ['Female', 'Male', 'Other']
 const bool = [true, false]
@@ -20,7 +22,7 @@ const getRanElem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)]
 } 
 
-const faker = require("faker");
+
 
 const generateRandomToken = () => {
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

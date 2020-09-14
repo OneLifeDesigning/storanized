@@ -138,7 +138,7 @@ function initMap() {
           if (results[0]) {
             axios({
               method: 'GET',
-              url: `https://maps.googleapis.com/maps/api/geocode/json?address=${results[0].formatted_address}&key=NEEDAPI`
+              url: `https://maps.googleapis.com/maps/api/geocode/json?address=${results[0].formatted_address}&key=AIzaSyDV6b7jqn1LvDF5ut5SjDRuZJl3nnVzo5I`
             })
             .then(response => {
               infoWindow.close();
@@ -527,7 +527,7 @@ window.onload = () => {
           address.classList.remove('is-invalid')
           axios({
             method: 'GET',
-            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address.value}, ${zipCode.value}, ${country.value}&key=NEEDAPI`
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address.value}, ${zipCode.value}, ${country.value}&key=AIzaSyDV6b7jqn1LvDF5ut5SjDRuZJl3nnVzo5I`
           })
           .then(response => {
             if (response.data.status !== 'ZERO_RESULTS') {

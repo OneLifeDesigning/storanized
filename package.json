@@ -31,6 +31,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "fake": "^0.2.2",
+    "faker": "^5.1.0",
     "hbs": "^4.1.1",
     "mongoose": "^5.10.0",
     "morgan": "^1.10.0",
