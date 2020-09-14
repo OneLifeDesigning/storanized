@@ -134,8 +134,11 @@
 
 .mesgs {
   float: left;
-  padding: 30px 15px 0 25px;
+  padding: 10px 15px 10px 25px;
   width: 60%;
+}
+.write_msg {
+  margin-top: 10px;
 }
 
 .sent_msg p {
@@ -186,7 +189,7 @@
   height: 33px;
   position: absolute;
   right: 0;
-  top: 11px;
+  top: 21px;
   width: 33px;
 }
 

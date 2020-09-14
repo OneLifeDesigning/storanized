@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const Chat = require("../models/chat.model")
-
 
 const messageSchema = new mongoose.Schema({
   chatId: {
@@ -8,7 +6,7 @@ const messageSchema = new mongoose.Schema({
     ref: "Chat",
     required: true
   },
-  owner: {
+  from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true
@@ -28,22 +26,6 @@ const messageSchema = new mongoose.Schema({
     default: true
   }
 },{ timestamps: true, toJSON: { virtuals: true } });
-
-
-// messageSchema.pre('save', function (next) {
-//   if (this.unread) {
-//     Chat.findById(this.chatId.toString())
-//       .then(chat => {
-//         if (!chat.unread) {
-//           chat.unread = true
-//           chat.save()
-//             .then(next)
-//             .catch(next)
-//         }
-//       })
-//       .catch(next)
-//   }
-// })
 
 const Message = mongoose.model('Message', messageSchema);
 

@@ -40,10 +40,10 @@
           </div>
         </div>
         <div class="mesgs">
-          <div id="listMsg" class="msg_history">
+          <div id="listMsg" data-chatId="{{chat.id}}" class="msg_history">
             {{#if chat.messages}}
               {{#each chat.messages as |message|}}
-                {{#ifEqual message.owner.id ../chat.owner}}
+                {{#ifEqual message.from.id ../user.id}}
                 <div class="outgoing_msg">
                   <div class="sent_msg">
                     <p>{{message.text}}</p>
@@ -52,7 +52,7 @@
                 </div>
                 {{else}}
                   <div class="incoming_msg">
-                    <div class="incoming_msg_img"> <img src="{{message.owner.avatar}}" alt="{{message.owner.username}}" class="rounded-circle img-fluid"> </div>
+                    <div class="incoming_msg_img"> <img src="{{message.from.avatar}}" alt="{{message.from.username}}" class="rounded-circle img-fluid"> </div>
                     <div class="received_msg mb-1">
                       <div class="received_withd_msg">
                         <p>{{message.text}}</p>
@@ -70,7 +70,7 @@
           <div class="type_msg">
             <div id="newMsg" class="input_msg_write">
               <input type="text" class="form-control write_msg" placeholder="Type a message" />
-              <button class="msg_send_btn" data-id="{{chat.id}}" data-owner="{{user.id}}" type="button"><i class="fa fa-paper-plane mr-2" aria-hidden="true"></i></button>
+              <button class="msg_send_btn" data-id="{{chat.id}}" data-from="{{user.id}}" type="button"><i class="fa fa-paper-plane mr-2" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>

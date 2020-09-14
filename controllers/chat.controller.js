@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const Message = require("../models/message.model");
-const Chat = require("../models/chat.model")
+const Chat = require("../models/chat.model");
+const { populate } = require("../models/chat.model");
 
 
 module.exports.all = (req, res, next) => {
@@ -10,7 +11,6 @@ module.exports.all = (req, res, next) => {
   .populate('product')
   .populate('owner')
   .then(received => {
-    console.log(received);
     Chat.find({owner: req.currentUser.id.toString()})
     .sort({unread: -1})
     .populate('user')
@@ -30,16 +30,19 @@ module.exports.all = (req, res, next) => {
 
 module.exports.apiNewMessage = (req, res, next) => {
   const chatId = req.body.chatId.toString()
-  const owner = req.body.owner.toString()
   const text = req.body.text.toString()
   Chat.findById(chatId)
     .then(chat => {
       const message = new Message({
-        to: chat.user,
         chatId: chatId,
         text: text,
-        owner: owner
+        to: chat.owner.toString(),
+        from: req.currentUser.id.toString(),
+        unread: true
       })
+      if (req.currentUser.id.toString() === chat.owner.toString()) {
+        message.to = chat.user.toString()
+      }
       message.save()
         .then(message => {
           res.json(message)
@@ -49,22 +52,6 @@ module.exports.apiNewMessage = (req, res, next) => {
     .catch()
 };
 
-module.exports.apiGetUnreadChats = (req, res, next) => {
-  Chat.find({$or: {user: rep.currentUser.id, owner: rep.currentUser.id}, unread: true})
-  .then(chats => {
-    res.json(chats.length)
-  })
-  .catch()
-};
-
-module.exports.apiGetUnreadMessages = (req, res, next) => {
-  Message.find({chatId: req.params.chatId, unread: true})
-  .sort({updatedAt: 1})
-  .then(chats => {
-    res.json(chats)
-  })
-  .catch()
-};
 
 module.exports.newChat = (req, res, next) => {
   const chat = new Chat({
@@ -86,7 +73,7 @@ module.exports.show = (req, res, next) => {
     path: 'messages',
     model: 'Message',
     populate: {
-      path: 'owner',
+      path: 'from',
       model: 'User'
     }
   })
@@ -128,3 +115,19 @@ module.exports.show = (req, res, next) => {
   })
   .catch()
 }
+
+module.exports.apiGetUnreadMessages = (req, res, next) => {
+  Message.find({to: req.currentUser.id, unread: true})
+  .populate('from')
+  .then(messages => {
+    res.json(messages)
+  })
+  .catch()
+};
+module.exports.apiMarkReadedMessage = (req, res, next) => {
+  Message.findByIdAndUpdate(req.body.id, {unread: false})
+  .then(message => {
+    res.json(message)
+  })
+  .catch()
+};

@@ -89,8 +89,8 @@ router.get('/api/storages/:id/boxes', sessionMiddleware.isAuthenticated, boxCont
 router.post('/api/boxes/new', sessionMiddleware.isAuthenticated, boxController.apiDoNewBox)
 router.post('/api/addresses/new', sessionMiddleware.isAuthenticated, addressController.apiDoNewAddress)
 router.post('/api/junglesales/chats/messages/new', sessionMiddleware.isAuthenticated, chatController.apiNewMessage)
-router.get('/api/junglesales/chats/get', sessionMiddleware.isAuthenticated, chatController.apiGetUnreadChats)
 router.get('/api/junglesales/chats/messages/get', sessionMiddleware.isAuthenticated, chatController.apiGetUnreadMessages)
+router.post('/api/junglesales/chats/messages/readed', sessionMiddleware.isAuthenticated, chatController.apiMarkReadedMessage)
 
 /* 
 TODO:

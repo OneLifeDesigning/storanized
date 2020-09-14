@@ -113,10 +113,10 @@ function createChat(userId, ownerId, productId) {
   })
   return chat.save()
 }
-function createMessage(chatId, ownerId, userId, createdAt, unread) {
+function createMessage(chatId, fromId, userId, createdAt, unread) {
   const messages = new Message({
     chatId: chatId,
-    owner: ownerId,
+    from: fromId,
     to: userId,
     text: faker.lorem.paragraph(),
     unread: unread,

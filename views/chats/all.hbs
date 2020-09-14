@@ -38,7 +38,7 @@
                       <i class="fa fa-envelope-open" aria-hidden="true"></i>
                     {{/if}}
                   </td>
-                  <td>{{received.owner.username}}</td>
+                  <td>{{received.owner.name}} {{received.owner.lastname}} </td>
                   <td>{{received.product.name}}</td>
                   <td>{{#DateFormat received.updatedAt}}{{/DateFormat}}</td>
                   <td class="text-right">
@@ -85,7 +85,7 @@
                         <i class="fa fa-envelope-open" aria-hidden="true"></i>
                       {{/if}}
                     </td>
-                    <td>{{sent.user.username}}</td>
+                    <td>{{sent.user.name}} {{sent.user.lastname}} </td>
                     <td>{{sent.product.name}}</td>
                     <td>{{#DateFormat sent.updatedAt}}{{/DateFormat}}</td>
                     <td class="text-right">

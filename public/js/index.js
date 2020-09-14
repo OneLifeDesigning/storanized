@@ -182,6 +182,52 @@ function initMap() {
     infoWindow.open(map);
   }
 }
+const countNewMsgToBullet = (data, ele) => {
+  if (data && ele) {
+    if (ele.classList.contains('d-none')) {
+      ele.classList.remove('d-none')
+    }
+    ele.innerText = data.length;
+  }
+}
+const countNewMsgToList = (newMessages, toPrint) => {
+  if (newMessages && toPrint) {
+    const messages = newMessages.filter(message => {
+      return message.chatId === toPrint.dataset.chatid
+    })
+    if (messages.length > 0) {
+      messages.forEach(msg => {
+        toPrint.innerHTML += `<div class="incoming_msg"><div class="incoming_msg_img"><img src="${msg.from.avatar}" alt="${msg.from.username}" class="rounded-circle img-fluid"> </div><div class="received_msg mb-1"><div class="received_withd_msg"><p>${msg.text}</p><span class="time_date">${msg.createdAt}</span></div></div></div>`
+        listMsg.scrollTop = listMsg.scrollHeight;
+        markReadMsg(msg.id)
+      })
+    }
+  }
+} 
+const markReadMsg = (id) => {
+  axios({
+    method: 'POST',
+    url: '/api/junglesales/chats/messages/readed',
+    data: {id: id}
+  })
+  .then(response => {
+    if (response.status === 200) {
+      console.log('mark ok');
+    }
+  })
+  .catch()
+}
+const getMsgPending = (bullet, list) => {
+  axios({
+    method: 'GET',
+    url: '/api/junglesales/chats/messages/get'
+  })
+  .then(response => {
+    countNewMsgToBullet(response.data, bullet)
+    countNewMsgToList(response.data, list)
+  })
+  .catch()
+}
 
 window.onload = () => {
   const customInputs = document.querySelectorAll('.custom-file-input');
@@ -191,7 +237,8 @@ window.onload = () => {
   const selectStorages = document.getElementById('selectStorages')
   const selectBoxes = document.getElementById('selectBoxes')
   const newImage = document.querySelector('.new-image');
-  const newMsg = document.getElementById('newMsg')
+  const sentNewMsg = document.getElementById('newMsg')
+  const badgetNewMsgs = document.getElementById('badgetNewMsgs')
   const listMsg = document.getElementById('listMsg')
   const noMsg = document.getElementById('noMsg')
 
@@ -201,20 +248,35 @@ window.onload = () => {
         getStorageBoxes(e.target.value, selectBoxes)
     })
   }
-  
-  if (newMsg && listMsg) {
-    const sendMsgButton = newMsg.childNodes[3]
-    const sendMsgInput = newMsg.childNodes[1]
-    sendMsgButton.addEventListener('click', () => {
-      console.log(sendMsgButton.dataset.owner);
+  if (badgetNewMsgs) {
+    if (listMsg) {
+      getMsgPending(badgetNewMsgs, listMsg)
+      setInterval(() => {
+        getMsgPending(badgetNewMsgs, listMsg)
+      }, 10000);
+    } else {
+      getMsgPending(badgetNewMsgs)
+      setInterval(() => {
+        getMsgPending(badgetNewMsgs)
+      }, 10000);
+    }
+  }
+
+  if (sentNewMsg && listMsg) {
+    listMsg.scrollTop = listMsg.scrollHeight;
+    const sendMsgButton = sentNewMsg.childNodes[3]
+    const sendMsgInput = sentNewMsg.childNodes[1]
+    
+    const sendToApiNewMsg = () => {
       if (!sendMsgInput.value) {
         sendMsgInput.classList.add('is-invalid')
       } else {
         sendMsgInput.classList.remove('is-invalid')
+        const data = { text: sendMsgInput.value, chatId: sendMsgButton.dataset.id, from: sendMsgButton.dataset.from};
         axios({
           method: 'POST',
           url: '/api/junglesales/chats/messages/new',
-          data: { text: sendMsgInput.value, chatId: sendMsgButton.dataset.id, owner: sendMsgButton.dataset.owner}
+          data: data
         })
         .then(response => {
           if (response.status === 200) {
@@ -223,23 +285,24 @@ window.onload = () => {
               noMsg.classList.add('d-none')
             }
             listMsg.innerHTML += `<div class="outgoing_msg"><div class="sent_msg"><p>${response.data.text}</p><span class="time_date">Just Now</span></div></div>`
+            listMsg.scrollTop = listMsg.scrollHeight;
           }
         })
         .catch()
       }
+    }
+    
+    sendMsgButton.addEventListener('click', () => {
+      sendToApiNewMsg()
     })
-    setInterval(() => {
-      axios({
-        method: 'GET',
-        url: '/api/junglesales/chats/messages/get'
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch()
-    }, 60000);
+    
+    sendMsgInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        sendToApiNewMsg()
+      }
+  });
+  
   }
-
 
   if (customInputs) {
     bsCustomFileInput.init()
