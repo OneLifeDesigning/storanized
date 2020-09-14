@@ -230,31 +230,33 @@
  }
  
  .profile-menu {
-  position: absolute;
-  bottom: 0;
-  padding-left: 200px;
-  background: $bg-color;
-  width: 100%;
-  display: flex;
-  border-radius: 0 0 4px 4px;
+    position: absolute;
+    bottom: 0;
+    padding-left: 200px;
+    background: $bg-color;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    border-radius: 0 0 4px 4px;
  }
  
  .profile-menu-link {
-  padding: 20px 16px;
-  color: $side-title;
-  transition: 0.3s;
-  cursor: pointer;
+    padding: 20px 16px;
+    color: $side-title;
+    transition: 0.3s;
+    cursor: pointer;
  
   &.active,
   &:hover {
    color: $text-secondary;
    background-color: $dark-grey;
-   border-bottom: 3px solid #1488fa;
+   border-bottom: 3px solid #5ce1e6;
   }
  }
  
  .profile-avatar {
   position: absolute;
+  pointer-events:none;
   align-items: center;
   display: flex;
   z-index: 1;
@@ -272,13 +274,14 @@
  
  .profile-name {
   margin-left: 24px;
-  margin-bottom: 32px;
+  margin-top: -20px;
   font-size: 22px;
   line-height: 1.2em;
   color: $text-secondary;
   font-weight: 600;
   font-family: $font-stack;
-    .small, small {
+  .small, small {
+      pointer-events:none;
       color: $middle-grey;
       font-size: 60%;
     }

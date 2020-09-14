@@ -10,10 +10,22 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: 'storanized',
-    allowedFormats: ['jpeg','jpg', 'png'],
+  params: function(req, file) {
+    if (file.fieldname === 'avatar') {
+      return {
+        transformation: [
+          {width: 400, height: 400, gravity: "face", radius: "max", crop: "crop"},
+          {width: 200, crop: "scale"}
+        ],
+        folder: `storanized/${file.fieldname}/`,
+        allowedFormats: ['jpeg','jpg', 'png'],
+      }
+    } else {
+      return {
+        folder: `storanized/attachments/`,
+        allowedFormats: ['jpeg','jpg', 'png'],
+      }
+    }
   }
 });
-
 module.exports = multer({ storage })

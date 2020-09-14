@@ -1,7 +1,7 @@
   {{#if currentUser }}
-  <div class="right-side" :class="{ 'active': rightSide }">
+  <div class="right-side">
     <div class="account">
-      <a class="nav-link-icon account-button mr-2" href="/junglesales/chats"><i class="fa fa-envelope fa-2x"></i><span id="badgetNewMsgs" class="d-none ml-2 badge badge-light"></span></a>
+      <a class="nav-link-icon account-button mr-2" href="/junglesales/chats"><i class="fa fa-envelope fa-2x"></i><span id="badgetNewMsgs" class="d-none ml-2 badge badge-dark"></span></a>
         <a class="account-user dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
           <img class="img-avatar rounded-circle img-fluid" src="{{ currentUser.avatar }}" alt="{{currentUser.name}} {{ currentUser.lastname }}">{{currentUser.name}} {{ currentUser.lastname }}</a>
           <div class="dropdown-menu dropdown-menu-right bg-dark rounded-0">
@@ -14,7 +14,7 @@
     <div class="side-wrapper">
       <div class="card text-white bg-secondary mb-3">
         <div class="card-body">
-          <h5 class="card-title">PROFILE</h5>
+          <h5 class="card-title">EDIT PROFILE</h5>
           <form action="/dashboard" method="POST" enctype="multipart/form-data">
             <div class="form-row align-items-center">
               <div class="form-group col-12">
@@ -62,7 +62,7 @@
                 </div>
               </div>
               <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-block">Save</button>
+                <button type="submit" class="btn btn-success btn-block">Save</button>
               </div>
             </div>
           </form>

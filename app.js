@@ -63,7 +63,8 @@ app.use((error, req, res, next) => {
     res.render('error', {
       error: {
         message: error.message
-      }
+      },
+      user: req.currentUser
     })
 });
 

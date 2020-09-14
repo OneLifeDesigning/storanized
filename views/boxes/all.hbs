@@ -13,17 +13,19 @@
         <thead class="thead-primary">
           <tr>
             <th class="text-center">Box</th>
-            <th class="text-center">Options</th>
+            <th class="text-right">Options</th>
           </tr>
         </thead>
         <tbody>
           {{#each boxes as |box|}}
           <tr>
             <td class="text-rigth">{{box.name}}</td>
-            <td class="text-center">
-              <a href="/boxes/{{box.id}}"><i class="fa fa-eye mr-2"></i></a>
-              | <a href="/boxes/{{box.id}}/edit"><i class="far fa-edit"></i></a>
-              | <a href="{{box.qrCode}}"><i class="fas fa-qrcode"></i></a>
+            <td class="text-right">
+              <div class="btn-group">
+                <a href="/boxes/{{box._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
+                <a href="/boxes/{{box.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+                <a href="{{box.qrCode}}" target="_blank" class="btn btn-secondary"><i class="fa fa-qrcode mr-2"></i> Qr Code</a>
+              </div>
             </td>
           </tr>
           {{/each}}

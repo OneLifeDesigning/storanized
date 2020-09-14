@@ -20,8 +20,8 @@
       <thead class="thead-primary">
         <tr>
           <th scope="col">Name</th>
+          <th scope="col">Category</th>
           <th scope="col">Tags</th>
-          <th scope="col">Is public?</th>
           <th scope="col">Options</th>
         </tr>
       </thead>
@@ -31,12 +31,18 @@
           <td>{{product.name}}</td>
           <td>{{product.category}}</td>
           <td>
-            <input type="checkbox" name="isPublic" id="isPublic" value="{{product.isPublic}}">
+            {{#each product.tags as |tag|}}
+              <span class="badge badge-pill badge-primary mr-1">{{tag}}</span>
+            {{/each}}
           </td>
           <td>
-            <a href="/products/{{product._id}}"><i class="fa fa-eye mr-2"></i></a>
-            | <a href="/products/{{product._id}}/edit"><i class="far fa-edit"></i></a>
-            | <a href="/products/{{product._id}}/delete"><i class="far fa-trash-alt"></i></a> 
+            <div class="btn-group">
+              <a href="/products/{{product._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
+              <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+            </div>
+            <form action="/products/{{product.id}}/delete" method="POST" class="float-right">
+              <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+            </form>
           </td>
         </tr>
         {{/each}}

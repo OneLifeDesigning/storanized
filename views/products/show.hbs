@@ -20,8 +20,13 @@
           <p><strong>Storage: </strong>{{storage.name}}</p>
           {{/ifEqual}}
           {{/each}}
-          <p><strong>Box: </strong>{{product.box.name}}</p>
-          <img src="{{product.box.qrCode}}" alt="{{product.box.name}}" class="img-fluid">
+          <p>
+            <strong>Box: </strong>{{product.box.name}} <br>
+            <img src="{{product.box.qrCode}}" alt="{{product.box.name}}" class="img-fluid"> <br>
+            <a href="/boxes/{{product.box.id}}" class="btn btn-warning mt-2">Wiew Box</a>
+          
+          </p>
+          
             <p><strong>Is public?: </strong>
             {{#if product.isPublic}}
             Yes, Is Public
@@ -40,10 +45,8 @@
           <p class="txt-primary"><strong>Price: </strong>{{product.price}} EUR</p>
           {{/if}}
         </div>
-        <div class="form-inline col-12">
-          <div style="margin: 8px;">
-          <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
-          </div>
+        <div class="col-12">
+          <a href="/products/{{product.id}}/edit" class="btn btn-info float-right"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
           <form action="/products/{{product.id}}/delete" method="POST">
             <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
           </form>
