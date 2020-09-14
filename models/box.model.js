@@ -42,7 +42,7 @@ boxSchema.virtual("products", {
 });
 
 boxSchema.pre('save', function(next) {
-  QRCode.toDataURL(process.env.HOST || 'http://localhost:3000/' + 'boxes/' + this._id.toString())
+  QRCode.toDataURL(process.env.HOST || 'http://localhost:3000/' + '/boxes/' + this._id.toString())
   .then(qrcode => {
     cloudinary.uploader.upload(qrcode, { 
       overwrite: true, invalidate: true, folder: 'storanized/qrCode', 
