@@ -1,50 +1,55 @@
 <div class="container">
-  <h1>{{title}}</h1>
-  <form action="/login" method="POST" class="my-5" > 
-    {{#if success}}
+  <div class="general-container">
+
+    <h1>{{title}}</h1>
+    <form action="/login" method="POST" class="my-5">
+      {{#if success}}
       <div class="alert alert-success">
         {{success.message}}
       </div>
-    {{/if}}
-    {{#if error.validation}}
+      {{/if}}
+      {{#if error.validation}}
       <div class="alert alert-danger">
         {{error.validation.message}}
       </div>
-    {{/if}}
-    {{#if error.activation.message}}
+      {{/if}}
+      {{#if error.activation.message}}
       <div class="alert alert-warning">
         <p class="mb-0">{{error.activation.message}}</p>
         <a href="/token" class="btn btn-danger">Generate new token</a>
       </div>
-    {{/if}}
-    <div class="form-row align-items-center">
-      <div class="form-group col-12 col-md-6">
-        <label for="email">Email</label>
-        <input type="email" class="form-control  {{#if error.email }}is-invalid{{/if}}" {{#if user.email }}value="{{user.email}}"{{/if}} id="email" name="email" required>
-        {{#if error.email}}
+      {{/if}}
+      <div class="form-row align-items-center">
+        <div class="form-group col-12 col-md-6">
+          <label for="email">Email</label>
+          <input type="email" class="form-control  {{#if error.email }}is-invalid{{/if}}"
+            {{#if user.email }}value="{{user.email}}" {{/if}} id="email" name="email" required>
+          {{#if error.email}}
           <div class="invalid-feedback">
             {{error.email.message}}
           </div>
-        {{/if}}
-      </div>
-      <div class="form-group  col-12 col-md-6">
-        <label for="password">Password</label>
-        <input type="password" class="form-control  {{#if error.password }}is-invalid{{/if}}" id="password" name="password" {{#if user.password }}value="{{user.password}}"{{/if}}  required>
-        {{#if error.password}}
+          {{/if}}
+        </div>
+        <div class="form-group  col-12 col-md-6">
+          <label for="password">Password</label>
+          <input type="password" class="form-control  {{#if error.password }}is-invalid{{/if}}" id="password"
+            name="password" {{#if user.password }}value="{{user.password}}" {{/if}} required>
+          {{#if error.password}}
           <div class="invalid-feedback">
             {{error.password.message}}
           </div>
-        {{/if}}
+          {{/if}}
+        </div>
+        <div class="col-12 coll-md-9">
+          <p><a href="/password">Lost password?</a></p>
+        </div>
+        <div class="col-12 offset-md-9 col-md-3">
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </div>
+        <div class="col-12 text-center">
+          <p>Don't have an account? <a href="/signup">register</a></p>
+        </div>
       </div>
-      <div class="col-12 coll-md-9">
-        <p><a href="/password">Lost password?</a></p>
-      </div>
-      <div class="col-12 offset-md-9 col-md-3">
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
-      </div>
-      <div class="col-12 text-center">
-        <p>Don't have an account? <a href="/signup">register</a></p>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

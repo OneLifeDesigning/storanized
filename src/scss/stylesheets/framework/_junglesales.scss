@@ -204,7 +204,8 @@
 
 .jungle-prod-info {
   margin-left: 6rem;
-  height: 58rem;
+  min-height: 25rem;
+  padding-bottom: 3rem;
   &_name {
     text-align: center;
     font-size: 4rem;
@@ -213,7 +214,7 @@
   }
   &_btn {
     width: 50%;
-    margin-left: 20rem;
+    margin-left: 14rem;
     margin-top: 3rem;
   }
   &_border {

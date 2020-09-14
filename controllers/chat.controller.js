@@ -104,7 +104,7 @@ module.exports.show = (req, res, next) => {
         chat.save()
           .then(chat => {
             res.render("chats/show", { 
-              title: 'View all chats',
+              title: 'Chat',
               breadcrumbs: req.breadcrumbs,
               user: req.currentUser,
               chat
