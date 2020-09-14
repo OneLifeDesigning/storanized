@@ -38,24 +38,23 @@ const closeFormCollaspse = () => {
   }
 }
 
-const getStorageBoxes = (value, object) => {
-  if (value.length !== 0) {
+const getStorageBoxes = (storageId, selectBox, boxId) => {
+  if (storageId.length !== 0) {
     axios({
       method: 'GET',
-      url: `/api/storages/${value}/boxes`
+      url: `/api/storages/${storageId}/boxes`
     })
     .then(response => {
       if (response.status === 200) {
-        object.removeAttribute('disabled')
-        object.innerHTML = ''
+        selectBox.removeAttribute('disabled')
+        selectBox.innerHTML = ''
         response.data.forEach(el => {
-          const selected = value === el.id ? 'selected' : ''
-          object.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
+          const selected = boxId === el.id ? 'selected' : ''
+          selectBox.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
         })
       }
     })
     .catch(err => {
-      console.log(err);
     })
   }
 }
@@ -77,7 +76,6 @@ const getStorages = (storages) => {
     }
   })
   .catch(err => {
-    console.log(err);
   })
 }
 
@@ -148,7 +146,6 @@ function initMap() {
               infoWindow.open(map);
             })
             .catch(error => {
-              console.log(error);
             })
           }
         }
@@ -214,7 +211,6 @@ const markReadMsg = (id) => {
   })
   .then(response => {
     if (response.status === 200) {
-      console.log('mark ok');
     }
   })
   .catch()
@@ -250,19 +246,19 @@ window.onload = () => {
     collapserBtn.addEventListener("click", (e) => {
       const targetSlash = e.path[0].dataset.target
       const targetId = targetSlash.substring(1)
-
       const moveTo = document.getElementById(targetId)
-      console.log(moveTo);
       setTimeout(() => {
         moveTo.scrollIntoView()
       }, 500);
     })
   }
+
   if (selectStorages && selectBoxes) {
     selectStorages.addEventListener("change", (e) => {
-        getStorageBoxes(e.target.value, selectBoxes)
+      getStorageBoxes(e.target.value, selectBoxes)
     })
   }
+
   if (badgetNewMsgs) {
     if (listMsg) {
       getMsgPending(badgetNewMsgs, listMsg)
@@ -321,18 +317,20 @@ window.onload = () => {
 
   if (customInputs) {
     bsCustomFileInput.init()
-    customInputs.forEach(input => {
-      input.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          newImage.src = event.target.result
-          newImage.classList.remove('d-none')
-        };
-        reader.readAsDataURL(file);
-        takeImageProduct.classList.add('d-none')
-      })
-    })
+    if (newImage) {
+      customInputs.forEach(input => {
+        input.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            newImage.src = event.target.result
+            newImage.classList.remove('d-none')
+          };
+          reader.readAsDataURL(file);
+          takeImageProduct.classList.add('d-none')
+        })
+      })  
+    }
   }
   
   if (takeImageProduct) {
@@ -477,6 +475,7 @@ window.onload = () => {
                   closeFormCollaspse()
                   if (response.data.storage) {
                     selectStorages.value = response.data.storage
+                    getStorageBoxes(response.data.storage, selectBoxes, response.data._id)
                   }
                 })
               } else {
@@ -487,11 +486,9 @@ window.onload = () => {
               }
             })
             .catch(err => {
-              console.log(err);
             })
           })
           .catch(error => {
-            console.log(error);
           })
       })
     }
@@ -538,7 +535,6 @@ window.onload = () => {
             }
           })
           .catch(error => {
-            console.log(error);
           })
         } else {
           elementsToListen.forEach(element => {
@@ -592,11 +588,9 @@ window.onload = () => {
               }
             })
             .catch(err => {
-              console.log(err);
             })
           })
           .catch(error => {
-            console.log(error);
           })
       })
     }
