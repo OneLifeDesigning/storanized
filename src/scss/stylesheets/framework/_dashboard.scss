@@ -500,6 +500,11 @@
   padding-bottom: 20px;
   flex-wrap: wrap;
  }
+ .status-main {
+  .bootstrap-table {
+    width: 100%;
+  }
+}
  
  .status-textarea {
   flex-grow: 1;
