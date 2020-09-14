@@ -20,12 +20,15 @@
               <p class="card-text">{{#if address.defaultAddress}}Yes{{else}}No{{/if}} Default address</p>
               <div class="row">
                 <div class="col-6 text-left">
-                  <div class="btn-group">
-                  <a href="/addresses/{{address.id}}" class="btn btn-primary"><i class="fa fa-eye mr-2"></i> View</a>
-                    <a href="/addresses/{{address.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt"></i>
-                    Edit</a>
+                  <div class="form-inline" style="align-content: space-around;">
+                    <div>
+                      <a href="/addresses/{{address.id}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="btn-general">
+                      <a href="/addresses/{{address.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
+                    </div>
                     <form action="/addresses/{{address.id}}/delete" method="POST">
-                      <button class="btn btn-danger"><i class="fa fa-trash"></i>Delete</button>
+                      <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
                     </form>
                   </div>
                 </div>
