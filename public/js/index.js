@@ -88,7 +88,9 @@ const breadcrumb = document.getElementById('breadcrumb')
 
 if (breadcrumb) {
   const childs = breadcrumb.childNodes
-  childs[childs.length-4].classList.add('active')
+  if (childs[childs.length-4]) {
+    childs[childs.length-4].classList.add('active')
+  }
 }
 
 function initMap() {
@@ -230,6 +232,7 @@ const getMsgPending = (bullet, list) => {
 }
 
 window.onload = () => {
+  const collapserBtn = document.querySelector('.btn-collapser');
   const customInputs = document.querySelectorAll('.custom-file-input');
   const formAddress = document.getElementById("addAddress");
   const formBox = document.getElementById("addBox");
@@ -243,6 +246,18 @@ window.onload = () => {
   const noMsg = document.getElementById('noMsg')
 
 
+  if (collapserBtn) {
+    collapserBtn.addEventListener("click", (e) => {
+      const targetSlash = e.path[0].dataset.target
+      const targetId = targetSlash.substring(1)
+
+      const moveTo = document.getElementById(targetId)
+      console.log(moveTo);
+      setTimeout(() => {
+        moveTo.scrollIntoView()
+      }, 500);
+    })
+  }
   if (selectStorages && selectBoxes) {
     selectStorages.addEventListener("change", (e) => {
         getStorageBoxes(e.target.value, selectBoxes)
