@@ -45,7 +45,7 @@ const productSchema = new mongoose.Schema({
   isSold: {
 		type: Boolean,
 		default: false
-  }
+  },
 },{ timestamps: true, toJSON: { virtuals: true } });
 
 productSchema.virtual("attachments", {

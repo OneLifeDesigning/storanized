@@ -23,3 +23,15 @@
   overflow: hidden;
   line-height: 1.7em;
 }
+
+.address {
+  &_btn {
+    display: flex;
+  }
+  &_bg {
+  background-image: url("/img/mapa.jpg");
+  background-attachment: inherit;
+  background-repeat: no-repeat;
+  background-position: right;
+  }
+}

@@ -1,32 +1,36 @@
-<div class="row align-items-center mb-4">
-  <div class="col-12 col-md-9">
-    <h1 class="">{{title}}</h1>
-  </div>
-  <div class="col-12 col-md-3 text-right">
-    <a href="/products/new" class="btn btn-primary"><i class="fa fa-plus mr-2"></i> Add product</a>
+<section class="bg-products-all">
+<div class="container">
+  <div class="general-container">
+    <div class="row align-items-center mb-4">
+      <div class="col-12 col-md-9">
+        <h1 class="">{{title}} <i class="fas fa-lightbulb"></i></h1>
+      </div>
+      <div class="col-12 col-md-3 text-right">
+        <a href="/products/new" class="btn btn-primary"><i class="fa fa-plus mr-2"></i> Add product</a>
+      </div>
+    </div>
+    <table data-toggle="table" data-pagination="true" data-search="true">
+      <thead>
+        <tr>
+          <th class="text-center">Product</th>
+          <th class="text-center">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products as |product|}}
+        <tr>
+          <td class="text-rigth">{{product.name}}</td>
+          <td>
+            <a href="/products/{{product.id}}"><i class="fa fa-eye mr-2"></i></a>
+            | <a href="/products/{{product.id}}/edit"><i class="far fa-edit"></i></a>
+              <form style="display:contents" action="/products/{{product.id}}/delete" method="POST">
+                | <button class="btn btn-danger-box"><i class="fa fa-trash mr-2"></i></button>
+              </form>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 </div>
-<table data-toggle="table" data-pagination="true" data-search="true">
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th class="text-right">Options</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each products as |product|}}
-    <tr>
-      <td>{{product.name}}</td>
-      <td class="text-right">
-        <div class="btn-group">
-            <a href="/products/{{product.id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> View</a>
-            <a href="/products/{{product.id}}/edit" class="btn btn-warning"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
-            <form action="/products/{{product.id}}/delete" method="POST">
-              <button class="btn btn-danger"><i class="fa fa-trash mr-2"></i> Delete</button>
-            </form>
-        </div>
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+</section>

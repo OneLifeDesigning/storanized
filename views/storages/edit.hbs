@@ -1,17 +1,23 @@
-<div class="row align-items-center mb-4">
-  <div class="col-12 col-md-9">
-    <h1 class="mb-0">{{title}}</h1>
-  </div>
-  <div class="col-12">
-    <form action="/storages/{{storage.id}}/edit" method="POST"> 
-      {{> storages/form }}
-      <div class="col-12 offset-md-9 col-md-3 mt-2">
-          <button type="submit" class="btn btn-primary btn-block">Save</button>
+<section class="bg-storage-form">
+  <div class="container">
+    <div class="general-container">
+      <div class="row align-items-center mb-4">
+        <div class="col-12 col-md-9">
+          <h1 class="mb-0">{{title}}</h1>
+          <br>
         </div>
+        <div class="col-12">
+          <form action="/storages/{{storage.id}}/edit" method="POST">
+            {{> storages/form }}
+            <div class="col-12 offset-md-9 col-md-3 mt-2">
+              <button type="submit" class="btn btn-primary btn-block">Save</button>
+            </div>
+        </div>
+        </form>
       </div>
-    </form>
+      <div class="col-12">
+        {{> api/addresses/form }}
+      </div>
+    </div>
   </div>
-  <div class="col-12">
-    {{> api/addresses/form }}
-  </div>
-</div>
+</section>

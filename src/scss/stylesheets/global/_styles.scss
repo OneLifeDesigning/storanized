@@ -1,22 +1,50 @@
 body {
-    font-family: $font-stack;
-    font-size: $font-size;
-    color: $text-primary;
-    letter-spacing: .5px;
+  font-family: $font-stack;
+  font-size: $font-size;
+  color: $text-primary;
+  letter-spacing: 0.5px;
 }
 
 ul {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .btn {
-    border-radius: 0px;
+  border-radius: 4px;
 }
-.form-row>.col, .form-row>[class*=col-] {
-    margin-bottom: 1.5rem;
+.form-row > .col,
+.form-row > [class*="col-"] {
+  margin-bottom: 1.5rem;
 }
-.form-row>.col, .form-row>[class*=col-] {
-    padding-left: .75rem;
-    padding-right: .75rem;
+.form-row > .col,
+.form-row > [class*="col-"] {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.general-container {
+  margin-top: 30px;
+  border-radius: 20px;
+  border: 5px solid rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  min-height: 300px;
+}
+
+table {
+  background-color: rgba(255, 255, 255, 0.57);
+}
+
+p {
+  width: 80%;
+}
+
+.btn-danger-box {
+  color: red;
+  font-size: 14px;
+}
+
+.accordion>.card>.card-header {
+  border-radius: 4px;
+  margin-bottom: 0px;
 }
