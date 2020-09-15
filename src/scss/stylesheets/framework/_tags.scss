@@ -24,7 +24,7 @@
   }
 
   &::after {
-    background: $white;
+    background: $ligth-grey;
     border-bottom: 13px solid transparent;
     border-left: 10px solid #6b6b6b;
     border-top: 13px solid transparent;
@@ -35,11 +35,16 @@
   }
 
   &:hover {
-    background-color: magenta;
+    background-color: $primary;
     color: white;
 
     &::after {
-      border-left-color: magenta;
+      border-left-color: $primary;
     }
+  }
+}
+.jungle-prod-info {
+  .tag {
+    margin-right: 20px;
   }
 }

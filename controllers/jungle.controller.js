@@ -7,6 +7,7 @@ module.exports.all = (req, res, next) => {
   Product.find({ isPublic: true })
     .populate("user")
     .populate("attachments")
+    .sort({createdAt: -1})
     .then((products) => {
       res.render("jungle-sales/all", {
         products,

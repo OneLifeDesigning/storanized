@@ -183,21 +183,11 @@
   margin-right: 10px;
  }
  
- .search-bar {
-  .right-side-button {
-    z-index: 3;
-    height: 60px;
-    position: absolute;
-    right: 0;
-    background-color: $aquamarine;
-  }
- }
- 
  .main-container {
   padding: 20px;
   flex-grow: 1;
   overflow: auto;
-  background-color: white;
+  background-color: $white;
  }
  
  .profile {
@@ -251,7 +241,7 @@
   &:hover {
    color: $text-secondary;
    background-color: $dark-grey;
-   border-bottom: 3px solid #5ce1e6;
+   border-bottom: 3px solid $primary;
   }
  }
  
@@ -742,12 +732,12 @@
   padding-right: 10px;
  }
  
- .search-bar-svgs {
+ .breadcrumbs-bar-svgs {
   color: #656679;
   display: flex;
  }
  
- .search-bar-svgs svg {
+ .breadcrumbs-bar-svgs svg {
   margin-right: 16px;
  }
  
@@ -772,29 +762,30 @@
  }
  
  .right-side-button {
-  position: absolute;
-  right: 0;
+   position: absolute;
+  z-index: 3;
+  height: 60px;
+  width: 60px;
+  background-color: $primary;
   top: 0;
-  height: 100%;
+  right: 0;
   border: 0;
-  width: 52px;
-  background-color: #1e2031;
   border-left: 1px solid $border-color;
   color: $text-secondary;
   display: block;
   cursor: pointer;
-  .right-side-button.active {
     &:before {
     content: "";
     width: 10px;
     height: 10px;
     border-radius: 50%;
     position: absolute;
-    background-color: #1b86f8;
+    display: block;
+    z-index: 5;
+    background-color: $red;
     border: 2px solid #1e2031;
     top: 13px;
     right: 12px;
-    }
   }
   svg {
    width: 22px;
@@ -803,7 +794,9 @@
    display: block;
   }
  }
- 
+ .right-side-button.active:before {
+   display: block;
+ }
  .left-side-button {
   display: none;
   @media screen and (max-width: 930px) {

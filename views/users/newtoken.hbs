@@ -1,26 +1,35 @@
-<form action="/token" method="POST" class="my-5" > 
-  {{#if success}}
-    <div class="alert alert-success">
-      {{success.message}}
-    </div>
-  {{/if}}
-  {{#if error.activation}}
-    <div class="alert alert-danger">
-      {{error.activation.message}}
-    </div>
-  {{/if}}
-  <div class="form-row align-items-center">
-    <div class="form-group col-12 col-md-6">
-      <label for="email">Email</label>
-      <input type="email" class="form-control  {{#if error.email }}is-invalid{{/if}}" id="email" name="email" required>
-      {{#if error.email}}
-        <div class="invalid-feedback">
-          {{error.email.message}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="col-12 offset-md-9 col-md-3">
-      <button type="submit" class="btn btn-success btn-block">Send</button>
+<div class="container">
+  <div class="general-container">
+    <div class="row">
+      <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+        <form action="/token" method="POST" class="my-3" > 
+          <h1 class="text-center mb-4">{{title}}</h1>
+          {{#if success}}
+            <div class="alert alert-success">
+              {{success.message}}
+            </div>
+          {{/if}}
+          {{#if error.activation}}
+            <div class="alert alert-danger">
+              {{error.activation.message}}
+            </div>
+          {{/if}}
+          <div class="form-row align-items-center">
+            <div class="form-group col-12">
+              <label for="email">Email</label>
+              <input type="email" class="form-control  {{#if error.email }}is-invalid{{/if}}" id="email" name="email" required>
+              {{#if error.email}}
+                <div class="invalid-feedback">
+                  {{error.email.message}}
+                </div>
+              {{/if}}
+            </div>
+            <div class="col-12 offset-md-9 col-md-3">
+              <button type="submit" class="btn btn-success btn-block">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</form>
+</div>

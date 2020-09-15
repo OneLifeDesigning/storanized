@@ -1,8 +1,7 @@
 <div class="container">
   <div class="general-container">
-
-    <h1>{{title}}</h1>
-    <form action="/login" method="POST" class="my-5">
+    <form action="/login" method="POST" class="my-3">
+      <h1 class="text-center mb-3">{{title}}</h1>
       {{#if success}}
       <div class="alert alert-success">
         {{success.message}}
@@ -14,10 +13,10 @@
       </div>
       {{/if}}
       {{#if error.activation.message}}
-      <div class="alert alert-warning">
-        <p class="mb-0">{{error.activation.message}}</p>
-        <a href="/token" class="btn btn-danger">Generate new token</a>
-      </div>
+        <div class="alert alert-warning">
+          <p class="mb-0">{{error.activation.message}}</p>
+          <a href="/token" class="btn btn-danger">Generate new token</a>
+        </div>
       {{/if}}
       <div class="form-row align-items-center">
         <div class="form-group col-12 col-md-6">
@@ -40,10 +39,10 @@
           </div>
           {{/if}}
         </div>
-        <div class="col-12 coll-md-9">
+        <div class="col-12 col-md-9">
           <p><a href="/password">Lost password?</a></p>
         </div>
-        <div class="col-12 offset-md-9 col-md-3">
+        <div class="col-12 col-md-3">
           <button type="submit" class="btn btn-success btn-block">Login</button>
         </div>
         <div class="col-12 text-center">

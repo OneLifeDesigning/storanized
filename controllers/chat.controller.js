@@ -20,7 +20,8 @@ module.exports.all = (req, res, next) => {
       res.render("chats/all", { 
         title: 'View all chats',
         breadcrumbs: req.breadcrumbs,
-        chats: {sent, received}
+        chats: {sent, received},
+        user: req.currentUser,
       })
     })
     .catch()
@@ -118,7 +119,7 @@ module.exports.show = (req, res, next) => {
 }
 
 module.exports.apiGetUnreadMessages = (req, res, next) => {
-  Message.find({to: req.currentUser.id, unread: true})
+  Message.find({$or: [{to: req.currentUser.id}, {from: req.currentUser.id}], unread: true})
   .populate('from')
   .then(messages => {
     res.json(messages)

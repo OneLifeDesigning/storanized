@@ -196,10 +196,9 @@
 }
 
 .jungle-prod {
-  border: $aquamarine solid 5px;
+  border: $primary solid 5px;
   border-radius: 5px;
-  margin: 30px;
-  margin-left: 14rem;
+  margin: 30px auto;
 }
 
 .jungle-prod-info {
@@ -207,10 +206,10 @@
   min-height: 25rem;
   padding-bottom: 3rem;
   &_name {
-    text-align: center;
+    text-align: left;
     font-size: 4rem;
-    margin: 0px auto;
-    text-shadow: -1px -1px 0px $aquamarine;
+    margin: 0px auto 30px;
+    text-shadow: -1px -1px 0px $primary;
   }
   &_btn {
     width: 50%;

@@ -29,11 +29,14 @@ const formClear = async (form) => {
   }
 }
 
-const closeFormCollaspse = () => {
-  const toCollapse = document.querySelector('.form-collapse')
+const closeCollaspse = (toCollapse) => {
   if(toCollapse) {
     setTimeout(() => {
-      toCollapse.classList.remove('show')
+      if (toCollapse.classList.contains('show')) {
+        if (toCollapse.classList.contains('show')) {
+          toCollapse.classList.remove('show')
+        }
+      }
     }, 1000);
   }
 }
@@ -192,13 +195,16 @@ const countNewMsgToBullet = (data, ele) => {
   }
   if (data && ele) {
     if (ele.classList.contains('d-none')) {
-      ele.classList.remove('d-none')
+        if (ele.classList.contains('d-none')) {
+          ele.classList.remove('d-none')
+        }
     }
     ele.innerText = data.length;
   }
 }
 const countNewMsgToMenu = (data, ele) => {
   if (data.length !== 0) {
+    console.log('menu');
     ele.classList.add('active')
   }
 }
@@ -241,6 +247,21 @@ const getMsgPending = (bullet, tipsMenu, list) => {
   .catch()
 }
 
+const checkInpustValues = (firstInput, secondInput) => {
+  if (firstInput.value === secondInput.value) {
+    console.log('not equal');
+    firstInput.classList.add('is-invalid')
+    secondInput.classList.add('is-invalid')
+    return
+  }
+  const messageError = document.getElementById('messageError')
+  firstInput.classList.add('is-invalid')
+  secondInput.classList.add('is-invalid')
+}
+
+$(document).ready(function(){
+  $('.toast').toast('show');
+});
 window.onload = () => {
   const collapserBtn = document.querySelector('.btn-collapser');
   const customInputs = document.querySelectorAll('.custom-file-input');
@@ -255,6 +276,21 @@ window.onload = () => {
   const listMsg = document.getElementById('listMsg')
   const noMsg = document.getElementById('noMsg')
   const tipNewMsgs = document.getElementById('tipNewMsgs')
+  const password = document.getElementById("password");
+  const repeatPassword = document.getElementById("repeatPassword");
+  
+  if (password && repeatPassword) {
+    repeatPassword.addEventListener("change", (e) => {
+      if (password.value && repeatPassword.value) {
+        checkInpustValues(password, repeatPassword)
+      }
+    })
+    password.addEventListener("change", (e) => {
+      if (password.value && repeatPassword.value) {
+        checkInpustValues(password, repeatPassword)
+      }
+    })
+  }
 
   if (collapserBtn) {
     collapserBtn.addEventListener("click", (e) => {
@@ -282,7 +318,7 @@ window.onload = () => {
       getMsgPending(badgetNewMsgs, tipNewMsgs)
       setInterval(() => {
         getMsgPending(badgetNewMsgs, tipNewMsgs)
-      }, 10000);
+      }, 60000);
     }
   }
 
@@ -295,7 +331,11 @@ window.onload = () => {
       if (!sendMsgInput.value) {
         sendMsgInput.classList.add('is-invalid')
       } else {
-        sendMsgInput.classList.remove('is-invalid')
+        if (sendMsgInput.classList.contains('is-invalid')) {
+          if (sendMsgInput.classList.contains('is-invalid')) {
+            sendMsgInput.classList.remove('is-invalid')
+          }
+        }
         const data = { text: sendMsgInput.value, chatId: sendMsgButton.dataset.id, from: sendMsgButton.dataset.from};
         axios({
           method: 'POST',
@@ -336,7 +376,9 @@ window.onload = () => {
         const reader = new FileReader();
         reader.onload = function(event) {
           newImage.src = event.target.result
-          newImage.classList.remove('d-none')
+          if (newImage.classList.contains('d-none')) {
+            newImage.classList.remove('d-none')
+          }
         };
         reader.readAsDataURL(file);
         takeImageProduct.classList.add('d-none')
@@ -414,8 +456,12 @@ window.onload = () => {
       canvas.height = video.videoHeight;
       canvas.getContext('2d').drawImage(video, 0, 0);
       screenshotImage.src = canvas.toDataURL('image/jpeg', 0.5);
-      screenshotImage.classList.remove('d-none');
-      screenshotSelector.classList.remove('d-none');
+      if (screenshotImage.classList.contains('d-none')) {
+        screenshotImage.classList.remove('d-none');
+      }
+      if (screenshotSelector.classList.contains('d-none')) {
+        screenshotSelector.classList.remove('d-none');
+      }
     };
     
     screenshotBtn.onclick = doScreenshot;
@@ -423,7 +469,9 @@ window.onload = () => {
     screenshotSelector.onclick = () => {
       newImage.src = screenshotImage.src
       imageCamera.value = screenshotImage.src
-      newImage.classList.remove('d-none');
+      if (newImage.classList.contains('d-none')) {
+        newImage.classList.remove('d-none');
+      }
       localFile.classList.add('d-none');
       pauseStream()
     }
@@ -441,7 +489,11 @@ window.onload = () => {
     const handleStream = (stream) => {
       video.srcObject = stream;
       play.classList.add('d-none');
-      screenshotBtn.classList.remove('d-none');
+      if (screenshotBtn.classList.contains('d-none')) {
+        if (screenshotBtn.classList.contains('d-none')) {
+          screenshotBtn.classList.remove('d-none');
+        }
+      }
     };
 
 
@@ -458,7 +510,7 @@ window.onload = () => {
   }
 
   if (formBox) {
-    const messageErrors = document.getElementById('messageErrors')
+    const messageError = document.getElementById('messageError')
     const boxStorage = document.getElementById('boxStorage')
     
     if (boxStorage) {
@@ -479,33 +531,33 @@ window.onload = () => {
             })
             .then(response => {
               if (response.status === 200) {
-                messageErrors.innerHTML = ''
-                messageErrors.classList.add('d-none')
+                messageError.innerHTML = ''
+                messageError.classList.add('d-none')
                 formClear(formBox)
                 .then(() => {
-                  closeFormCollaspse()
+                  closeCollaspse(document.querySelector('.form-collapse'))
                   if (response.data.storage) {
                     selectStorages.value = response.data.storage
                   }
                 })
               } else {
-                messageErrors.classList.remove('d-none')
-                messageErrors.innerHTML = ''
-                messageErrors.innerHTML = 'Sorry, we could not save your address check errors'
+                if (messageError.classList.contains('d-none')) {
+                  messageError.classList.remove('d-none');
+                }
+                messageError.innerHTML = ''
+                messageError.innerHTML = 'Sorry, we could not save your address check errors'
                 formErrors(formBox, response.data)
               }
             })
-            .catch(err => {
-            })
+            .catch()
           })
-          .catch(error => {
-          })
+          .catch()
       })
     }
   }
 
   if (formAddress) {
-    const messageErrors = document.getElementById('messageErrors')
+    const messageError = document.getElementById('messageError')
     const zipCode = document.getElementById('addressPostalCode')
     const city = document.getElementById('addressCity')
     const address = document.getElementById('addressAddress')
@@ -519,17 +571,23 @@ window.onload = () => {
     elementsToListen.forEach(el => {
       el.addEventListener("change", () => {
         if (zipCode.value !== '' && country.value !== '' && address.value !== '') {
-          zipCode.classList.remove('is-invalid')
-          country.classList.remove('is-invalid')
-          address.classList.remove('is-invalid')
+          if (zipCode.classList.contains('is-invalid')) {
+            zipCode.classList.remove('is-invalid')
+          }
+          if (country.classList.contains('is-invalid')) {
+            country.classList.remove('is-invalid')
+          }
+          if (address.classList.contains('is-invalid')) {
+            address.classList.remove('is-invalid')
+          }
           axios({
             method: 'GET',
             url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address.value}, ${zipCode.value}, ${country.value}&key=AIzaSyBYXm379NbtX6xF2bMJzEb_9R0lyKX5k8A`
           })
           .then(response => {
             if (response.data.status !== 'ZERO_RESULTS') {
-              messageErrors.innerHTML = ''
-              messageErrors.classList.add('d-none')
+              messageError.innerHTML = ''
+              messageError.classList.add('d-none')
               let i = 0
               if (response.data.results[0].address_components.length >= 7) {
                 i++
@@ -539,13 +597,14 @@ window.onload = () => {
               latitude.value = response.data.results[0].geometry.location.lat;
               longitude.value = response.data.results[0].geometry.location.lng;
             } else {
-              messageErrors.classList.remove('d-none')
-              messageErrors.innerHTML = ''
-              messageErrors.innerHTML = 'Sorry, we could not verify your address exchange them or continuous'
+              if (messageError.classList.contains('d-none')) {
+                messageError.classList.remove('d-none')
+              }
+              messageError.innerHTML = ''
+              messageError.innerHTML = 'Sorry, we could not verify your address exchange them or continuous'
             }
           })
-          .catch(error => {
-          })
+          .catch()
         } else {
           elementsToListen.forEach(element => {
             if (element.value === '') {
@@ -571,8 +630,8 @@ window.onload = () => {
             })
             .then(response => {
               if (response.status === 200) {
-                messageErrors.innerHTML = ''
-                messageErrors.classList.add('d-none')
+                messageError.innerHTML = ''
+                messageError.classList.add('d-none')
                 listAddresses.innerHTML += `<div class="col-sm-6 mb-4">
                 <div class="card">
                 <div class="card-body">
@@ -588,20 +647,20 @@ window.onload = () => {
                 </div>`
                 formClear(formAddress)
                 .then(() => {
-                  closeFormCollaspse()
+                  closeCollaspse(document.querySelector('.form-collapse'))
                 })
               } else {
-                messageErrors.classList.remove('d-none')
-                messageErrors.innerHTML = ''
-                messageErrors.innerHTML = 'Sorry, we could not save your address check errors'
+                if (messageError.classList.contains('d-none')) {
+                  messageError.classList.remove('d-none')
+                }
+                messageError.innerHTML = ''
+                messageError.innerHTML = 'Sorry, we could not save your address check errors'
                 formErrors(formAddress, response.data)
               }
             })
-            .catch(err => {
-            })
+            .catch()
           })
-          .catch(error => {
-          })
+          .catch()
       })
     }
   }

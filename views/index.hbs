@@ -1,3 +1,13 @@
+{{#if success}}
+   <div class="alert alert-success">
+      {{success.message}}
+   </div>
+{{/if}}
+{{#if error.validation}}
+   <div class="alert alert-danger">
+      {{error.validation.message}}
+   </div>
+{{/if}}
 <video id="my-video" class="video" autoplay muted loop>
    <source src="/img/storanized-home.mp4" type="video/mp4">
 </video>

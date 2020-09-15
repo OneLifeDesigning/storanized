@@ -85,7 +85,6 @@ module.exports.doSignup = (req, res, next) => {
           id: user._id.toString(),
           activationToken: user.activation.token
         })
-        
         res.render('users/login', {
           title: 'Login',
           success: {
@@ -179,7 +178,7 @@ module.exports.doNewToken = (req, res, next) => {
               message: 'Something has gone wrong, enter again your email, please'
             }
           },
-          breadcrumbs: req.breadcrumbs
+          
         })
       } else {
         user.activation.oldToken = user.activation.token;
@@ -244,7 +243,8 @@ module.exports.doEditDashboard = (req, res, next) => {
 }
 
 module.exports.forgotPassword = (req, res, next) => {
-  res.render('users/password', {breadcrumbs: req.breadcrumbs})
+  res.render('users/password', { title: 'Get new password',
+  breadcrumbs: req.breadcrumbs, user: req.currentUser})
 }
 
 module.exports.doForgotPassword = (req, res, next) => {
@@ -254,6 +254,7 @@ module.exports.doForgotPassword = (req, res, next) => {
         res.render('users/password', {
           title: 'Get new password',
           breadcrumbs: req.breadcrumbs,
+          user: req.currentUser,
           error: {
             validation: {
               message: 'Something has gone wrong, please enter your email try again'
@@ -282,6 +283,7 @@ module.exports.recoveryPassword = (req, res, next) => {
         res.render('users/password', {
           title: 'Get new password',
           breadcrumbs: req.breadcrumbs,
+          user: req.currentUser,
           error: {
             validation: {
               message: 'Something has gone wrong, please enter your email try again'
@@ -299,7 +301,8 @@ module.exports.recoveryPassword = (req, res, next) => {
 module.exports.editPassword = (req, res, next) => {
   res.render('users/changepassword', {
     title: 'Change Password',
-    breadcrumbs: req.breadcrumbs
+    breadcrumbs: req.breadcrumbs,
+    user: req.currentUser
   })
 }
 
@@ -310,6 +313,7 @@ module.exports.doEditPassword = (req, res, next) => {
         res.render('users/changepassword', {
           title: 'Change Password',
           breadcrumbs: req.breadcrumbs,
+          user: req.currentUser,
           error: {
             validation: {
               message: 'Something has gone wrong, please try again'

@@ -5,6 +5,11 @@ body {
   letter-spacing: 0.5px;
 }
 
+.h1,h1,.h2,h2,.h3,h3,.h4,h4,.h5,h5,.h6,h6 {
+  font-family: $font-headdings;
+  font-weight: 300;
+}
+
 ul {
   list-style-type: none;
   padding-left: 0;
@@ -25,13 +30,22 @@ ul {
 }
 
 .general-container {
-  margin-top: 30px;
+  margin: 30px auto;
   border-radius: 20px;
   border: 5px solid rgba(0, 0, 0, 0.07);
   padding: 20px;
-  min-height: 300px;
+  background-color: #f4f3ef;
 }
 
+.btn-success {
+  color: #fff;
+  background-color: $btn-primary;
+  border-color: $btn-primary;
+   &:hover {
+      background-color: $btn-primary-hover;
+      border-color: $btn-primary-hover;
+   }
+}
 table {
   background-color: rgba(255, 255, 255, 0.9);
 }

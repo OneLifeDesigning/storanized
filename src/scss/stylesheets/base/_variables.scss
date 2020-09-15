@@ -1,8 +1,14 @@
-$font-stack: 'Oxygen',
+$font-stack: 'Raleway',
 "Helvetica Neue",
 Helvetica,
 Arial,
 sans-serif;
+$font-headdings: 'Open Sans',
+"Helvetica Neue",
+Helvetica,
+Arial,
+sans-serif;
+
 $font-size: 14px;
 
 $red: #f4473a;
@@ -14,13 +20,17 @@ $grey: #606060;
 $dark-grey: #292929;
 $black: #000;
 $zink: #2c2c2c;
-$aquamarine: #0eb5b5;
+$primary: #459b9e;
+$primaryDark: #2e6567;
 
-$link-primary: $red;
+$link-primary: $primary;
 $link-secondary: $white;
 $link-tertiary: $middle-grey;
 $link-fourth: $black;
 $link-fifty: $grey;
+
+$btn-primary: $primary;
+$btn-primary-hover: $primaryDark;
 
 $text-primary: $zink;
 $text-secondary: $white;
