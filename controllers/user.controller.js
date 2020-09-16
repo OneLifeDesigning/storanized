@@ -90,10 +90,12 @@ module.exports.doSignup = (req, res, next) => {
           success: {
             message: 'Check your email for activate account.'
           },
+          user: {email: user.email},
           breadcrumbs: req.breadcrumbs
         })
       })
       .catch(error => {
+        user.id = '';
         if (error instanceof mongoose.Error.ValidationError) {
           error.errors.message = 'Please, check the data entered'
           res.render('users/signup', { 
@@ -116,6 +118,7 @@ module.exports.doSignup = (req, res, next) => {
             success: {
               message: 'Check your email for activate account.'
             },
+            user,
             breadcrumbs: req.breadcrumbs
           })
         } else {
@@ -321,7 +324,7 @@ module.exports.doEditPassword = (req, res, next) => {
           }
         })
       } else {
-        if (req.body.password !== req.body.passwordValidate) {
+        if (req.body.password !== req.body.passwordRepeat) {
           res.render('users/changepassword', {
             title: 'Change password',
             breadcrumbs: req.breadcrumbs,
@@ -331,7 +334,7 @@ module.exports.doEditPassword = (req, res, next) => {
               }
             }
           })
-        } else if (req.body.password.length <= 8) {
+        } else if (req.body.password.length < 8) {
           res.render('users/changepassword', {
             title: 'Change password',
             breadcrumbs: req.breadcrumbs,
