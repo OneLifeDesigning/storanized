@@ -248,13 +248,32 @@ const getMsgPending = (bullet, tipsMenu, list) => {
 }
 
 const checkInpustValues = (firstInput, secondInput) => {
-  if (firstInput.value === secondInput.value) {
-    console.log('not equal');
+  const messageError = document.getElementById('messageError')
+  if (firstInput.value.length < 8 || secondInput.value.length < 8) {
+    if (messageError.classList.contains('d-none')) {
+      messageError.classList.remove('d-none');
+    }
+    messageError.innerHTML = ''
+    messageError.innerHTML = 'The password must be at least 8 characters'
     firstInput.classList.add('is-invalid')
-    secondInput.classList.add('is-invalid')
+    secondInput.classList.add('is-invalid')  
     return
   }
-  const messageError = document.getElementById('messageError')
+  if (firstInput.value === secondInput.value) {
+    messageError.classList.add('d-none');
+    if (firstInput.classList.contains('is-invalid')) {
+      firstInput.classList.remove('is-invalid');
+    }
+    if (secondInput.classList.contains('is-invalid')) {
+      secondInput.classList.remove('is-invalid');
+    }
+    return
+  }
+  if (messageError.classList.contains('d-none')) {
+    messageError.classList.remove('d-none');
+  }
+  messageError.innerHTML = ''
+  messageError.innerHTML = 'Sorry, paswords not match'
   firstInput.classList.add('is-invalid')
   secondInput.classList.add('is-invalid')
 }
