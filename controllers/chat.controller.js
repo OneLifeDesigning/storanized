@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
 const Message = require("../models/message.model");
 const Chat = require("../models/chat.model");
-const { populate } = require("../models/chat.model");
 
 
 module.exports.all = (req, res, next) => {

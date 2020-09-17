@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product.model");
 const Attachment = require("../models/attachment.model");
-const { restart } = require("nodemon");
 const cloudinary = require('cloudinary').v2
 
 const categories = ['Motorcycles','Motor and Accessories', 'Fashion and Accessories','TV, Audio and Photo','Mobile Phones and Telephony','Computers and Electronics', 'Sports and Leisure', 'Bicycles','Consoles and Videogames','Home and Garden','Household appliances', 'Cinema, Books and Music', 'Children and Babies','Collecting','Building materials', 'Industry and Agriculture', 'Others']

@@ -2,15 +2,13 @@ const nodemailer = require('nodemailer');
 
 const host = process.env.HOST || 'http://localhost:3000';
 const user = process.env.NM_USER;
-const transport = nodemailer.createTransport(
-	{
+const transport = nodemailer.createTransport({
 		service: 'Gmail',
 		auth: {
 			user: user,
 			pass: process.env.NM_PASS
 		}
-	}
-	)
+	})
 	
 module.exports.sendValidationEmail = ({name, email, id, activationToken}) => {
 	transport.sendMail({
