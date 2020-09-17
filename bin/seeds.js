@@ -48,7 +48,7 @@ function createUser() {
       active: true,
       token: generateRandomToken()
     },
-    role: 'client',
+    role: 'test',
     terms: true
   })
 
@@ -143,7 +143,7 @@ const users = []
 
 function restoreDatabase() {
   return Promise.all([
-    User.deleteMany({}),
+    User.deleteMany({role: {$ne: 'test'}}),
     Address.deleteMany({}),
     Storage.deleteMany({}),
     Box.deleteMany({}),
