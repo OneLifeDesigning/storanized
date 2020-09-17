@@ -12,6 +12,7 @@ module.exports.all = (req, res, next) => {
       res.render("jungle-sales/all", {
         products,
         breadcrumbs: req.breadcrumbs,
+        user: req.currentUser
       });
     })
     .catch(next);
