@@ -1,19 +1,21 @@
 <section class="bg-error">
   <div class="container">
-    <div class="row align-items-center mb-4">
-      <div class="col-12 col-md-9">
-        <h1 class="text-center mb-3">{{title}}</h1>
-      </div>
-    </div>
-    {{#if error }}
-     <div class="card">
-        <div class="card-header" id="headingOne">
-          <h2 class="mb-0">
-            Ops,Sorry
-            <br><small class="text-center lead">{{ error.meserrorage}}</small>
-          </h2>
-          <a href="/" class="btn btn-danger">Home</a>
+    <div class="container-general py-3">
+      <div class="row">
+        <div class="col-12">            
+            {{#if error }}
+            <div class="card">
+                <div class="card-header" id="headingOne">  
+                  <h1 class="text-center mb-3">Ops,Sorry</h1>
+                </div>
+                <div class="card-body text-center">
+                  <p class="text-center lead">{{ error.message}}</p>
+                  <a href="/" class="btn btn-danger m-auto"><i class="fa fa-home"></i> Back to Home</a>
+                </div>
+              </div>
+            {{/if}}
         </div>
       </div>
-    {{/if}}
+      </div>
+    </div>
 </section>

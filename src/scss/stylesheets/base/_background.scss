@@ -72,4 +72,17 @@
   background-repeat: no-repeat;
   background-position-y: bottom;
   background-position-x: center;
+  min-height: 85vh;
+}
+.bg-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("/img/error.png");
+  background-attachment: inherit;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position-y: bottom;
+  background-position-x: center;
+  min-height: 85vh;
 }
