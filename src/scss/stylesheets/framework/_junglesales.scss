@@ -1,40 +1,22 @@
-// :root {
-//   font-size: 10px;
-// }
-
-* {
-  box-sizing: border-box;
-
-  &::before,
-  &::after {
-    box-sizing: border-box;
-  }
-}
-
-// .container {
-//   max-width: 93.5rem;
-//   margin: 0 auto;
-//   padding: 0 2rem;
-// }
-
-.visually-hidden {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-}
+:root {
+  font-size: 10px;
+ }
 
 /* Profile Section */
 
 .profile {
+  font-size: 10px;
   padding: 5rem 0;
-
+  max-height: 100px;
   &::after {
     content: "";
     display: block;
     clear: both;
   }
+}
+
+header {
+  height: 200px;
 }
 
 .profile-image {
@@ -67,6 +49,7 @@
 .profile-stat-count,
 .profile-edit-btn {
   font-weight: 600;
+  font-size: 1.5rem;
 }
 
 @media screen and (max-width: 40rem) {

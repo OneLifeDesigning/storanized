@@ -1,46 +1,50 @@
 <section id="jungle-space" class="jungle-bg">
   <div class="container">
-    <div class="profile">
-      <div class="profile-image">
-        <img src="{{user.avatar}}" class="img-fluid" alt="">
-      </div>
-      <div class="profile-user-settings">
-        <h1 class="profile-user-name">@{{user.username}}</h1>
-      </div>
-      <div class="profile-stats">
-        <ul>
-          <li><a href="/{{user._id}}/{{products._id}}"></a>
-            <span class="profile-stat-count">Products: {{products.length}}</span></li>
-        </ul>
-      </div>
-      <div class="profile-bio">
-        <p><span class="profile-real-name">{{user.name}} {{user.lastname}}</span> Mi cabeza es un destre pero mi armario NO! 📷✈🏕️</p>
-      </div>
-    </div>
-  </div>
-<main>
-  <div class="container">
-    <div class="row">
-      {{#each products as |product|}}
-      <div class="col-lg-4 col-sm-6">
-        <div class="item">
-          {{#each product.attachments as |attachment|}}
-          {{#ifEqual attachment.target 'mainImage'}}
-          <img src="{{attachment.url}}" alt="{{../product.name}}" class="card-img-top">
-          {{/ifEqual}}
-          {{/each}}
-          <div class="card-body">
-            <p class="card-title"><a href="/junglesales/{{product.user.id}}/{{product._id}}"
-                class="text-dark">{{product.name}}</a></p>
-            <p class="card-text">
-            <h5><strong>Price:</strong> {{product.price}}€</h5>
-            </p>
-            <a href="/junglesales/{{product.user.id}}/{{product._id}}" class="btn btn-lg btn-info">View Product</a>
-          </div>
+    <header>
+      <div class="profile">
+        <div class="profile-image">
+          <img src="{{user.avatar}}" alt="">
+        </div>
+        <div class="profile-user-settings">
+          <h1 class="profile-user-name">@{{user.username}}</h1>
+        </div>
+        <div class="profile-stats">
+          <ul>
+            <li><a href="/{{user._id}}/{{products._id}}"></a>
+              <span class="profile-stat-count">Products: {{products.length}}</span></li>
+          </ul>
+        </div>
+        <div class="profile-bio">
+          <p><span class="profile-real-name">{{user.name}} {{user.lastname}}</span> Mi cabeza es un destre pero mi
+            armario
+            NO! 📷✈🏕️</p>
         </div>
       </div>
-      {{/each}}
-    </div>
+    </header>
+    <main>
+      <div class="container">
+        <div class="row">
+          {{#each products as |product|}}
+          <div class="col-lg-4 col-sm-6">
+            <div class="item">
+              {{#each product.attachments as |attachment|}}
+              {{#ifEqual attachment.target 'mainImage'}}
+              <img src="{{attachment.url}}" alt="{{../product.name}}" class="card-img-top">
+              {{/ifEqual}}
+              {{/each}}
+              <div class="card-body">
+                <p class="card-title"><a href="/junglesales/{{product.user.id}}/{{product._id}}"
+                    class="text-dark">{{product.name}}</a></p>
+                <p class="card-text">
+                <h5><strong>Price:</strong> {{product.price}}€</h5>
+                </p>
+                <a href="/junglesales/{{product.user.id}}/{{product._id}}" class="btn btn-lg btn-info">View Product</a>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </main>
   </div>
-</main>
 </section>
