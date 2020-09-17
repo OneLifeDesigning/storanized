@@ -1,31 +1,49 @@
-if(document.getElementById('myChart')) {
-    const ctx = document.getElementById('myChart').getContext('2d');
+function intCharts() {
+  const mountChart = (chart, dataApi) => {
+    const labels = []
+    const data = []
+    const listBgColors = []
+    
+    dataApi.forEach(element => {
+      labels.push(element.category)
+      data.push(element.count)
+    });
+    
+    const dynamicColor = () => {
+      const r = Math.floor(Math.random() * 255);
+      const g = Math.floor(Math.random() * 255);
+      const b = Math.floor(Math.random() * 255);
+      return "rgb(" + r + "," + g + "," + b + ")";
+    };
+    
+    for (let index = 0; index < data.length; index++) {
+      listBgColors.push(dynamicColor()) 
+    }
+
+    const ctx = chart.getContext('2d');
     const config = {
-        type: 'doughnut',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        }
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Best Categories',
+          data: data,
+          backgroundColor: listBgColors
+        }]
+      }
     };
     const myChart = new Chart(ctx, config)
+  }
+  const chartCategoriesProducts = document.getElementById('myChart')
+  console.log(chartCategoriesProducts)
+  if (chartCategoriesProducts) {
+    axios({
+      method: 'GET',
+      url: '/api/products/category'
+    })
+    .then(response => {
+      mountChart(chartCategoriesProducts, response.data)
+    })
+    .catch()
+  }
 }

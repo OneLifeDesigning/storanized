@@ -282,6 +282,11 @@ $(document).ready(function(){
   $('.toast').toast('show');
 });
 window.onload = () => {
+  
+  if (typeof intCharts === 'function') {
+    intCharts()
+  }
+
   const collapserBtn = document.querySelector('.btn-collapser');
   const customInputs = document.querySelectorAll('.custom-file-input');
   const formAddress = document.getElementById("addAddress");

@@ -13,7 +13,8 @@ const Attachment = require("../models/attachment.model");
 
 const usersProducts = []
 
-const productType = ['Motorcycles',' Motor and Accessories', 'Fashion and Accessories',' TV, Audio and Photo ',' Mobile Phones and Telephony ',' Computers and Electronics', 'Sports and Leisure', 'Bicycles',' Consoles and Videogames ',' Home and Garden ',' Household appliances', 'Cinema, Books and Music', 'Children and Babies',' Collecting ',' Building materials', 'Industry and Agriculture', 'Others'] 
+const categories = ['Motorcycles','Motor and Accessories', 'Fashion and Accessories','TV, Audio and Photo','Mobile Phones and Telephony','Computers and Electronics', 'Sports and Leisure', 'Bicycles','Consoles and Videogames','Home and Garden','Household appliances', 'Cinema, Books and Music', 'Children and Babies','Collecting','Building materials', 'Industry and Agriculture', 'Others']
+
 
 const genre = ['Female', 'Male', 'Other']
 const bool = [true, false]
@@ -96,7 +97,7 @@ function createProduct(userId, boxId) {
     name: faker.commerce.productName(),
     description: faker.lorem.paragraph(),
     tags: [faker.lorem.word()],
-    category: getRanElem(productType),
+    category: getRanElem(categories),
     price: faker.commerce.price(),
     isPublic: getRanElem(bool),
     isSold: false,

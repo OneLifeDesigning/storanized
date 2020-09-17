@@ -125,26 +125,7 @@
    }
   }
  }
- 
- .follow-me {
-  text-decoration: none;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  margin-top: auto;
-  overflow: hidden;
-  color: #9c9cab;
-  padding: 0 20px;
-  height: 52px;
-  flex-shrink: 0;
-  border-top: 1px solid $border-color;
-  position: relative;
-  svg {
-   width: 16px;
-   height: 16px;
-   margin-right: 8px;
-  }
- }
+
  
  .follow-text {
   display: flex;
@@ -277,33 +258,7 @@
       font-size: 60%;
     }
  }
- 
- .timeline {
-  display: flex;
-  padding-top: 20px;
-  position: relative;
-  z-index: 2;
-  &-left {
-   width: 310px;
-   flex-shrink: 0;
-  }
-  &-right {
-   flex-grow: 1;
-   padding-left: 20px;
-  }
-  @media screen and (max-width: 768px) {
-   flex-wrap: wrap;
-   flex-direction: column-reverse;
-   &-right {
-    padding-left: 0;
-    margin-bottom: 20px;
-   }
-   &-left {
-    width: 100%;
-   }
-  }
- }
- 
+
  .box {
   background-color: $bg-color;
   border-radius: 4px;
