@@ -204,9 +204,11 @@ const countNewMsgToBullet = (data, ele) => {
   }
 }
 const countNewMsgToMenu = (data, ele) => {
-  if (data.length !== 0) {
-    ele.classList.add('active')
+  if (data.length === 0 && ele.classList.contains('active')) {
+    ele.classList.remove('active')
+    return
   }
+  ele.classList.add('active')
 }
 const countNewMsgToList = (newMessages, toPrint) => {
   if (newMessages && toPrint) {
@@ -230,6 +232,7 @@ const markReadMsg = (id) => {
   })
   .then(response => {
     if (response.status === 200) {
+      console.log('marked')
     }
   })
   .catch()
@@ -296,10 +299,12 @@ window.onload = () => {
   const selectBoxes = document.getElementById('selectBoxes')
   const newImage = document.querySelector('.new-image');
   const sentNewMsg = document.getElementById('newMsg')
-  const badgetNewMsgs = document.getElementById('badgetNewMsgs')
+  
+  const profileBadgetNewMsgs = document.getElementById('profileBadgetNewMsgs')
+  const tipNewMsgs = document.getElementById('tipNewMsgs')
+
   const listMsg = document.getElementById('listMsg')
   const noMsg = document.getElementById('noMsg')
-  const tipNewMsgs = document.getElementById('tipNewMsgs')
   const password = document.getElementById("password");
   const repeatPassword = document.getElementById("repeatPassword");
   
@@ -332,16 +337,16 @@ window.onload = () => {
       getStorageBoxes(selectBoxes, e.target.value)
     })
   }
-  if (badgetNewMsgs && tipNewMsgs) {
+  if (profileBadgetNewMsgs && tipNewMsgs) {
     if (listMsg) {
-      getMsgPending(badgetNewMsgs, tipNewMsgs, listMsg)
+      getMsgPending(profileBadgetNewMsgs, tipNewMsgs, listMsg)
       setInterval(() => {
-        getMsgPending(badgetNewMsgs, tipNewMsgs, listMsg)
+        getMsgPending(profileBadgetNewMsgs, tipNewMsgs, listMsg)
       }, 10000);
     } else {
-      getMsgPending(badgetNewMsgs, tipNewMsgs)
+      getMsgPending(profileBadgetNewMsgs, tipNewMsgs)
       setInterval(() => {
-        getMsgPending(badgetNewMsgs, tipNewMsgs)
+        getMsgPending(profileBadgetNewMsgs, tipNewMsgs)
       }, 60000);
     }
   }
