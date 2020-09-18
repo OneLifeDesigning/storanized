@@ -41,19 +41,19 @@ const closeCollaspse = (toCollapse) => {
   }
 }
 
-const getStorageBoxes = (value, object) => {
-  if (value.length !== 0) {
+const getStorageBoxes = (object, storage, box) => {
+  if (storage.length !== 0) {
     axios({
       method: 'GET',
-      url: `/api/storages/${value}/boxes`
+      url: `/api/storages/${storage}/boxes`
     })
     .then(response => {
       if (response.status === 200) {
         object.removeAttribute('disabled')
         object.innerHTML = ''
         response.data.forEach(el => {
-          const selected = value === el.id ? 'selected' : ''
-          object.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>            `
+          const selected = box === el.id ? 'selected' : ''
+          object.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>`
         })
       }
     })
@@ -62,7 +62,7 @@ const getStorageBoxes = (value, object) => {
   }
 }
 
-const getStorages = (object) => {
+const getStorages = (object, value) => {
   axios({
     method: 'GET',
     url: `/api/storages`
@@ -75,8 +75,9 @@ const getStorages = (object) => {
       if (response.data) {
         object.innerHTML = ''
         response.data.forEach(el => {
-          object.innerHTML += `<option value="${el.id}">${el.name}</option>            `
-        })  
+          const selected = value === el.id ? 'selected' : ''
+          object.innerHTML += `<option value="${el.id}" ${selected}>${el.name}</option>`
+        }) 
       }
     }
   })
@@ -328,7 +329,7 @@ window.onload = () => {
   }
   if (selectStorages && selectBoxes) {
     selectStorages.addEventListener("change", (e) => {
-        getStorageBoxes(e.target.value, selectBoxes)
+      getStorageBoxes(selectBoxes, e.target.value)
     })
   }
   if (badgetNewMsgs && tipNewMsgs) {
@@ -560,7 +561,8 @@ window.onload = () => {
                 .then(() => {
                   closeCollaspse(document.querySelector('.form-collapse'))
                   if (response.data.storage) {
-                    selectStorages.value = response.data.storage
+                    getStorages(selectStorages, response.data.storage)
+                    getStorageBoxes(selectBoxes, response.data.storage, response.data.id)
                   }
                 })
               } else {

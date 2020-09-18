@@ -70,7 +70,7 @@
         </div>
         <select class="custom-select" id="category" name="category" required>
           <option value="">Please chose one</option>
-          {{#each category as |category|}}
+          {{#each categories as |category|}}
           <option value="{{category}}" {{#ifEqual category ../product.category}} selected {{/ifEqual}}>{{category}}
           </option>
           {{/each}}
@@ -152,7 +152,7 @@
             <div class="card-body">
               <div class="form-inline">
                 <div class="form-group col-12 col-md-6 col-lg-4">
-                  <label for="price">Price: </label>
+                  <label for="price" class="mr-2">Price: </label>
                   <input type="number" class="form-control  {{#if error.price }}is-invalid{{/if}}" id="price"
                     value="{{ product.price }}" name="price">
                   {{#if error.price}}
@@ -165,14 +165,14 @@
                   <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" name="isPublic" id="isPublic" value="true"
                       {{#ifEqual product.isPublic true }}checked{{/ifEqual}}>
-                    <label class="custom-control-label" for="isPublic">You want to publish it?</label>
+                    <label class="custom-control-label mr-2" for="isPublic">You want to publish it?</label>
                   </div>
                 </div>
                 <div class="form-group col-12 col-md-6 col-lg-4">
                   <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" name="isSold" id="isSold" value="true"
                       {{#ifEqual product.isSold true }}checked{{/ifEqual}}>
-                    <label class="custom-control-label" for="isSold">is Sold?</label>
+                    <label class="custom-control-label mr-2" for="isSold">is Sold?</label>
                   </div>
                 </div>
               </div>
