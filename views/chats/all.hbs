@@ -5,7 +5,7 @@
         <h1>{{title}}</h1>
       </div>
     </div>
-    {{#ifOr chats.received.length chats.sent.lenght }}
+    {{#ifOr chats.received chats.sent }}
     <div class="accordion" id="accordionExample">
       {{#if chats.received }}
         <div class="card">

@@ -204,6 +204,7 @@ const countNewMsgToBullet = (data, ele) => {
   }
 }
 const countNewMsgToMenu = (data, ele) => {
+  console.log(data.length)
   if (data.length === 0 && ele.classList.contains('active')) {
     ele.classList.remove('active')
     return
