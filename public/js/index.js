@@ -62,20 +62,20 @@ const getStorageBoxes = (value, object) => {
   }
 }
 
-const getStorages = (storages) => {
+const getStorages = (object) => {
   axios({
     method: 'GET',
     url: `/api/storages`
   })
   .then(response => {
     if (response.status === 200) {
-      if (storages.getAttribute('disabled')) {
-        storages.removeAttribute('disabled')
+      if (object.getAttribute('disabled')) {
+        object.removeAttribute('disabled')
       }
-      if (storages.data) {
-        storages.innerHTML = ''
+      if (response.data) {
+        object.innerHTML = ''
         response.data.forEach(el => {
-          storages.innerHTML += `<option value="${el.id}">${el.name}</option>            `
+          object.innerHTML += `<option value="${el.id}">${el.name}</option>            `
         })  
       }
     }
@@ -204,7 +204,6 @@ const countNewMsgToBullet = (data, ele) => {
 }
 const countNewMsgToMenu = (data, ele) => {
   if (data.length !== 0) {
-    console.log('menu');
     ele.classList.add('active')
   }
 }
@@ -536,7 +535,7 @@ window.onload = () => {
   if (formBox) {
     const messageError = document.getElementById('messageError')
     const boxStorage = document.getElementById('boxStorage')
-    
+
     if (boxStorage) {
       getStorages(boxStorage)
     }

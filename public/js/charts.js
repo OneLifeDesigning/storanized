@@ -34,8 +34,7 @@ function intCharts() {
     };
     const myChart = new Chart(ctx, config)
   }
-  const chartCategoriesProducts = document.getElementById('myChart')
-  console.log(chartCategoriesProducts)
+  const chartCategoriesProducts = document.getElementById('chartCategoriesProducts')
   if (chartCategoriesProducts) {
     axios({
       method: 'GET',
