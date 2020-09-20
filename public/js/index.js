@@ -204,12 +204,12 @@ const countNewMsgToBullet = (data, ele) => {
   }
 }
 const countNewMsgToMenu = (data, ele) => {
-  console.log(data.length)
-  if (data.length === 0 && ele.classList.contains('active')) {
+  if (ele.classList.contains('active')) {
     ele.classList.remove('active')
-    return
   }
-  ele.classList.add('active')
+  if (data.length !== 0 ) {
+    ele.classList.add('active')
+  }
 }
 const countNewMsgToList = (newMessages, toPrint) => {
   if (newMessages && toPrint) {
