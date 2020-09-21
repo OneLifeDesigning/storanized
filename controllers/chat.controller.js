@@ -69,6 +69,7 @@ module.exports.newChat = (req, res, next) => {
 module.exports.show = (req, res, next) => {
   const ordering = { sort: { updatedAt: 1 } }
   Chat.findById(req.params.id)
+  .populate('owner')
   .populate({
     options: ordering,
     path: 'messages',
@@ -103,6 +104,7 @@ module.exports.show = (req, res, next) => {
         chat.unread = false
         chat.save()
           .then(chat => {
+            req.breadcrumbs[req.breadcrumbs.length-1].name = `${chat.user.name} and ${chat.owner.name} Chat `
             res.render("chats/show", { 
               title: 'Chat',
               breadcrumbs: req.breadcrumbs,

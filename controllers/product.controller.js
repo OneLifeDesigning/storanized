@@ -91,6 +91,7 @@ module.exports.view = (req, res, next) => {
     .populate('attachments')
     .populate('box')
     .then(product => {
+      req.breadcrumbs[req.breadcrumbs.length-1].name = product.name
       res.render("products/show", {
         title: 'Edit product',
         breadcrumbs: req.breadcrumbs,
@@ -107,6 +108,7 @@ module.exports.viewEdit = (req, res, next) => {
   .populate('attachments')
   .populate('box')
   .then(product => {
+    req.breadcrumbs[req.breadcrumbs.length-1].name = product.name
     res.render("products/edit", {
       title: 'Edit product',
       breadcrumbs: req.breadcrumbs,

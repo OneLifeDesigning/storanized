@@ -42,8 +42,14 @@ module.exports.view = (req, res, next) => {
     .populate("user")
     .populate("storage")
     .populate("products")
-    .then((box) => {
-      res.render("boxes/show", { box, breadcrumbs: req.breadcrumbs });
+    .then(box => {
+      req.breadcrumbs[req.breadcrumbs.length-1].name = box.name
+      res.render("boxes/show", { 
+        title: 'View Box',
+        box, 
+        breadcrumbs: req.breadcrumbs,
+        user: req.currentUser
+      });
     })
     .catch(next);
 };
@@ -51,6 +57,7 @@ module.exports.view = (req, res, next) => {
 module.exports.viewEdit = (req, res, next) => {
   Box.findById(req.params.id)
   .then(box => {
+    req.breadcrumbs[req.breadcrumbs.length-2].name = box.name
     res.render("boxes/edit", {
       title: 'Edit box',
       box,

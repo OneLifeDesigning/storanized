@@ -2,24 +2,24 @@
   <div class="general-container">
     <div class="row align-items-center mb-4">
       <div class="col-12 col-md-9">
-        <h1 class="text-center mb-3">{{title}} <i class="fas fa-map-marker-alt"></i></h1>
+        <h1 class="mb-3"><i class="fas fa-map-marker-alt mr-2 text-primary"></i>{{title}}</h1>
       </div>
       <div class="col-12 col-md-3 text-right">
         <a href="/addresses/new" class="btn btn-primary"><i class="fa fa-plus mr-2"></i> Add new</a>
       </div>
     </div>
-    <div class="row">
-      {{#if addresses}}
-      {{#each addresses as |address|}}
-      <div class="col-sm-6 mb-6">
-        <div class="card">
-          <div class="bg-address">
+    <div class="bg-address">
+      <div class="row">
+        {{#if addresses}}
+        {{#each addresses as |address|}}
+        <div class="col-12 col-md-6 mb-4">
+          <div class="card">
             <div class="card-body">
-              <h5 class="card-title"><a href="/addresses/{{address.id}}/edit">{{address.name}}</a></h5>
+              <h5 class="card-title"><a href="/addresses/{{address.id}}/edit" class="text-primary">{{address.name}}</a></h5>
               <p class="card-text">{{address.city}}</p>
-              <p class="card-text">{{#if address.defaultAddress}}Yes{{else}}No{{/if}} Default address</p>
+              {{#if address.defaultAddress}}<p class="card-text text-success">Yes{{else}}<p class="card-text text-danger">No{{/if}} <span class="text-muted">Default Address</span></p>
               <div class="row">
-                <div class="col-6 text-left">
+                <div class="col-12 col-lg-6 text-left">
                   <div class="form-inline" style="align-content: space-around;">
                     <div>
                       <a href="/addresses/{{address.id}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
@@ -35,10 +35,10 @@
               </div>
             </div>
           </div>
+          </div>
+        {{/each}}
         </div>
-      </div>
-      {{/each}}
+      {{/if}}
     </div>
-    {{/if}}
   </div>
 </div>

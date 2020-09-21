@@ -47,6 +47,7 @@ module.exports.show = (req, res, next) => {
   .populate("user")
   .populate("address")
   .then(storage => {
+      req.breadcrumbs[req.breadcrumbs.length-1].name = storage.name
       res.render("storages/show", { 
         breadcrumbs: req.breadcrumbs,
         title: 'View of storage',
@@ -61,6 +62,7 @@ module.exports.edit = (req, res, next) => {
   Storage.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
   .populate("address")
   .then(storage => {
+    req.breadcrumbs[req.breadcrumbs.length-2].name = storage.name
     res.render("storages/edit", {
       breadcrumbs: req.breadcrumbs,
       title: 'Edit new storage',

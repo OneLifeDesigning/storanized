@@ -18,7 +18,7 @@
           <div class="tab-pane fade show active" id="products-tab" role="tabpanel" aria-labelledby="products-tab">
             {{#if user.products}}
             <div class="row">
-              <div class="col-md-12 offset-md-12 col-lg-5 col-xl-4">
+              <div class="col-md-12 order-xs-last order-md-last order-lg-first col-lg-5 col-xl-4">
                 <div class="intro box">
                   <div class="intro-title">
                     Categories
@@ -32,35 +32,37 @@
               </div>
               <div class="col-md-12 col-lg-7 col-xl-8">
                 <div class="status box">
-                  <div class="status-menu">
+                  <div class="status-menu d-flex justify-content-between">
                     <a class="status-menu-item active" href="#">Products</a>
                     <a href="/products/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add product</a>
                   </div>
                   <div class="status-main">
-                    <table data-toggle="table" data-pagination="true" data-search="true">
-                      <thead>
-                        <tr>
-                          <th class="text-center">Product</th>
-                          <th class="text-center">Options</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {{#each user.products as |product|}}
-                        <tr>
-                          <td class="text-rigth">{{product.name}}</td>
-                          <td>
-                            <div class="btn-group">
-                              <a href="/products/{{product._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
-                              <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
-                            </div>
-                            <form action="/products/{{product.id}}/delete" method="POST" class="float-right">
-                              <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                            </form>
-                          </td>
-                        </tr>
-                        {{/each}}
-                      </tbody>
-                    </table>
+                    <div class="table-responsive">
+                      <table class="table" data-toggle="table" data-pagination="true" data-search="true">
+                        <thead>
+                          <tr>
+                            <th data-field="name" data-sortable="true" data-sort-name="name" data-sort-order="desc" class="text-center">Product</th>
+                            <th class="text-center">Options</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {{#each user.products as |product|}}
+                          <tr>
+                            <td class="text-rigth">{{product.name}}</td>
+                            <td>
+                              <div class="btn-group">
+                                <a href="/products/{{product._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
+                                <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+                              </div>
+                              <form action="/products/{{product.id}}/delete" method="POST" class="float-right">
+                                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                              </form>
+                            </td>
+                          </tr>
+                          {{/each}}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -83,53 +85,52 @@
             {{/if}}
           </div>
           <div class="tab-pane" id="storage-tab" role="tabpanel" aria-labelledby="storage-tab">
-          {{#if user.box}}
+            {{#if user.storages}}
             <div class="row">
-              <div class="col-md-12 offset-md-12 col-lg-5 col-xl-4">
+              <div class="col-md-12 order-xs-last order-md-last order-lg-first col-lg-5 col-xl-4">
                 <div class="intro box">
                   <div class="intro-title">
-                    Box/Products
+                    Products/Storage
                   </div>
                   <div class="info">
                     <div class="info-item">
-                      <canvas id="chartBoxProducts" width="400" height="400"></canvas>
+                      <canvas id="chartStorageProducts" width="400" height="400"></canvas>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-12 col-lg-7 col-xl-8">
                 <div class="status box">
-                  <div class="status-menu">
-                    <a class="status-menu-item active" href="#">Products</a>
+                  <div class="status-menu d-flex justify-content-between">
+                    <a class="status-menu-item active" href="#">Storages</a>
+                    <a href="/storages/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add storage</a>
                   </div>
                   <div class="status-main">
-                    <table data-toggle="table" data-pagination="true" data-search="true">
-                      <thead>
-                        <tr>
-                          <th class="text-center">Product</th>
-                          <th class="text-center">Options</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {{#each user.products as |product|}}
-                        <tr>
-                          <td class="text-rigth">{{product.name}}</td>
-                          <td>
-                            <div class="btn-group">
-                              <a href="/products/{{product._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
-                              <a href="/products/{{product.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+                    <div class="row">
+                      {{#each user.storages as |storage|}}
+                      <div class="col-sm-6 mb-2">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title"><a href="/storages/{{storage.id}}/edit">{{storage.name}}</a></h5>
+                            <p class="card-text">
+                              {{#Truncate storage.description 70}}{{/Truncate}}
+                            </p>
+                            <div class="form-inline">
+                              <div>
+                                <a href="/storages/{{storage.id}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                              </div>
+                              <div class="btn-general">
+                                <a href="/storages/{{storage.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt"></i> </a>
+                              </div>
+                              <form action="/storages/{{storage.id}}/delete" method="POST">
+                                <button class="btn btn-danger"><i class="fa fa-trash"></i> </button>
+                              </form>
                             </div>
-                            <form action="/products/{{product.id}}/delete" method="POST" class="float-right">
-                              <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                            </form>
-                          </td>
-                        </tr>
-                        {{/each}}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="status-actions">
-                    <a href="/products/new" class="status-share"><i class="fa fa-plus"></i> Add product</a>
+                          </div>
+                        </div>
+                      </div>
+                      {{/each}}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -139,12 +140,12 @@
               <div class="col-12">
                 <div class="intro box">
                   <div class="intro-title">
-                    <h4>Wellcome {{user.name }}</h4>
+                    <h4>Ups, sorry</h4>
                   </div>
                   <div class="info">
                     <hr>
                     <p>You still have products to show, start by creating one.</p>
-                    <a href="/products/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add product</a>
+                    <a href="/storages/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add storage</a>
                   </div>
                 </div>
               </div>

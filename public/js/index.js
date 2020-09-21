@@ -284,9 +284,11 @@ const checkInpustValues = (firstInput, secondInput) => {
 
 $(document).ready(function(){
   $('.toast').toast('show');
+  
+  $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' })
 });
 window.onload = () => {
-  
+
   if (typeof intCharts === 'function') {
     intCharts()
   }

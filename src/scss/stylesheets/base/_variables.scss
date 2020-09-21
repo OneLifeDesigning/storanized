@@ -32,7 +32,8 @@ $link-fifty: $grey;
 $btn-primary: $primary;
 $btn-primary-hover: $primaryDark;
 
-$text-primary: $zink;
+$text-main: $zink;
+$text-primary: $primary !important;
 $text-secondary: $white;
 $text-tertiary: $middle-grey;
 $text-fourty: $black;
