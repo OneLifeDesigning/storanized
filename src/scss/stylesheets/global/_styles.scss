@@ -1,7 +1,7 @@
 body {
   font-family: $font-stack;
   font-size: $font-size;
-  color: $text-primary;
+  color: $text-main;
   letter-spacing: 0.5px;
 }
 
@@ -37,7 +37,10 @@ ul {
   background-color: rgba(244, 243, 239, .85)
 }
 
-.btn-success {
+.text-primary {
+  color: $text-primary;
+}
+.btn-primary {
   color: #fff;
   background-color: $btn-primary;
   border-color: $btn-primary;

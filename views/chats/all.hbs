@@ -29,39 +29,38 @@
 
           <div id="collapseReceived" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
-              <table class="table" data-toggle="table" data-pagination="true" data-search="true">
-                <thead class="thead-primary">
-                  <tr>
-                    <th class="text-center">Status</th>
-                    <th>From</th>
-                    <th>Product</th>
-                    <th>Date</th>
-                    <th class="text-right">Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each chats.received as |received|}}
-                  <tr>
-                    <td class="text-center">
-                      {{#if received.unread }}
-                      <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
-                      {{else}}
-                      <i class="fa fa-envelope-open" aria-hidden="true"></i>
-                      {{/if}}
-                    </td>
-                    <td>{{received.owner.name}} {{received.owner.lastname}} </td>
-                    <td>{{received.product.name}}</td>
-                    <td>{{#DateFormat received.updatedAt}}{{/DateFormat}}</td>
-                    <td class="text-right">
-                      <div class="btn-group">
-                        <a href="/junglesales/chats/{{received.id}}" class="btn btn-success"><i
-                            class="fa fa-comments mr-2"></i> Open</a>
-                      </div>
-                    </td>
-                  </tr>
-                  {{/each}}
-                </tbody>
-              </table>
+              <div class="table-responsive">
+                <table class="table" data-toggle="table" data-pagination="true" data-search="true">
+                  <thead class="thead-primary">
+                    <tr>
+                      <th class="text-center" data-field="status" data-sortable="true" data-sort-name="status" data-sort-order="desc">Status</th>
+                      <th data-field="from" data-sortable="true" data-sort-name="from" data-sort-order="desc">From</th>
+                      <th data-field="product" data-sortable="true" data-sort-name="product" data-sort-order="desc">Product</th>
+                      <th data-field="date" data-sortable="true" data-sort-name="date" data-sort-order="desc">Date</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each chats.received as |received|}}
+                    <tr>
+                      <td class="text-center">
+                        {{#if received.unread }}
+                        <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
+                        {{else}}
+                        <i class="fa fa-envelope-open" aria-hidden="true"></i>
+                        {{/if}}
+                      </td>
+                      <td>{{received.owner.name}} {{received.owner.lastname}} </td>
+                      <td>{{received.product.name}}</td>
+                      <td>{{#DateFormat received.updatedAt}}{{/DateFormat}}</td>
+                      <td class="text-center">
+                          <a href="/junglesales/chats/{{received.id}}" class="btn btn-success"><i class="fa fa-comments mr-2"></i> Open</a>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -87,39 +86,38 @@
           </div>
           <div id="collapseSent" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
-              <table class="table" data-toggle="table" data-pagination="true" data-search="true">
-                <thead class="thead-primary">
-                  <tr>
-                    <th class="text-center">Status</th>
-                    <th>To</th>
-                    <th>Product</th>
-                    <th>Date</th>
-                    <th class="text-right">Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each chats.sent as |sent|}}
-                  <tr>
-                    <td class="text-center">
-                      {{#if sent.unread }}
-                      <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
-                      {{else}}
-                      <i class="fa fa-envelope-open" aria-hidden="true"></i>
-                      {{/if}}
-                    </td>
-                    <td>{{sent.user.name}} {{sent.user.lastname}} </td>
-                    <td>{{sent.product.name}}</td>
-                    <td>{{#DateFormat sent.updatedAt}}{{/DateFormat}}</td>
-                    <td class="text-right">
-                      <div class="btn-group">
-                        <a href="/junglesales/chats/{{sent.id}}" class="btn btn-success"><i
-                            class="fa fa-comments mr-2"></i> Open</a>
-                      </div>
-                    </td>
-                  </tr>
-                  {{/each}}
-                </tbody>
-              </table>
+              <div class="table-responsive">
+                <table class="table" data-toggle="table" data-pagination="true" data-search="true">
+                  <thead class="thead-primary">
+                    <tr>
+                      <th class="text-center" data-field="status" data-sortable="true" data-sort-name="status" data-sort-order="desc">Status</th>
+                      <th data-field="from" data-sortable="true" data-sort-name="from" data-sort-order="desc">From</th>
+                      <th data-field="product" data-sortable="true" data-sort-name="product" data-sort-order="desc">Product</th>
+                      <th data-field="date" data-sortable="true" data-sort-name="date" data-sort-order="desc">Date</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each chats.sent as |sent|}}
+                    <tr>
+                      <td class="text-center">
+                        {{#if sent.unread }}
+                        <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
+                        {{else}}
+                        <i class="fa fa-envelope-open" aria-hidden="true"></i>
+                        {{/if}}
+                      </td>
+                      <td>{{sent.user.name}} {{sent.user.lastname}} </td>
+                      <td>{{sent.product.name}}</td>
+                      <td>{{#DateFormat sent.updatedAt}}{{/DateFormat}}</td>
+                      <td class="text-center">
+                          <a href="/junglesales/chats/{{sent.id}}" class="btn btn-success"><i class="fa fa-comments mr-2"></i> Open</a>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

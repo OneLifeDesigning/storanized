@@ -24,8 +24,12 @@ hbs.registerHelper(
 );
 hbs.registerHelper(
   'DateFormat', function(date) {
+    console.log(date);
     if (date) {
-      return date.toLocaleString('es-ES', { timeZone: 'UTC' })
+      const day = date.getDate()
+      const month = date.getMonth() + 1
+      const year = date.getFullYear()
+      return month < 10 ? `${day}-0${month}-${year}` : `${day}-${month}-${year}`
     }
   }
 );

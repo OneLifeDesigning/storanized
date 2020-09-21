@@ -4,51 +4,47 @@
     <i class="fa fa-chevron-left fa-2x" aria-hidden="true"></i>
   </div>
   <div class="side-wrapper">
-    <div class="logo"><img src="/img/logo-storanized-300.png" alt="Storanized" class="img-fluid"></div>
+    <div class="logo"><a href="/"><img src="/img/logo-storanized-300.png" alt="Storanized" class="img-fluid"></a></div>
     <div class="side-title">MENU</div>
     <div class="side-menu" >
-      <a href="/">
-        <i class="fas fa-home"></i>
-        <span>Home</span>
-      </a>
     {{#if currentUser }}
-      <a href="/dashboard">
-        <i class="fa fa-tasks" aria-hidden="true"></i>
+      <a href="/dashboard" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <i class="fa fa-tachometer-alt" aria-hidden="true"></i>
         <span>Dashboard</span>
       </a>
-      <a href="/addresses">
+      <a href="/addresses" data-toggle="tooltip" data-placement="right" title="Addresses">
         <i class="fa fa-map-marker" aria-hidden="true"></i>
         <span>Addresses</span>
       </a>
-      <a href="/storages">
+      <a href="/storages" data-toggle="tooltip" data-placement="right" title="Storages">
         <i class="fa fa-building" aria-hidden="true"></i>
         <span>Storages</span>
       </a>
-      <a href="/boxes">
+      <a href="/boxes" data-toggle="tooltip" data-placement="right" title="Boxes">
         <i class="fa fa-archive" aria-hidden="true"></i>
         <span>Boxes</span>
       </a>
-      <a href="/products">
+      <a href="/products" data-toggle="tooltip" data-placement="right" title="Products">
         <i class="fa fa-cube" aria-hidden="true"></i>
         <span>Products</span>
       </a>
     {{else}}
-      <a href="/login">
-        <i class="fa fa-cube" aria-hidden="true"></i>
+      <a href="/login" data-toggle="tooltip" data-placement="right" title="Login">
+        <i class="fa fa-users" aria-hidden="true"></i>
         <span>Login</span>
       </a>
-      <a href="/signup">
+      <a href="/signup" data-toggle="tooltip" data-placement="right" title="Signup">
         <i class="fa fa-id-card" aria-hidden="true"></i>
         <span>Signup</span>
       </a>
     {{/if}}
       <hr>
-      <a href="/junglesales" class="text-dark">
+      <a href="/junglesales" class="text-dark" data-toggle="tooltip" data-placement="right" title="Jungle Sales">
         <i class="fas fa-feather-alt"></i>
         <span>Jungle Sales</span>
       </a>
       {{#if currentUser }}
-      <a href="/junglesales/chats" class="text-dark">
+      <a href="/junglesales/chats" class="text-dark" data-toggle="tooltip" data-placement="right" title="Chats">
         <i class="fa fa-comments" aria-hidden="true"></i>
         <span>Chats</span>
       </a>

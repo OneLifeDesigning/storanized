@@ -19,9 +19,9 @@
                     <div class="chat_ib">
                       <h4>{{chat.product.name}}</h4>
                       {{#each chat.product.attachments as |attachment|}}
-                      {{#ifEqual attachment.target 'mainImage'}}
-                      <img src="{{attachment.url}}" alt="{{../chat.product.name}}" class="img-fluid mb-2">
-                      {{/ifEqual}}
+                        {{#ifEqual attachment.target 'mainImage'}}
+                        <img src="{{attachment.url}}" alt="{{../chat.product.name}}" class="img-fluid mb-2">
+                        {{/ifEqual}}
                       {{/each}}
                       <p><small>Owner:</small>
                         <br><b>{{chat.product.user.username}}</b>
@@ -29,12 +29,15 @@
                       <p><small>Descriptrion:</small>
                         <br>{{#Truncate chat.product.description 80}}{{/Truncate}}</p>
                       {{#if chat.product.tags}}
-                      <div>
                         <p><small>Tags:</small></p>
-                        {{#each chat.product.tags as |tag|}}
-                        <span class="badge badge-pill badge-secondary mr-2">{{tag}}</span>
-                        {{/each}}
-                      </div>
+                        <div class="d-flex justify-content-between">
+                          {{#each chat.product.tags as |tag|}}
+                            <span class="badge badge-pill badge-secondary mr-2">{{tag}}</span>
+                          {{/each}}
+                          {{#if chat.product.price}}
+                            <span>{{ chat.product.price }} €</span>
+                          {{/if}}
+                        </div>
                       {{/if}}
                     </div>
                   </div>

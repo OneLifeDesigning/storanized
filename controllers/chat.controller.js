@@ -69,6 +69,7 @@ module.exports.newChat = (req, res, next) => {
 module.exports.show = (req, res, next) => {
   const ordering = { sort: { updatedAt: 1 } }
   Chat.findById(req.params.id)
+  .populate('owner')
   .populate({
     options: ordering,
     path: 'messages',
@@ -98,12 +99,22 @@ module.exports.show = (req, res, next) => {
     },
   ])
   .then(chat => {
-    res.render("chats/show", { 
-      title: 'Chat',
-      breadcrumbs: req.breadcrumbs,
-      user: req.currentUser,
-      chat
-    })
+    Message.updateMany({chatId: chat._id.toString()}, {$set:{unread: false}}, {multi: true})
+      .then(() => {
+        chat.unread = false
+        chat.save()
+          .then(chat => {
+            req.breadcrumbs[req.breadcrumbs.length-1].name = `${chat.user.name} and ${chat.owner.name} Chat `
+            res.render("chats/show", { 
+              title: 'Chat',
+              breadcrumbs: req.breadcrumbs,
+              user: req.currentUser,
+              chat
+            })
+          })
+          .catch()
+      })
+      .catch()
   })
   .catch()
 }

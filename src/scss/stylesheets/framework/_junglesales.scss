@@ -1,9 +1,9 @@
 /* Profile Section */
 
 #jungle-space .profile {
-  font-size: 10px;
-  padding: 5rem 0;
-  max-height: 100px;
+  padding: 0;
+  margin-top: 15px;
+  margin-bottom: 30px;
   &::after {
     content: "";
     display: block;
@@ -181,7 +181,7 @@ header {
 }
 
 .jungle-prod-info {
-  margin-left: 6rem;
+  margin: 0 1.6rem;
   min-height: 25rem;
   padding-bottom: 3rem;
   &_name {

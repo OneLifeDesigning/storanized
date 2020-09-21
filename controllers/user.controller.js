@@ -144,8 +144,7 @@ module.exports.doValidateToken = (req, res, next) => {
             activation: {
               message: 'Something has gone wrong, click the button to generate a new activation code.'
             }
-          },
-          breadcrumbs: req.breadcrumbs
+          }
         })
       } else {
         user.activation.active = true;
@@ -285,7 +284,6 @@ module.exports.recoveryPassword = (req, res, next) => {
       if (!user) {
         res.render('users/password', {
           title: 'Get new password',
-          breadcrumbs: req.breadcrumbs,
           user: req.currentUser,
           error: {
             validation: {

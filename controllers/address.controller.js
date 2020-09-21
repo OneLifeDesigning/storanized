@@ -57,6 +57,7 @@ module.exports.doNew = (req, res, next) => {
 module.exports.show = (req, res, next) => {
   Address.findOne({user: req.currentUser._id.toString(), _id: req.params.id})
   .then(address => {
+      req.breadcrumbs[req.breadcrumbs.length-1].name = address.name
       res.render("addresses/show", { 
         title: 'View of address',
         address, 
@@ -70,6 +71,7 @@ module.exports.show = (req, res, next) => {
 module.exports.edit = (req, res, next) => {
   Address.findOne({_id: req.params.id, user: req.currentUser._id.toString()})
   .then(address => {
+    req.breadcrumbs[req.breadcrumbs.length-2].name = address.name
     res.render("addresses/edit", {
       title: 'Edit Address',
       breadcrumbs: req.breadcrumbs,
