@@ -98,24 +98,31 @@ module.exports.show = (req, res, next) => {
     },
   ])
   .then(chat => {
-    Message.updateMany({chatId: chat._id.toString()}, {$set:{unread: false}}, {multi: true})
-      .then(() => {
-        chat.unread = false
-        chat.save()
-          .then(chat => {
-            res.render("chats/show", { 
-              title: 'Chat',
-              breadcrumbs: req.breadcrumbs,
-              user: req.currentUser,
-              chat
-            })
-          })
-          .catch()
-      })
-      .catch()
+    res.render("chats/show", { 
+      title: 'Chat',
+      breadcrumbs: req.breadcrumbs,
+      user: req.currentUser,
+      chat
+    })
   })
   .catch()
 }
+
+module.exports.markRecievedReaded = (req, res, next) => {
+  Chat.updateMany({user: req.currentUser.id, unread: true}, { unread: false})
+  .then(() => {
+   res.redirect('/junglesales/chats/')
+  })
+  .catch()
+};
+
+module.exports.markSentReaded = (req, res, next) => {
+  Chat.updateMany({owner: req.currentUser.id, unread: true}, { unread: false})
+  .then(() => {
+    res.redirect('/junglesales/chats/')
+  })
+  .catch()
+};
 
 module.exports.apiGetUnreadMessages = (req, res, next) => {
   Message.find({$or: [{to: req.currentUser.id}, {from: req.currentUser.id}], unread: true})
@@ -125,6 +132,7 @@ module.exports.apiGetUnreadMessages = (req, res, next) => {
   })
   .catch()
 };
+
 module.exports.apiMarkReadedMessage = (req, res, next) => {
   Message.findByIdAndUpdate(req.body.id, {unread: false})
   .then(message => {
