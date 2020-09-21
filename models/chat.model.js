@@ -29,6 +29,16 @@ chatSchema.virtual("messages", {
   foreignField: "chatId",
 });
 
+chatSchema.post('save', function(next) {
+  if (this.isModified('unread') && this.unread === false) {
+    Message.updateMany({chatId: this.id, unread: true}, { unread: false})
+    .then(next())
+    .catch(next())
+  } else {
+    next()
+  }
+});
+
 const Chat = mongoose.model('Chat', chatSchema);
 
 module.exports = Chat;

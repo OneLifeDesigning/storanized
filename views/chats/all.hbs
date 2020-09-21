@@ -10,12 +10,21 @@
       {{#if chats.received }}
         <div class="card">
           <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                data-target="#collapseReceived" aria-expanded="true" aria-controls="collapseReceived">
-                <i class="fa fa-paper-plane" aria-hidden="true"></i> Received
-              </button>
-            </h2>
+            <div class="row">
+              <div class="col-12 col-md-9">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                      data-target="#collapseReceived" aria-expanded="true" aria-controls="collapseReceived">
+                      <i class="fa fa-paper-plane" aria-hidden="true"></i> Received
+                    </button>
+                  </h2>
+              </div>
+              <div class="col-12 col-md-3">
+                <form action="/junglesales/chats/readed/recieved" method="POST">
+                  <button type="submit" class="btn btn-warning btn-block"><i class="fa fa-list"></i> Mark readed</button>
+                </form>
+              </div>
+            </div>
           </div>
 
           <div id="collapseReceived" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -59,12 +68,21 @@
       {{#if chats.sent }}
         <div class="card mt-3">
           <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+            <div class="row">
+              <div class="col-12 col-md-9">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
                 data-target="#collapseSent" aria-expanded="true" aria-controls="collapseSent">
-                <i class="fa fa-paper-plane fa-flip-horizontal" aria-hidden="true"></i> Sent
-              </button>
-            </h2>
+                      <i class="fa fa-paper-plane fa-flip-horizontal" aria-hidden="true"></i> Sent
+                    </button>
+                  </h2>
+              </div>
+              <div class="col-12 col-md-3">
+                <form action="/junglesales/chats/readed/sent" method="POST">
+                  <button type="submit" class="btn btn-warning btn-block"><i class="fa fa-list"></i> Mark readed</button>
+                </form>
+              </div>
+            </div>
           </div>
           <div id="collapseSent" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">

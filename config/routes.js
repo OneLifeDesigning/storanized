@@ -81,6 +81,8 @@ router.post('/products/:id/delete', sessionMiddleware.isAuthenticated, productCo
 
 //CRUD chat
 router.get('/junglesales/chats', sessionMiddleware.isAuthenticated, chatController.all)
+router.post('/junglesales/chats/readed/recieved', sessionMiddleware.isAuthenticated, chatController.markRecievedReaded)
+router.post('/junglesales/chats/readed/sent', sessionMiddleware.isAuthenticated, chatController.markSentReaded)
 router.post('/junglesales/chats/new/:owner/:user/:product', sessionMiddleware.isAuthenticated, chatController.newChat)
 router.get('/junglesales/chats/:id', sessionMiddleware.isAuthenticated, chatController.show)
 

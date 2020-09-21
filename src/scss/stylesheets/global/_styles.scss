@@ -44,10 +44,14 @@ ul {
   color: #fff;
   background-color: $btn-primary;
   border-color: $btn-primary;
-   &:hover {
-      background-color: $btn-primary-hover;
-      border-color: $btn-primary-hover;
-   }
+  &:focus, &:hover, &:visited, &:active {
+    background-color: $btn-primary-hover;
+    border-color: $btn-primary-hover;
+    box-shadow: 0 0 0 0.2rem rgba(46,101,103,.75);
+  }
+  &:visited, &:active, &:not(:disabled) {
+    box-shadow: none
+  }
 }
 table {
   background-color: rgba(255, 255, 255, 0.9);
