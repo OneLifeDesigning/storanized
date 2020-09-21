@@ -234,3 +234,7 @@ module.exports.apiGetCountProductsGroupedCategoty = (req, res, next) => {
     })
     .catch(next);
 };
+
+module.exports.apiGetProductsEvolution = (req, res, next) => {
+  res.json('Hola')
+}

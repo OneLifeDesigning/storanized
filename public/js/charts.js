@@ -45,4 +45,15 @@ function intCharts() {
     })
     .catch()
   }
+  const chartStorageProducts = document.getElementById('chartStorageProducts')
+  if (chartStorageProducts) {
+    axios({
+      method: 'GET',
+      url: '/api/products/storage'
+    })
+    .then(response => {
+      mountChart(chartStorageProducts, response.data)
+    })
+    .catch()
+  }
 }

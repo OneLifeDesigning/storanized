@@ -7,10 +7,8 @@
         </div>
         <div class="nav profile-menu mb-2" role="tablist">
           <a class="profile-menu-link active" id="link-products-tab" data-toggle="tab" href="#products-tab" role="tab" aria-controls="products-tab" aria-selected="true">Products</a>
-          <a class="profile-menu-link" id="link-storage-tab" data-toggle="tab" href="#storage-tab" role="tab" aria-controls="storage-tab" aria-selected="true">Storages</a>
-          <a class="profile-menu-link">Boxes</a>
-          <a class="profile-menu-link">Chats</a>
-          <a class="profile-menu-link">Jungle Sales</a>
+          <a class="profile-menu-link" id="link-storages-tab" data-toggle="tab" href="#storages-tab" role="tab" aria-controls="storages-tab" aria-selected="true">Boxes</a>
+          <a class="profile-menu-link" id="link-storages-tab" data-toggle="tab" href="#storages-tab" role="tab" aria-controls="storages-tab" aria-selected="true">Storages</a>
         </div>
       </div>
       <div id="pills-tabContent">
@@ -84,7 +82,7 @@
             </div>
             {{/if}}
           </div>
-          <div class="tab-pane" id="storage-tab" role="tabpanel" aria-labelledby="storage-tab">
+          <div class="tab-pane" id="storages-tab" role="tabpanel" aria-labelledby="storages-tab">
             {{#if user.storages}}
             <div class="row">
               <div class="col-md-12 order-xs-last order-md-last order-lg-first col-lg-5 col-xl-4">
@@ -146,6 +144,72 @@
                     <hr>
                     <p>You still have products to show, start by creating one.</p>
                     <a href="/storages/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add storage</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/if}}
+          </div>
+          <div class="tab-pane" id="boxes-tab" role="tabpanel" aria-labelledby="boxes-tab">
+            {{#if user.boxes}}
+            <div class="row">
+              <div class="col-md-12 order-xs-last order-md-last order-lg-first col-lg-5 col-xl-4">
+                <div class="intro box">
+                  <div class="intro-title">
+                    Products/Box
+                  </div>
+                  <div class="info">
+                    <div class="info-item">
+                      <canvas id="chartBoxProducts" width="400" height="400"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-7 col-xl-8">
+                <div class="status box">
+                  <div class="status-menu d-flex justify-content-between">
+                    <a class="status-menu-item active" href="#">Boxes</a>
+                    <a href="/boxes/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add box</a>
+                  </div>
+                  <div class="status-main">
+                    <div class="table-responsive">
+                      <table class="table" data-toggle="table" data-pagination="true" data-search="true">
+                        <thead>
+                          <tr>
+                            <th data-field="name" data-sortable="true" data-sort-name="name" data-sort-order="desc" class="text-center">Boxes</th>
+                            <th class="text-center">Options</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {{#each user.boxes as |box|}}
+                          <tr>
+                            <td class="text-rigth">{{box.name}}</td>
+                            <td>
+                              <div class="btn-group">
+                                <a href="/boxess/{{box._id}}" class="btn btn-success"><i class="fa fa-eye mr-2"></i> Ver</a>
+                                <a href="/boxess/{{box.id}}/edit" class="btn btn-info"><i class="fa fa-pencil-alt mr-2"></i> Edit</a>
+                              </div>
+                              <form action="/boxess/{{box.id}}/delete" method="POST" class="float-right">
+                                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                              </form>
+                            </td>
+                          </tr>
+                          {{/each}}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{else}}
+            <div class="row">
+              <div class="col-12">
+                <div class="intro box">
+                  <div class="info">
+                    <hr>
+                    <p>You still have boxes to show, start by creating one.</p>
+                    <a href="/boxes/new" class="btn btn-primary"><i class="fa fa-plus"></i> Add boxe</a>
                   </div>
                 </div>
               </div>

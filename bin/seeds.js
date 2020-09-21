@@ -22,6 +22,11 @@ const bool = [true, false]
 const getRanElem = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)]
 } 
+const randomDate = (minDate) => {
+  const maxDate = Date.now('dd/mm/yyyy')
+  const date = new Date(+minDate + Math.random() * (maxDate - minDate));
+  return date.toLocaleString();
+} 
 
 
 
@@ -92,7 +97,7 @@ function createBox(userId, storageId) {
   })
   return box.save()
 }
-function createProduct(userId, boxId) {
+function createProduct(userId, boxId, userDate) {
   const product = new Product({
     name: faker.commerce.productName(),
     description: faker.lorem.paragraph(),
@@ -103,6 +108,7 @@ function createProduct(userId, boxId) {
     isSold: false,
     user: userId,
     box: boxId,
+    createdAt: randomDate(userDate)
   })
   return product.save()
 }
@@ -174,7 +180,7 @@ function seeds() {
                         .then(box => {
                           console.log('box', box.name);
                           for (let i = 0; i < 10; i++) {
-                            createProduct(user.id, box.id)
+                            createProduct(user.id, box.id, user.createdAt)
                               .then(product => {
                                 createAttachment(user.id, product.id)
                                 .then(attachment => {
